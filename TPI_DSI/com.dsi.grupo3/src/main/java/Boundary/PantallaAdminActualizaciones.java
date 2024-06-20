@@ -1,10 +1,12 @@
 package Boundary;
 
 import Control.GestorActualizaciones;
+import DTOs.VinoDto;
 import Entidades.Bodega;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,37 +23,34 @@ public class PantallaAdminActualizaciones {
     private String bodegaSeleccionada;
 
 
-    public void setNombresBodega(List<String> nombresBodega) {
-        this.nombresBodega = nombresBodega;
-    }
-
-    public void opcionImportarActDeVinoDeBodega(ArrayList<Bodega> bodegasDelSistema){
+    public void opcionImportarActDeVinoDeBodega(ArrayList<Bodega> bodegasDelSistema) {
         habilitarPantalla();
 
     }
 
-    public void habilitarPantalla(){
-        System.out.println("####### PANTALLA ADMIN ACTUALIZACIONES ######");
-        System.out.println("\n\n");
+    public void habilitarPantalla() {
+        JOptionPane.showMessageDialog(null, "####### PANTALLA ADMIN ACTUALIZACIONES ######");
+
     }
 
-    public void mostrarBodega(List<String> nombresBodega){
-        for(String b : nombresBodega){
-            System.out.println(b);
+    public void mostrarBodega(List<String> nombresBodega) {
+        StringBuilder message = new StringBuilder("Bodegas disponibles:\n");
+        for (String b : nombresBodega) {
+            message.append(b).append("\n");
         }
+        JOptionPane.showMessageDialog(null, message.toString());
     }
 
-    public void solicitarSeleccionBodegas(){
+    public void solicitarSeleccionBodega() {
+
         tomarSeleccionBodega();
-        System.out.println("\n");
-        System.out.println("##### Estas son las nuevas actualizaciones #####");
+        JOptionPane.showMessageDialog(null, "Seleccione la bodega a actualizar:");
+        JOptionPane.showMessageDialog(null, "##### Estas son las nuevas actualizaciones #####");
+        //aca muestra la lista de vinos
     }
 
-    public void tomarSeleccionBodega(){
-
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Seleccione la bodega a actualizar: ");
-        String bodega = sc.nextLine();
+    public void tomarSeleccionBodega() {
+        String bodega = JOptionPane.showInputDialog(null, "Ingrese el nombre de la bodega:");
         setBodegaSeleccionada(bodega);
 
     }
@@ -68,5 +67,15 @@ public class PantallaAdminActualizaciones {
     public void opcionFinalizar(GestorActualizaciones control) {
         System.out.println("Finalizando...");
         control.finDelCU();
+    }
+
+
+    public void mostrarListaVinosImportados(List<VinoDto> vinosImportados) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(":::VINOS IMPORTADOS:::\n\n");
+        for (VinoDto vino : vinosImportados) {
+            sb.append(vino.toString()).append("\n");
+        }
+        JOptionPane.showMessageDialog(null, sb.toString());
     }
 }

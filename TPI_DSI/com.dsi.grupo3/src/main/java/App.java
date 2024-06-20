@@ -5,7 +5,6 @@ import Soporte.Init;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public class App {
 
@@ -27,19 +26,14 @@ public class App {
 
         Boolean flag = control.opcionImportarActDeVinoDeBodega(bodegasSist, LocalDate.now()); //
         if (flag) {
-            System.out.println("Hay actualizaciones!!!!");
-            System.out.println("TAMAÑO INICIAL DEL ARREGLO:" + vinosDelSist.size());
-            System.out.println("\nCargando las bodegas ccon actualizaciones...");
+
 
             pantallaAdminActualizaciones.mostrarBodega(control.getBodegas());
             System.out.println("\n");
             //aca hay que ingresar el nombre de la bodega tal cual aparece porque si no no funciona
             control.solicitarSeleccionBodegas(pantallaAdminActualizaciones, bodegasSist); //dentro de este metodo esta el paso 5 que busca las actualizaciones
-            System.out.println("\n");
 
-            //esto es a modo de comprobacion para ver si funcionaba el metodo
-            System.out.println(":::VINOS IMPORTADOS:::");
-            System.out.println(control.getVinosImportados().stream().toList());
+            pantallaAdminActualizaciones.mostrarListaVinosImportados(control.getVinosImportados());
 
             System.out.println("::::::::::::::::::::::::::::::::");
             control.determinarVinosActualizar(vinosDelSist);
@@ -56,11 +50,13 @@ public class App {
             vinosDelSist.stream().forEach(vino -> System.out.println(vino.toString()));
 
             //envia notificacion a enofilos
-            control.buscarSeguidores(enofilosDelSistema, control.getBodegaSeleccionada()); // falta probarlo
+            control.buscarSeguidores(enofilosDelSistema, control.getBodegaSeleccionada());
+            System.out.println(control.getUsuarios().stream().toList());
 
-            System.out.println("TAMAÑO FINAL DEL ARREGLO: " + vinosDelSist.size());
             //Finalizar el programa
             pantallaAdminActualizaciones.mostrarOpcionFinalizar(control);
+
+
         } else {
             System.out.println("No hay actualizaciones");
         }

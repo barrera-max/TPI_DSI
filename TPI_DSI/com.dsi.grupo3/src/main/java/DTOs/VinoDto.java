@@ -25,11 +25,6 @@ public class VinoDto {
 
     private String maridaje;
 
-//    public Vino mapperVino(){
-//
-//    }
-
-
     @Override
     public String toString() {
         return "\n VinoDto{" +

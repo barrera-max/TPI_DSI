@@ -66,7 +66,9 @@ public class Init {
         ArrayList<Siguiendo> seguidos = new ArrayList<>();
         seguidos.add(seguido);
 
-        Enofilo enofilo = new Enofilo(null, seguidos, "Maxi", "Martinez", "img.png");
+        Usuario usuario = new Usuario("user@user", "admin123", false);
+
+        Enofilo enofilo = new Enofilo(usuario, seguidos, "Maxi", "Martinez", "img.png");
         enofilosDelSistema.add(enofilo);
     }
 

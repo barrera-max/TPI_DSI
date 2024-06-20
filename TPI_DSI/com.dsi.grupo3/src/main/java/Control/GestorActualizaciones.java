@@ -47,7 +47,7 @@ public class GestorActualizaciones {
         }
         return false;
     }
-    //ver logica del metodo
+
 
     public void buscarBodegasConActualizaciones(ArrayList<Bodega> bodegas, LocalDate fechaActual) { // Esto no sería mejor como guardar bodegas con actualizaciones?
         //busca entre las bodegas existentes en el sistema
@@ -61,7 +61,7 @@ public class GestorActualizaciones {
     }
 
     public void solicitarSeleccionBodegas(PantallaAdminActualizaciones pantalla, List<Bodega> bodegasDelSist) {
-        pantalla.solicitarSeleccionBodegas();
+        pantalla.solicitarSeleccionBodega();
         tomarSeleccionBodega(pantalla.getBodegaSeleccionada(), bodegasDelSist);
     }
 
