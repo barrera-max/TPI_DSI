@@ -3,8 +3,10 @@ import Control.GestorActualizaciones;
 import Entidades.*;
 import Soporte.Init;
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class App {
 
@@ -20,35 +22,26 @@ public class App {
         Init.init(bodegasSist, vinosDelSist, enofilosDelSistema);
 
         //Arranca el CU
-        System.out.println();
 
-        pantallaAdminActualizaciones.habilitarPantalla();
+        pantallaAdminActualizaciones.opcionImportarActDeVinoDeBodega(bodegasSist);
 
         Boolean flag = control.opcionImportarActDeVinoDeBodega(bodegasSist, LocalDate.now()); //
         if (flag) {
 
 
             pantallaAdminActualizaciones.mostrarBodega(control.getBodegas());
-            System.out.println("\n");
             //aca hay que ingresar el nombre de la bodega tal cual aparece porque si no no funciona
             control.solicitarSeleccionBodegas(pantallaAdminActualizaciones, bodegasSist); //dentro de este metodo esta el paso 5 que busca las actualizaciones
 
-            pantallaAdminActualizaciones.mostrarListaVinosImportados(control.getVinosImportados());
+            pantallaAdminActualizaciones.mostrarListaVinos(control.getVinosImportados(), "Vinos Importados");
 
-            System.out.println("::::::::::::::::::::::::::::::::");
             control.determinarVinosActualizar(vinosDelSist);
             //y si el metodo funcionó
-            System.out.println("\nVinos Actualizables");
-            System.out.println(control.getVinosActualizables().stream().toList());
-            System.out.println(":::::::::::::::::::::::::::::");
-            System.out.println("\nVinos creables");
-            System.out.println(control.getVinosCreables());
+            pantallaAdminActualizaciones.mostrarListaVinos(control.getVinosActualizables(), "Vinos para actualizar: ");
+            pantallaAdminActualizaciones.mostrarListaVinos(control.getVinosCreables(), "Vinos para crear: ");
 
-            System.out.println("::::::::::::::::::::::::::::::::");
             control.actualizarDatosDeVino(vinosDelSist);
-            System.out.println("NOVEDADES\n");
-            vinosDelSist.stream().forEach(vino -> System.out.println(vino.toString()));
-
+            mostrarListaVinos(vinosDelSist, "VINOS ACTUALIZADOS");
             //envia notificacion a enofilos
             control.buscarSeguidores(enofilosDelSistema, control.getBodegaSeleccionada());
             System.out.println(control.getUsuarios().stream().toList());
@@ -61,6 +54,16 @@ public class App {
             System.out.println("No hay actualizaciones");
         }
 
+    }
+
+
+    public static void mostrarListaVinos(List<Vino> vinos, String mensaje) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(":::" + mensaje + ":::\n\n");
+        for (Vino vino : vinos) {
+            sb.append(vino.toString()).append("\n");
+        }
+        JOptionPane.showMessageDialog(null, sb.toString());
     }
 
 

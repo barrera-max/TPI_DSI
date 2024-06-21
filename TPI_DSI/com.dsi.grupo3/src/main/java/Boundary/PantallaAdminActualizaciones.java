@@ -3,11 +3,13 @@ package Boundary;
 import Control.GestorActualizaciones;
 import DTOs.VinoDto;
 import Entidades.Bodega;
+import Entidades.Vino;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.swing.*;
-import java.time.LocalDate;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,25 +18,48 @@ import java.util.Scanner;
 @Data
 public class PantallaAdminActualizaciones {
 
-    private GestorActualizaciones gestor;
 
-    private List<String> nombresBodega;
 
     private String bodegaSeleccionada;
 
-
     public void opcionImportarActDeVinoDeBodega(ArrayList<Bodega> bodegasDelSistema) {
-        habilitarPantalla();
+        // Crear un botón personalizado para Importar Actualizaciones
+        JButton importarActButton = new JButton("Importar Actualizaciones");
 
+        // Crear un panel para contener el botón
+        JPanel panel = new JPanel();
+        panel.add(importarActButton);
+
+        // Crear el cuadro de diálogo con el panel que contiene el botón
+        JOptionPane optionPane = new JOptionPane(
+                panel, // Componente de entrada
+                JOptionPane.PLAIN_MESSAGE, // Tipo de mensaje (sin icono)
+                JOptionPane.DEFAULT_OPTION, // Tipo de opción (por defecto)
+                null, // Icono personalizado (null para ninguno)
+                new Object[]{}, // Opciones (ninguna adicional)
+                null // Opción predeterminada (null para ninguna)
+        );
+
+        // Crear un cuadro de diálogo modal personalizado
+        JDialog dialog = optionPane.createDialog("Importar Actualizaciones de Vino");
+
+        // Configurar acción para el botón Importar Actualizaciones
+        importarActButton.addActionListener(e -> {
+            habilitarPantalla(bodegasDelSistema);
+            dialog.dispose(); // Cerrar el cuadro de diálogo después de habilitar la pantalla
+        });
+
+        // Mostrar el cuadro de diálogo
+        dialog.setVisible(true);
     }
 
-    public void habilitarPantalla() {
+    public void habilitarPantalla(ArrayList<Bodega> bodegas) {
         JOptionPane.showMessageDialog(null, "####### PANTALLA ADMIN ACTUALIZACIONES ######");
-
+        mostrarListaBodegas(bodegas);
     }
 
     public void mostrarBodega(List<String> nombresBodega) {
-        StringBuilder message = new StringBuilder("Bodegas disponibles:\n");
+        StringBuilder message = new StringBuilder("Bodegas con actualizaciones:\n");
         for (String b : nombresBodega) {
             message.append(b).append("\n");
         }
@@ -44,7 +69,6 @@ public class PantallaAdminActualizaciones {
     public void solicitarSeleccionBodega() {
 
         tomarSeleccionBodega();
-        JOptionPane.showMessageDialog(null, "Seleccione la bodega a actualizar:");
         JOptionPane.showMessageDialog(null, "##### Estas son las nuevas actualizaciones #####");
         //aca muestra la lista de vinos
     }
@@ -56,10 +80,8 @@ public class PantallaAdminActualizaciones {
     }
 
     public void mostrarOpcionFinalizar(GestorActualizaciones control) {
-        System.out.println("Desea finalizar? (sí/no)");
-        Scanner sc = new Scanner(System.in);
-        String respuesta = sc.nextLine();
-        if (respuesta.equalsIgnoreCase("sí")) {
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Desea finalizar?", "Finalizar", JOptionPane.YES_NO_OPTION);
+        if (opcion == JOptionPane.YES_OPTION) {
             opcionFinalizar(control);
         }
     }
@@ -70,12 +92,22 @@ public class PantallaAdminActualizaciones {
     }
 
 
-    public void mostrarListaVinosImportados(List<VinoDto> vinosImportados) {
+    public void mostrarListaVinos(List<VinoDto> vinosImportados, String mensaje) {
         StringBuilder sb = new StringBuilder();
-        sb.append(":::VINOS IMPORTADOS:::\n\n");
+        sb.append(":::" + mensaje + ":::\n\n");
         for (VinoDto vino : vinosImportados) {
             sb.append(vino.toString()).append("\n");
         }
         JOptionPane.showMessageDialog(null, sb.toString());
     }
+    public void mostrarListaBodegas(List<Bodega> bodegas) {
+        StringBuilder sb = new StringBuilder();
+        for (Bodega bodega : bodegas) {
+            sb.append(bodega.toString()).append("\n");
+        }
+        JOptionPane.showMessageDialog(null, "BODEGAS:\n" + sb.toString());
+    }
+
+
 }
+

@@ -84,13 +84,13 @@ public class Vino {
     public String toString() {
         final StringBuffer sb = new StringBuffer("Vino{");
         sb.append("añada=").append(añada);
-        sb.append(", bodega=").append(bodega);
-        sb.append(", imagenEtiqueta='").append(imagenEtiqueta).append('\'');
+        sb.append("\nbodega=").append(bodega);
+        sb.append("\nimagenEtiqueta='").append(imagenEtiqueta).append('\'');
         sb.append(", nombre='").append(nombre).append('\'');
         sb.append(", notaDeCataBodega='").append(notaDeCataBodega).append('\'');
         sb.append(", precioARS=").append(precioARS);
-        sb.append(", varietal=").append(varietal);
-        sb.append(", maridaje=").append(maridaje);
+        sb.append("\nvarietal=").append(varietal);
+        sb.append("\n maridaje=").append(maridaje);
         sb.append('}');
         return sb.toString();
     }
