@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 
 import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,6 +100,8 @@ public class GestorActualizaciones {
             Vino nuevo = crearVino(vino);
             vinosSistema.add(nuevo);
         }
+
+        bodegaSeleccionada.setFechaUltimaActualizacion(LocalDate.now());
     }
 
     public void buscarTipoUva() {
@@ -129,15 +132,6 @@ public class GestorActualizaciones {
 
     public void finDelCU() {
         System.exit(0);
-    }
-
-    public void confirmarActualizacion() {
-        // TODO - finalizar con la creación/modicicacion de los vinos
-    }
-
-    public void cancelarActualizacion() {
-        // El cancelar actualizacion no hace nada, simplemente retorna para que continue con la siguiente bodega de la lsita de bodegas seleccionadas
-        return;
     }
 
 

@@ -18,19 +18,17 @@ import java.util.Scanner;
 @Data
 public class PantallaAdminActualizaciones {
 
-
+    private JPanel panel;
 
     private String bodegaSeleccionada;
 
     public void opcionImportarActDeVinoDeBodega(ArrayList<Bodega> bodegasDelSistema) {
-        // Crear un botón personalizado para Importar Actualizaciones
         JButton importarActButton = new JButton("Importar Actualizaciones");
 
-        // Crear un panel para contener el botón
-        JPanel panel = new JPanel();
-        panel.add(importarActButton);
+        JPanel panelaux = new JPanel();
+        panelaux.add(importarActButton);
+        setPanel(panelaux);
 
-        // Crear el cuadro de diálogo con el panel que contiene el botón
         JOptionPane optionPane = new JOptionPane(
                 panel, // Componente de entrada
                 JOptionPane.PLAIN_MESSAGE, // Tipo de mensaje (sin icono)
@@ -54,7 +52,7 @@ public class PantallaAdminActualizaciones {
     }
 
     public void habilitarPantalla(ArrayList<Bodega> bodegas) {
-        JOptionPane.showMessageDialog(null, "####### PANTALLA ADMIN ACTUALIZACIONES ######");
+        JOptionPane.showMessageDialog(panel, "####### PANTALLA ADMIN ACTUALIZACIONES ######", "Pantalla", JOptionPane.DEFAULT_OPTION);
         mostrarListaBodegas(bodegas);
     }
 
@@ -81,7 +79,7 @@ public class PantallaAdminActualizaciones {
 
     public void mostrarOpcionFinalizar(GestorActualizaciones control) {
         int opcion = JOptionPane.showConfirmDialog(null, "¿Desea finalizar?", "Finalizar", JOptionPane.YES_NO_OPTION);
-        if (opcion == JOptionPane.YES_OPTION) {
+        if (opcion == JOptionPane.CLOSED_OPTION) {
             opcionFinalizar(control);
         }
     }
@@ -100,6 +98,18 @@ public class PantallaAdminActualizaciones {
         }
         JOptionPane.showMessageDialog(null, sb.toString());
     }
+
+
+    public void mostrarActDeVinosActualizadosYcreados(List<Vino> vinos, String mensaje) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(":::" + mensaje + ":::\n\n");
+        for (Vino vino : vinos) {
+            sb.append(vino.toString()).append("\n");
+        }
+        JOptionPane.showMessageDialog(null, sb.toString(), "VINOS", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+
     public void mostrarListaBodegas(List<Bodega> bodegas) {
         StringBuilder sb = new StringBuilder();
         for (Bodega bodega : bodegas) {
