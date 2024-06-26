@@ -96,8 +96,6 @@ public class GestorActualizaciones {
     public void actualizarDatosDeVino(List<Vino> vinosSistema, List<Maridaje> maridajeList) {
         bodegaSeleccionada.actualizarDatosDeVino(vinosSistema, vinosActualizables);
 
-
-
         for (VinoDto vino : vinosCreables) {
             buscarMaridaje(vino.getMaridaje(), maridajeList);
             System.out.println(maridaje.getNombre());

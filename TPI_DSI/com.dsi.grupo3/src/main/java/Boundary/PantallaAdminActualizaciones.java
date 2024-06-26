@@ -35,15 +35,15 @@ public class PantallaAdminActualizaciones {
 
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
         frame.add(panel);
 
         // Mostrar el frame
         frame.setVisible(true);
     }
 
-    public void opcionImportarActDeVinoDeBodega(ArrayList<Bodega> bodegasDelSistema) {
+    public boolean opcionImportarActDeVinoDeBodega(ArrayList<Bodega> bodegasDelSistema, GestorActualizaciones control) {
 
-        // Crear un botón personalizado para Importar Actualizaciones
         JButton importarActButton = new JButton("Importar Actualizaciones");
 
         panel.removeAll();
@@ -70,6 +70,7 @@ public class PantallaAdminActualizaciones {
 
         // Mostrar el cuadro de diálogo
         dialog.setVisible(true);
+        return control.opcionImportarActDeVinoDeBodega(bodegasDelSistema,LocalDate.now());
     }
 
     public void habilitarPantalla(ArrayList<Bodega> bodegas) {
@@ -129,15 +130,14 @@ public class PantallaAdminActualizaciones {
 
     public void mostrarOpcionFinalizar(GestorActualizaciones control) {
         int opcion = JOptionPane.showConfirmDialog(panel, "¿Desea finalizar?", "Finalizar", JOptionPane.YES_NO_OPTION);
-        if (opcion == JOptionPane.CLOSED_OPTION) {
+        if (opcion == JOptionPane.YES_OPTION) {
             opcionFinalizar(control);
+
         }
     }
 
     public void opcionFinalizar(GestorActualizaciones control) {
-        System.out.println("Finalizando...");
         control.finDelCU();
-        System.exit(0);
     }
 
 
@@ -157,7 +157,7 @@ public class PantallaAdminActualizaciones {
         for (Vino vino : vinos) {
             sb.append(vino.toString()).append("\n");
         }
-        JOptionPane.showMessageDialog(panel, sb.toString(), "VINOS", JOptionPane.WIDTH);
+        JOptionPane.showMessageDialog(panel, sb.toString(), "VINOS", JOptionPane.INFORMATION_MESSAGE);
     }
 
 
@@ -185,6 +185,7 @@ public class PantallaAdminActualizaciones {
         panel.removeAll();
         panel.add(scrollPane);
 
+        // Revalidar y repintar el panel para reflejar los cambios
         panel.revalidate();
         panel.repaint();
     }

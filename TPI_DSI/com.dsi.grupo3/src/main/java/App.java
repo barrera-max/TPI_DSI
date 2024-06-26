@@ -24,12 +24,9 @@ public class App {
 
         //Arranca el CU
 
-        System.out.println(maridajesSist.stream().toList());
-        System.out.println(varietalSist.stream().toList());
+        /*pantallaAdminActualizaciones.opcionImportarActDeVinoDeBodega(bodegasSist, control);*/
 
-        pantallaAdminActualizaciones.opcionImportarActDeVinoDeBodega(bodegasSist);
-
-        Boolean hayActualizaciones = control.opcionImportarActDeVinoDeBodega(bodegasSist, LocalDate.now()); //
+        Boolean hayActualizaciones = pantallaAdminActualizaciones.opcionImportarActDeVinoDeBodega(bodegasSist, control); //
         System.out.println("hay actualizaciones");
         if (hayActualizaciones) {
 
@@ -43,14 +40,15 @@ public class App {
             control.determinarVinosActualizar(vinosDelSist);
             //no forma parte del CU(es para verificar que funciona el método)
             pantallaAdminActualizaciones.mostrarListaVinos(control.getVinosActualizables(), "Vinos para actualizar: ");
+            System.out.println("muestra vinos que se actualizan");
             pantallaAdminActualizaciones.mostrarListaVinos(control.getVinosCreables(), "Vinos para crear: ");
 
             control.actualizarDatosDeVino(vinosDelSist, maridajesSist);
             pantallaAdminActualizaciones.mostrarActDeVinosActualizadosYcreados(vinosDelSist, "VINOS ACTUALIZADOS");
             //envia notificacion a enofilos
             control.buscarSeguidores(enofilosDelSistema, control.getBodegaSeleccionada());
+            System.out.println("se envia notificacion a los usuarios:");
             System.out.println(control.getUsuarios().stream().toList());
-
             pantallaAdminActualizaciones.mostrarOpcionFinalizar(control);
 
 
