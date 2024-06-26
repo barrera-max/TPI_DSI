@@ -3,6 +3,7 @@ import Control.GestorActualizaciones;
 import Entidades.*;
 import Soporte.Init;
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -29,15 +30,16 @@ public class App {
         pantallaAdminActualizaciones.opcionImportarActDeVinoDeBodega(bodegasSist);
 
         Boolean hayActualizaciones = control.opcionImportarActDeVinoDeBodega(bodegasSist, LocalDate.now()); //
+        System.out.println("hay actualizaciones");
         if (hayActualizaciones) {
 
-
+            System.out.println("se ejecuta mostrar bodegas");
             pantallaAdminActualizaciones.mostrarBodegas(control.getBodegas());
 
             control.solicitarSeleccionBodegas(pantallaAdminActualizaciones, bodegasSist); //dentro de este metodo esta el paso 5 que busca las actualizaciones
-
+            System.out.println("se seleccionan bodegas");
             pantallaAdminActualizaciones.mostrarListaVinos(control.getVinosImportados(), "Vinos Importados");
-
+            System.out.println("muestra vinos importados");
             control.determinarVinosActualizar(vinosDelSist);
             //no forma parte del CU(es para verificar que funciona el método)
             pantallaAdminActualizaciones.mostrarListaVinos(control.getVinosActualizables(), "Vinos para actualizar: ");
