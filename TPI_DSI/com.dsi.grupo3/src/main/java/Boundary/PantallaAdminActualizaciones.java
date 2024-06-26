@@ -8,73 +8,75 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-@NoArgsConstructor
 @Data
 public class PantallaAdminActualizaciones {
 
-    private JPanel panel;
+    private JFrame frame;
 
     private String bodegaSeleccionada;
 
+    private JPanel panel;
+
+    public PantallaAdminActualizaciones() {
+        frame = new JFrame("PANTALLA ADMIN ACTUALIZACIONES");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
+        frame.setLocationRelativeTo(null);
+
+        panel = new JPanel();
+        frame.getContentPane().add(panel, BorderLayout.CENTER);
+    }
+
     public void opcionImportarActDeVinoDeBodega(ArrayList<Bodega> bodegasDelSistema) {
         JButton importarActButton = new JButton("Importar Actualizaciones");
+        panel.add(importarActButton);
 
-        JPanel panelaux = new JPanel();
-        panelaux.add(importarActButton);
-        setPanel(panelaux);
-
-        JOptionPane optionPane = new JOptionPane(
-                panel, // Componente de entrada
-                JOptionPane.PLAIN_MESSAGE, // Tipo de mensaje (sin icono)
-                JOptionPane.DEFAULT_OPTION, // Tipo de opción (por defecto)
-                null, // Icono personalizado (null para ninguno)
-                new Object[]{}, // Opciones (ninguna adicional)
-                null // Opción predeterminada (null para ninguna)
-        );
-
-        // Crear un cuadro de diálogo modal personalizado
-        JDialog dialog = optionPane.createDialog("Importar Actualizaciones de Vino");
-
-        // Configurar acción para el botón Importar Actualizaciones
         importarActButton.addActionListener(e -> {
             habilitarPantalla(bodegasDelSistema);
-            dialog.dispose(); // Cerrar el cuadro de diálogo después de habilitar la pantalla
         });
-
-        // Mostrar el cuadro de diálogo
-        dialog.setVisible(true);
+        frame.setVisible(true);
     }
 
     public void habilitarPantalla(ArrayList<Bodega> bodegas) {
-        JOptionPane.showMessageDialog(panel, "####### PANTALLA ADMIN ACTUALIZACIONES ######", "Pantalla", JOptionPane.DEFAULT_OPTION);
         mostrarListaBodegas(bodegas);
     }
 
-    public void mostrarBodega(List<String> nombresBodega) {
-        StringBuilder message = new StringBuilder("Bodegas con actualizaciones:\n");
+    public void mostrarBodegas(List<String> nombresBodega) {
+        StringBuilder message = new StringBuilder("Hay bodegas con actualizaciones!!!\n");
         for (String b : nombresBodega) {
             message.append(b).append("\n");
         }
-        JOptionPane.showMessageDialog(null, message.toString());
+        JOptionPane.showMessageDialog(null, message, "PANTALLA ADMIN ACTUALIZACIONES", JOptionPane.NO_OPTION);
     }
 
-    public void solicitarSeleccionBodega() {
+    public void solicitarSeleccionBodega(List<String> nombresBodega) {
+        JComboBox<String> comboBox = new JComboBox<>(nombresBodega.toArray(new String[0]));
 
-        tomarSeleccionBodega();
-        JOptionPane.showMessageDialog(null, "##### Estas son las nuevas actualizaciones #####");
-        //aca muestra la lista de vinos
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Seleccione una bodega:"));
+        panel.add(comboBox);
+
+        int opcion = JOptionPane.showConfirmDialog(
+                null,
+                panel,
+                "Seleccionar Bodega",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
+
+        if (opcion == JOptionPane.OK_OPTION) {
+            String bodega = (String) comboBox.getSelectedItem();
+            tomarSeleccionBodega(bodega);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se seleccionaron bodegas");
+        }
     }
 
-    public void tomarSeleccionBodega() {
-        String bodega = JOptionPane.showInputDialog(null, "Ingrese el nombre de la bodega:");
+    public void tomarSeleccionBodega(String bodega) {
         setBodegaSeleccionada(bodega);
-
     }
 
     public void mostrarOpcionFinalizar(GestorActualizaciones control) {
@@ -96,7 +98,7 @@ public class PantallaAdminActualizaciones {
         for (VinoDto vino : vinosImportados) {
             sb.append(vino.toString()).append("\n");
         }
-        JOptionPane.showMessageDialog(null, sb.toString());
+        JOptionPane.showMessageDialog(null, sb.toString(), "PANTALLA ADMIN ACTUALIZACIONES", JOptionPane.INFORMATION_MESSAGE);
     }
 
 
@@ -106,7 +108,7 @@ public class PantallaAdminActualizaciones {
         for (Vino vino : vinos) {
             sb.append(vino.toString()).append("\n");
         }
-        JOptionPane.showMessageDialog(null, sb.toString(), "VINOS", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, sb.toString(), "VINOS", JOptionPane.WIDTH);
     }
 
 
@@ -115,7 +117,7 @@ public class PantallaAdminActualizaciones {
         for (Bodega bodega : bodegas) {
             sb.append(bodega.toString()).append("\n");
         }
-        JOptionPane.showMessageDialog(null, "BODEGAS:\n" + sb.toString());
+        JOptionPane.showMessageDialog(null, "BODEGAS:\n" + sb.toString(), "PANTALLA ADMIN ACTUALIZACIONES", JOptionPane.INFORMATION_MESSAGE);
     }
 
 

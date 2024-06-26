@@ -62,7 +62,7 @@ public class GestorActualizaciones {
     }
 
     public void solicitarSeleccionBodegas(PantallaAdminActualizaciones pantalla, List<Bodega> bodegasDelSist) {
-        pantalla.solicitarSeleccionBodega();
+        pantalla.solicitarSeleccionBodega(bodegas);
         tomarSeleccionBodega(pantalla.getBodegaSeleccionada(), bodegasDelSist);
     }
 
@@ -93,10 +93,14 @@ public class GestorActualizaciones {
         setVinosCreables(auxNoActualizables);
     }
 
-    public void actualizarDatosDeVino(List<Vino> vinosSistema) {
+    public void actualizarDatosDeVino(List<Vino> vinosSistema, List<Maridaje> maridajeList) {
         bodegaSeleccionada.actualizarDatosDeVino(vinosSistema, vinosActualizables);
 
+
+
         for (VinoDto vino : vinosCreables) {
+            buscarMaridaje(vino.getMaridaje(), maridajeList);
+            System.out.println(maridaje.getNombre());
             Vino nuevo = crearVino(vino);
             vinosSistema.add(nuevo);
         }
@@ -108,16 +112,20 @@ public class GestorActualizaciones {
 
     }
 
-    public void buscarMaridaje(String nombre, List<Maridaje> maridajeSistema) {
-        setMaridaje(maridajeSistema.stream()
-                .filter(maridaje -> maridaje.getNombre().equals(nombre))
-                .findFirst()
-                .orElse(null));
+    public void buscarMaridaje(String nombreMaridaje, List<Maridaje> maridajeSistema) {
+        for(Maridaje m : maridajeSistema){
+            if(m.sosMaridaje(nombreMaridaje)) setMaridaje(m);
+        }
     }
 
     public Vino crearVino(VinoDto vinoDto) {
 
-        Vino nuevo = new Vino(vinoDto.getAñada(), bodegaSeleccionada, vinoDto.getImagenEtiqueta(), vinoDto.getNombre(), vinoDto.getNotaDeCataBodega(), vinoDto.getPrecioARS(), varietal, maridaje);
+        Vino nuevo = new Vino(vinoDto.getAñada(), bodegaSeleccionada, vinoDto.getImagenEtiqueta(),
+                vinoDto.getNombre(),
+                vinoDto.getNotaDeCataBodega(),
+                vinoDto.getPrecioARS(),
+                varietal,
+                maridaje);
 
         return nuevo;
     }

@@ -20,7 +20,7 @@ public class Varietal {
 
 
     public void buscarVarietal(List<Varietal> varietalSistema){
-        //implementar logica
+
     }
 
     public boolean sosVarietal(VinoDto vinoDto){
@@ -29,11 +29,11 @@ public class Varietal {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Varietal{");
-        sb.append("descripcion='").append(descripcion).append('\'');
-        sb.append("porcentajeComposicion=").append(porcentajeComposicion);
-        sb.append("tipoDeUva=").append(tipoDeUva);
-        sb.append('}');
+        final StringBuffer sb = new StringBuffer("Varietal ");
+        sb.append("Descripcion='").append(descripcion).append('\'');
+        sb.append("PorcentajeComposicion=").append(porcentajeComposicion);
+        sb.append(tipoDeUva);
+        sb.append('\'');
         return sb.toString();
     }
 }

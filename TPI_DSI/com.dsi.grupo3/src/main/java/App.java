@@ -3,25 +3,28 @@ import Control.GestorActualizaciones;
 import Entidades.*;
 import Soporte.Init;
 
-import javax.swing.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public class App {
 
     private static ArrayList<Bodega> bodegasSist = new ArrayList<>();
     private static ArrayList<Vino> vinosDelSist = new ArrayList<>();
     private static ArrayList<Enofilo> enofilosDelSistema = new ArrayList<>();
+    private static ArrayList<Maridaje> maridajesSist = new ArrayList<>();
+    private static ArrayList<Varietal> varietalSist = new ArrayList<>();
 
     public static void main(String[] args) {
 
         PantallaAdminActualizaciones pantallaAdminActualizaciones = new PantallaAdminActualizaciones();
         GestorActualizaciones control = new GestorActualizaciones();
 
-        Init.init(bodegasSist, vinosDelSist, enofilosDelSistema);
+        Init.init(bodegasSist, vinosDelSist, enofilosDelSistema, maridajesSist, varietalSist);
 
         //Arranca el CU
+
+        System.out.println(maridajesSist.stream().toList());
+        System.out.println(varietalSist.stream().toList());
 
         pantallaAdminActualizaciones.opcionImportarActDeVinoDeBodega(bodegasSist);
 
@@ -29,7 +32,7 @@ public class App {
         if (hayActualizaciones) {
 
 
-            pantallaAdminActualizaciones.mostrarBodega(control.getBodegas());
+            pantallaAdminActualizaciones.mostrarBodegas(control.getBodegas());
 
             control.solicitarSeleccionBodegas(pantallaAdminActualizaciones, bodegasSist); //dentro de este metodo esta el paso 5 que busca las actualizaciones
 
@@ -40,7 +43,7 @@ public class App {
             pantallaAdminActualizaciones.mostrarListaVinos(control.getVinosActualizables(), "Vinos para actualizar: ");
             pantallaAdminActualizaciones.mostrarListaVinos(control.getVinosCreables(), "Vinos para crear: ");
 
-            control.actualizarDatosDeVino(vinosDelSist);
+            control.actualizarDatosDeVino(vinosDelSist, maridajesSist);
             pantallaAdminActualizaciones.mostrarActDeVinosActualizadosYcreados(vinosDelSist, "VINOS ACTUALIZADOS");
             //envia notificacion a enofilos
             control.buscarSeguidores(enofilosDelSistema, control.getBodegaSeleccionada());

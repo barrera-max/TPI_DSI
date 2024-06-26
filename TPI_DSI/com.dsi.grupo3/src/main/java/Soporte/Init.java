@@ -8,7 +8,8 @@ import java.util.List;
 
 public class Init {
 
-    public static void init(List<Bodega> bodegasSist, List<Vino> vinosDelSist, List<Enofilo> enofilosDelSistema) {
+    public static void init(List<Bodega> bodegasSist, List<Vino> vinosDelSist, List<Enofilo> enofilosDelSistema, List<Maridaje> maridajesSist,
+                            List<Varietal> varietalSist) {
         TipoUva tipoUva = new TipoUva("Descripción del tipo de uva.",
                 "Tipo Uva 1");
         TipoUva tipoUva2 = new TipoUva("Descripción del tipo de uva.",
@@ -46,8 +47,10 @@ public class Init {
 
         Varietal varietal = new Varietal("Varietal único con sabor distintivo.", 75.5f, tipoUva);
         Maridaje maridaje = new Maridaje("Perfecto con carnes rojas y quesos fuertes.", "Maridaje 1");
+        maridajesSist.add(maridaje);
 
-        ArrayList<Varietal> varietalSist;
+
+        varietalSist.add(varietal);
 
         Vino vino1 = new Vino(2018, bodega1, "https://example.com/images/vino1.jpg", "Gran Reserva", "nota de cata", 800, varietal, maridaje);
         Vino vino2 = new Vino(2, bodega2, "favicon.ico", "Vino 2", "nota de cata", 12.5, varietal, maridaje);

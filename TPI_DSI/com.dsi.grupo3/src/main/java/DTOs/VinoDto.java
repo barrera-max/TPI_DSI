@@ -27,15 +27,16 @@ public class VinoDto {
 
     @Override
     public String toString() {
-        return "\n VinoDto{" +
-                "añada=" + añada +
-                ", bodega='" + bodega + '\'' +
-                ", imagenEtiqueta='" + imagenEtiqueta + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", notaDeCataBodega='" + notaDeCataBodega + '\'' +
-                ", precioARS=" + precioARS +
-                ", varietal='" + varietal + '\'' +
-                ", maridaje='" + maridaje + '\'' +
-                '}';
+        final StringBuilder sb = new StringBuilder("Vino ");
+        sb.append(nombre);
+        sb.append(" Añada ").append(añada).append(' ');
+        sb.append(", ");sb.append(bodega);
+        sb.append(" ,Imagen Etiqueta '").append(imagenEtiqueta);
+        sb.append(" ,Nota de cata '").append(notaDeCataBodega);
+        sb.append(" ,Precio(ARS):$").append(precioARS);
+        sb.append('\n');sb.append(varietal);
+        sb.append('\n');sb.append(maridaje);
+        sb.append('\n');
+        return sb.toString();
     }
 }

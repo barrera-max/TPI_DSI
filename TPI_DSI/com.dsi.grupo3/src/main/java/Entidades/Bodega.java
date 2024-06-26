@@ -52,4 +52,16 @@ public class Bodega {
         }
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("\n\tBodega=");
+        sb.append(nombre).append('\'');
+        sb.append(" Coordenadas:").append(coordenadasUbicacion);
+        sb.append(", Descripcion:'").append(descripcion).append('\'');
+        sb.append(", \nHistoria:'").append(historia).append('\'');
+        sb.append(", \nPeriodo actualizacion:").append(periodoActualizacion);
+        sb.append(", Ultima actualizacion:").append(fechaUltimaActualizacion);
+        sb.append('\n');
+        return sb.toString();
+    }
 }

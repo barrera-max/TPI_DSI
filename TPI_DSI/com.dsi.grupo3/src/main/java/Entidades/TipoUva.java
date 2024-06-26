@@ -13,10 +13,9 @@ public class TipoUva {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("TipoUva{");
-        sb.append("descripcion='").append(descripcion).append('\'');
-        sb.append(", nombre='").append(nombre).append('\'');
-        sb.append('}');
+        final StringBuilder sb = new StringBuilder("TipoUva");
+        sb.append(" Descripcion ").append(descripcion);
+        sb.append(" Nombre='").append(nombre);
         return sb.toString();
     }
 }

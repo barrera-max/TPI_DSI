@@ -11,4 +11,9 @@ public class Maridaje {
 
     private String descripcion;
     private String nombre;
+
+
+    public boolean sosMaridaje(String nombreMaridaje){
+        return nombre.equals(nombreMaridaje);
+    }
 }

@@ -82,16 +82,16 @@ public class Vino {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Vino{");
-        sb.append("añada=").append(añada);
-        sb.append("\nbodega=").append(bodega);
-        sb.append("\nimagenEtiqueta='").append(imagenEtiqueta).append('\'');
-        sb.append(", nombre='").append(nombre).append('\'');
-        sb.append(", notaDeCataBodega='").append(notaDeCataBodega).append('\'');
-        sb.append(", precioARS=").append(precioARS);
-        sb.append("\nvarietal=").append(varietal);
-        sb.append("\n maridaje=").append(maridaje);
-        sb.append('}');
+        final StringBuilder sb = new StringBuilder("Vino ");
+        sb.append(nombre);
+        sb.append(" - Añada ").append(añada);
+        sb.append(", ");sb.append(bodega);
+        sb.append(" ,Imagen Etiqueta '").append(imagenEtiqueta);
+        sb.append(" , Nota de cata '").append(notaDeCataBodega);
+        sb.append(" , Precio(ARS):$").append(precioARS);
+        sb.append('\n');sb.append(varietal);
+        sb.append('\n');sb.append(maridaje);
+        sb.append('\n');
         return sb.toString();
     }
 }
