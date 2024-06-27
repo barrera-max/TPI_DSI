@@ -5,11 +5,9 @@ import DTOs.VinoDto;
 import Entidades.Bodega;
 import Entidades.Vino;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +68,7 @@ public class PantallaAdminActualizaciones {
 
         // Mostrar el cuadro de diálogo
         dialog.setVisible(true);
-        return control.opcionImportarActDeVinoDeBodega(bodegasDelSistema,LocalDate.now());
+        return control.opcionImportarActDeVinoDeBodega(bodegasDelSistema, LocalDate.now());
     }
 
     public void habilitarPantalla(ArrayList<Bodega> bodegas) {

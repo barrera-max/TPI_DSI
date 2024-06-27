@@ -42,7 +42,7 @@ public class GestorActualizaciones {
         // busca las bodegas del sistema con actualizaciones
         buscarBodegasConActualizaciones(bodega, fechaActual);
         /*if (!bodegas.isEmpty()) {*/
-            return (!bodegas.isEmpty());
+        return (!bodegas.isEmpty());
         /*}
         return false;*/
     }
@@ -95,7 +95,7 @@ public class GestorActualizaciones {
         bodegaSeleccionada.actualizarDatosDeVino(vinosSistema, vinosActualizables);
 
         for (VinoDto vino : vinosCreables) {
-            buscarVarietal(varietalList,vino.getVarietal()); //el vino.getVarietal() retorna el nombre del tipo de uva
+            buscarVarietal(varietalList, vino.getVarietal()); //el vino.getVarietal() retorna el nombre del tipo de uva
             System.out.println(varietal);
             buscarMaridaje(vino.getMaridaje(), maridajeList);
             Vino nuevo = crearVino(vino);
@@ -109,10 +109,10 @@ public class GestorActualizaciones {
 
     }
 
-    public void buscarVarietal(List<Varietal> varietalList, String tipoDeUva){
-        for(Varietal var: varietalList){
+    public void buscarVarietal(List<Varietal> varietalList, String tipoDeUva) {
+        for (Varietal var : varietalList) {
             System.out.println("El varietal:" + var.toString() + "\n");
-            if(var.buscarVarietal(tipoDeUva))setVarietal(var);
+            if (var.buscarVarietal(tipoDeUva)) setVarietal(var);
         }
     }
 

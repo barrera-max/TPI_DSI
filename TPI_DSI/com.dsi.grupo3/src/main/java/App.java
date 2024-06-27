@@ -3,8 +3,6 @@ import Control.GestorActualizaciones;
 import Entidades.*;
 import Soporte.Init;
 
-import javax.swing.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class App {
@@ -23,8 +21,6 @@ public class App {
         Init.init(bodegasSist, vinosDelSist, enofilosDelSistema, maridajesSist, varietalSist);
 
         //Arranca el CU
-
-        /*pantallaAdminActualizaciones.opcionImportarActDeVinoDeBodega(bodegasSist, control);*/
 
         Boolean hayActualizaciones = pantallaAdminActualizaciones.opcionImportarActDeVinoDeBodega(bodegasSist, control); //
         System.out.println("hay actualizaciones");
@@ -50,7 +46,6 @@ public class App {
             System.out.println("se envia notificacion a los usuarios:");
             System.out.println(control.getUsuarios().stream().toList());
             pantallaAdminActualizaciones.mostrarOpcionFinalizar(control);
-
 
         } else {
             System.out.println("No hay actualizaciones");

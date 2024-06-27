@@ -17,7 +17,7 @@ public class Varietal {
 
 
     public boolean buscarVarietal(String nombreUva) {
-        return tipoDeUva.sosVarietal(nombreUva) ;
+        return tipoDeUva.sosVarietal(nombreUva);
     }
 
     @Override

@@ -2,24 +2,18 @@ package Boundary;
 
 import DTOs.VinoDto;
 import Entidades.Bodega;
-import Entidades.Vino;
 import Soporte.LocalDateAdapter;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.time.LocalDate;
 
 public class InterfazSistemaDeBodegas {
 
