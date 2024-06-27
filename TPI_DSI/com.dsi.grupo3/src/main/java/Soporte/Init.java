@@ -46,15 +46,20 @@ public class Init {
         bodegasSist.add(bodega2);
 
         Varietal varietal = new Varietal("Varietal único con sabor distintivo.", 75.5f, tipoUva);
+        Varietal varietal2 = new Varietal("Varietal único con sabor distintivo.", 50.5f, tipoUva2);
         Maridaje maridaje = new Maridaje("Perfecto con carnes rojas y quesos fuertes.", "Maridaje 1");
+        Maridaje maridaje2 = new Maridaje("Ideal con pescados y mariscos frescos.", "Maridaje 2");
+
         maridajesSist.add(maridaje);
+        maridajesSist.add(maridaje2);
 
 
         varietalSist.add(varietal);
+        varietalSist.add(varietal2);
 
-        Vino vino1 = new Vino(2018, bodega1, "https://example.com/images/vino1.jpg", "Gran Reserva", "nota de cata", 800, varietal, maridaje);
-        Vino vino2 = new Vino(2, bodega2, "favicon.ico", "Vino 2", "nota de cata", 12.5, varietal, maridaje);
-        Vino vino3 = new Vino(3, bodega3, "favicon.ico", "Vino 3", "nota de cata", 12.5, varietal, maridaje);
+        Vino vino1 = new Vino(2018, bodega1, "favicon.ico", "Gran Reserva", "nota de cata", 1000, varietal, maridaje2);
+        Vino vino2 = new Vino(2, bodega2, "favicon.ico", "Bon Appétit", "nota de cata", 1000, varietal, maridaje);
+        Vino vino3 = new Vino(3, bodega3, "favicon.ico", "Dom Pérignon", "nota de cata", 1000, varietal, maridaje);
 
         vinosDelSist.add(vino1);
         vinosDelSist.add(vino2);

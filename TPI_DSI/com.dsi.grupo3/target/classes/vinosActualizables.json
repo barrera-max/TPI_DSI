@@ -7,7 +7,7 @@
     "notaDeCataBodega": "Un vino robusto con notas de frutas rojas y especias.",
     "precioARS": 1200.50,
     "varietal": "Tipo Uva 1",
-    "maridaje": "Maridaje 1"
+    "maridaje": "Maridaje 2"
   },
   {
     "añada": 2020,
@@ -26,8 +26,8 @@
     "nombre": "Reserva Familiar",
     "notaDeCataBodega": "Un vino suave con notas de frutos secos y especias.",
     "precioARS": 1800.00,
-    "varietal": "Tipo Uva 3",
-    "maridaje":"Maridaje 3"
+    "varietal": "Tipo Uva 2",
+    "maridaje":"Maridaje 2"
     }
 ]
 

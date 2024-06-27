@@ -17,15 +17,12 @@ public class Enofilo {
     private String apellido;
     private String imagenPerfil;
 
-    public Boolean seguisBodega(Bodega bodega){
-        for(Siguiendo siguiendo: seguido){
-            if(siguiendo.sosDeBodega(bodega)) return true;
-             //este metodo o el sosDeBodega debe tener un break para cuando encuentre que sigue a la bodega buscada
+    public Boolean seguisBodega(Bodega bodega) {
+        for (Siguiendo siguiendo : seguido) {
+            if (siguiendo.sosDeBodega(bodega)) return true;
         }
         return false;
     }
-
-
 
 
 }
