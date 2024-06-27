@@ -1,11 +1,8 @@
 package Entidades;
 
-import DTOs.VinoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,12 +16,8 @@ public class Varietal {
     private TipoUva tipoDeUva;
 
 
-    public void buscarVarietal(List<Varietal> varietalSistema){
-
-    }
-
-    public boolean sosVarietal(VinoDto vinoDto){
-        return this.getTipoDeUva().getNombre().equals(vinoDto.getVarietal());
+    public boolean buscarVarietal(String nombreUva) {
+        return tipoDeUva.sosVarietal(nombreUva) ;
     }
 
     @Override

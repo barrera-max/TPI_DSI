@@ -8,9 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,14 +41,14 @@ public class GestorActualizaciones {
     public boolean opcionImportarActDeVinoDeBodega(ArrayList<Bodega> bodega, LocalDate fechaActual) {
         // busca las bodegas del sistema con actualizaciones
         buscarBodegasConActualizaciones(bodega, fechaActual);
-        if (!bodegas.isEmpty()) {
-            return true;
-        }
-        return false;
+        /*if (!bodegas.isEmpty()) {*/
+            return (!bodegas.isEmpty());
+        /*}
+        return false;*/
     }
 
 
-    public void buscarBodegasConActualizaciones(ArrayList<Bodega> bodegas, LocalDate fechaActual) { // Esto no sería mejor como guardar bodegas con actualizaciones?
+    public void buscarBodegasConActualizaciones(ArrayList<Bodega> bodegas, LocalDate fechaActual) {
         //busca entre las bodegas existentes en el sistema
         ArrayList<String> buscadas = new ArrayList<>();
         for (Bodega b : bodegas) {
@@ -93,12 +91,13 @@ public class GestorActualizaciones {
         setVinosCreables(auxNoActualizables);
     }
 
-    public void actualizarDatosDeVino(List<Vino> vinosSistema, List<Maridaje> maridajeList) {
+    public void actualizarDatosDeVino(List<Vino> vinosSistema, List<Maridaje> maridajeList, List<Varietal> varietalList) {
         bodegaSeleccionada.actualizarDatosDeVino(vinosSistema, vinosActualizables);
 
         for (VinoDto vino : vinosCreables) {
+            buscarVarietal(varietalList,vino.getVarietal()); //el vino.getVarietal() retorna el nombre del tipo de uva
+            System.out.println(varietal);
             buscarMaridaje(vino.getMaridaje(), maridajeList);
-            System.out.println(maridaje.getNombre());
             Vino nuevo = crearVino(vino);
             vinosSistema.add(nuevo);
         }
@@ -110,9 +109,16 @@ public class GestorActualizaciones {
 
     }
 
+    public void buscarVarietal(List<Varietal> varietalList, String tipoDeUva){
+        for(Varietal var: varietalList){
+            System.out.println("El varietal:" + var.toString() + "\n");
+            if(var.buscarVarietal(tipoDeUva))setVarietal(var);
+        }
+    }
+
     public void buscarMaridaje(String nombreMaridaje, List<Maridaje> maridajeSistema) {
-        for(Maridaje m : maridajeSistema){
-            if(m.sosMaridaje(nombreMaridaje)) setMaridaje(m);
+        for (Maridaje m : maridajeSistema) {
+            if (m.sosMaridaje(nombreMaridaje)) setMaridaje(m);
         }
     }
 

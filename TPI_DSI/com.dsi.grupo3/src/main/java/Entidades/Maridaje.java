@@ -13,7 +13,7 @@ public class Maridaje {
     private String nombre;
 
 
-    public boolean sosMaridaje(String nombreMaridaje){
+    public boolean sosMaridaje(String nombreMaridaje) {
         return nombre.equals(nombreMaridaje);
     }
 }

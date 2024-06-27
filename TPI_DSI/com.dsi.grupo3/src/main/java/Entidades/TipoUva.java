@@ -1,5 +1,6 @@
 package Entidades;
 
+import DTOs.VinoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,11 @@ import lombok.NoArgsConstructor;
 public class TipoUva {
     private String descripcion;
     private String nombre;
+
+
+    public boolean sosVarietal(String tipoUva){
+        return this.getNombre().equals(tipoUva);
+    }
 
     @Override
     public String toString() {

@@ -43,7 +43,7 @@ public class App {
             System.out.println("muestra vinos que se actualizan");
             pantallaAdminActualizaciones.mostrarListaVinos(control.getVinosCreables(), "Vinos para crear: ");
 
-            control.actualizarDatosDeVino(vinosDelSist, maridajesSist);
+            control.actualizarDatosDeVino(vinosDelSist, maridajesSist, varietalSist);
             pantallaAdminActualizaciones.mostrarActDeVinosActualizadosYcreados(vinosDelSist, "VINOS ACTUALIZADOS");
             //envia notificacion a enofilos
             control.buscarSeguidores(enofilosDelSistema, control.getBodegaSeleccionada());
