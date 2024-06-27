@@ -8,6 +8,7 @@ import lombok.Data;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -150,12 +151,19 @@ public class PantallaAdminActualizaciones {
 
 
     public void mostrarActDeVinosActualizadosYcreados(List<Vino> vinos, String mensaje) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(":::" + mensaje + ":::\n\n");
-        for (Vino vino : vinos) {
-            sb.append(vino.toString()).append("\n");
-        }
-        JOptionPane.showMessageDialog(panel, sb.toString(), "VINOS", JOptionPane.INFORMATION_MESSAGE);
+            StringBuilder sb = new StringBuilder();
+            sb.append(":::" + mensaje + ":::\n\n");
+            for (Vino vino : vinos) {
+                sb.append(vino.toString()).append("\n");
+            }
+
+            JTextArea textArea = new JTextArea(sb.toString());
+            textArea.setEditable(false); // Para que el texto no sea editable
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new Dimension(900, 650)); // TamaÃ±o preferido del JScrollPane
+
+            JOptionPane.showMessageDialog(panel, scrollPane, "VINOS", JOptionPane.INFORMATION_MESSAGE);
+
     }
 
 
