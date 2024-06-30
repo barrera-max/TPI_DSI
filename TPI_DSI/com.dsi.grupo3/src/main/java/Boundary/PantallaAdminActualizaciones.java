@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 public class PantallaAdminActualizaciones {
 
-    private GestorActualizaciones gestor;
+    private static GestorActualizaciones gestor;
 
     private List<String> nombresBodega;
 
@@ -41,35 +41,35 @@ public class PantallaAdminActualizaciones {
         frame.setVisible(true);
     }
 
-    public boolean opcionImportarActDeVinoDeBodega(ArrayList<Bodega> bodegasDelSistema, GestorActualizaciones control) {
+    public static void setGestor(GestorActualizaciones gestor) {
+        PantallaAdminActualizaciones.gestor = gestor;
+    }
+
+    public void opcionImportarActDeVinoDeBodega() {
 
         JButton importarActButton = new JButton("Importar Actualizaciones");
 
         panel.removeAll();
         panel.add(importarActButton);
 
-        // Crear el cuadro de diálogo con el panel que contiene el botón
         JOptionPane optionPane = new JOptionPane(
-                panel, // Componente de entrada
-                JOptionPane.PLAIN_MESSAGE, // Tipo de mensaje (sin icono)
-                JOptionPane.DEFAULT_OPTION, // Tipo de opción (por defecto)
-                null, // Icono personalizado (null para ninguno)
-                new Object[]{}, // Opciones (ninguna adicional)
-                null // Opción predeterminada (null para ninguna)
+                panel,
+                JOptionPane.PLAIN_MESSAGE,
+                JOptionPane.DEFAULT_OPTION,
+                null,
+                new Object[]{},
+                null
         );
 
-        // Crear un cuadro de diálogo modal personalizado
         JDialog dialog = optionPane.createDialog("Importar Actualizaciones de Vino");
 
-        // Configurar acción para el botón Importar Actualizaciones
         importarActButton.addActionListener(e -> {
-            habilitarPantalla(bodegasDelSistema);
+            habilitarPantalla(gestor.getBodegasSist());
             dialog.dispose(); // Cerrar el cuadro de diálogo después de habilitar la pantalla
         });
 
-        // Mostrar el cuadro de diálogo
         dialog.setVisible(true);
-        return control.opcionImportarActDeVinoDeBodega(bodegasDelSistema, LocalDate.now());
+        gestor.opcionImportarActDeVinoDeBodega();
     }
 
     public void habilitarPantalla(ArrayList<Bodega> bodegas) {
@@ -88,6 +88,7 @@ public class PantallaAdminActualizaciones {
     }
 
     public void mostrarBodegas(List<String> nombresBodega) {
+        System.out.println("MOSTRANDO BODEGAS");
         DefaultListModel<String> listModel = new DefaultListModel<>();
         JList<String> bodegaJList = new JList<>(listModel);
         listModel.addElement("BODEGAS CON ACTUALIZACIONES:\n");
@@ -124,7 +125,8 @@ public class PantallaAdminActualizaciones {
     }
 
     public void tomarSeleccionBodega(String bodega) {
-        setBodegaSeleccionada(bodega);
+
+        gestor.tomarSeleccionBodega(bodega);
     }
 
     public void mostrarOpcionFinalizar(GestorActualizaciones control) {
@@ -181,13 +183,10 @@ public class PantallaAdminActualizaciones {
             tabla.addRow(rowData);
         }
 
-        // Crear la tabla con el modelo
         JTable bodegaTable = new JTable(tabla);
 
-        // Crear el JScrollPane para contener la tabla
         JScrollPane scrollPane = new JScrollPane(bodegaTable);
 
-        // Limpiar el panel antes de añadir el JScrollPane
         panel.removeAll();
         panel.add(scrollPane);
 
