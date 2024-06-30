@@ -129,16 +129,15 @@ public class PantallaAdminActualizaciones {
         gestor.tomarSeleccionBodega(bodega);
     }
 
-    public void mostrarOpcionFinalizar(GestorActualizaciones control) {
+    public void mostrarOpcionFinalizar() {
         int opcion = JOptionPane.showConfirmDialog(panel, "¿Desea finalizar?", "Finalizar", JOptionPane.YES_NO_OPTION);
         if (opcion == JOptionPane.YES_OPTION) {
-            opcionFinalizar(control);
-
+            opcionFinalizar();
         }
     }
 
-    public void opcionFinalizar(GestorActualizaciones control) {
-        control.finDelCU();
+    public void opcionFinalizar() {
+        gestor.tomarOpcionFinalizar();
     }
 
 
@@ -165,6 +164,8 @@ public class PantallaAdminActualizaciones {
             scrollPane.setPreferredSize(new Dimension(900, 650)); // TamaÃ±o preferido del JScrollPane
 
             JOptionPane.showMessageDialog(panel, scrollPane, "VINOS", JOptionPane.INFORMATION_MESSAGE);
+
+            gestor.buscarSeguidores();
 
     }
 
