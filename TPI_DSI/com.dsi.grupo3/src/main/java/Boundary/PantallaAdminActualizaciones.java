@@ -64,12 +64,10 @@ public class PantallaAdminActualizaciones {
 
     public void habilitarPantalla() {
         JLabel lblVino = new JLabel("BOM VINO");
-        lblVino.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(Box.createVerticalGlue());
+        lblVino.setFont(new Font("Arial", Font.BOLD, 16));
+        lblVino.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(lblVino);
-
-        JLabel lblBodegas= new JLabel("BODEGAS:");
-        panel.add(lblBodegas);
+        panel.add(Box.createVerticalGlue());
 
         mostrarListaBodegas(gestor.getBodegasSist());
     }
@@ -158,8 +156,14 @@ public class PantallaAdminActualizaciones {
 
 
     public void mostrarListaBodegas(List<Bodega> bodegas) {
+        JLabel lblBodegas = new JLabel("LISTADO DE BODEGAS");
+        lblBodegas.setFont(new Font("Arial", Font.ITALIC | Font.BOLD,12));
+        lblBodegas.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        panel.add(Box.createVerticalStrut(50));
+        panel.add(lblBodegas);
+
         String[] columnas = {"Nombre", "Descripcion", "Fecha Ultima Actualizacion"};
-        // Crear el modelo de la tabla
         DefaultTableModel tabla = new DefaultTableModel(columnas, 0);
 
         for (Bodega bodega : bodegas) {
@@ -173,8 +177,8 @@ public class PantallaAdminActualizaciones {
         JTable bodegaTable = new JTable(tabla);
         JScrollPane scrollPane = new JScrollPane(bodegaTable);
 
+
         panel.add(scrollPane, BorderLayout.CENTER);
-        panel.add(Box.createVerticalGlue());
 
         panel.revalidate();
         panel.repaint();
