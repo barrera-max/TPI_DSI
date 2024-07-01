@@ -26,19 +26,20 @@ public class PantallaAdminActualizaciones {
 
     private JPanel panel;
 
-    public PantallaAdminActualizaciones() {
+    public PantallaAdminActualizaciones(GestorActualizaciones gestor) {
+        this.gestor = gestor;
         frame = new JFrame("PANTALLA ADMIN ACTUALIZACIONES");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(700, 700);
+        frame.setSize(700, 400);
         frame.setLocationRelativeTo(null);
 
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        frame.add(panel);
-
-        // Mostrar el frame
+        frame.add(panel, BorderLayout.CENTER);
         frame.setVisible(true);
+
+
     }
 
     public static void setGestor(GestorActualizaciones gestor) {
@@ -46,45 +47,31 @@ public class PantallaAdminActualizaciones {
     }
 
     public void opcionImportarActDeVinoDeBodega() {
-
-        JButton importarActButton = new JButton("Importar Actualizaciones");
-
-        panel.removeAll();
-        panel.add(importarActButton);
-
-        JOptionPane optionPane = new JOptionPane(
-                panel,
-                JOptionPane.PLAIN_MESSAGE,
-                JOptionPane.DEFAULT_OPTION,
-                null,
-                new Object[]{},
-                null
-        );
-
-        JDialog dialog = optionPane.createDialog("Importar Actualizaciones de Vino");
-
-        importarActButton.addActionListener(e -> {
-            habilitarPantalla(gestor.getBodegasSist());
-            dialog.dispose(); // Cerrar el cuadro de diálogo después de habilitar la pantalla
+        habilitarPantalla();
+        JButton btnImportarACt = new JButton("Importar actualizaciones");
+        btnImportarACt.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnImportarACt.addActionListener(actionEvent -> {
+            gestor.opcionImportarActDeVinoDeBodega();
         });
 
-        dialog.setVisible(true);
-        gestor.opcionImportarActDeVinoDeBodega();
+
+        panel.add(btnImportarACt, BorderLayout.CENTER);
+        panel.add(Box.createVerticalGlue());
+
+        frame.revalidate();
+        frame.repaint();
     }
 
-    public void habilitarPantalla(ArrayList<Bodega> bodegas) {
-        // Limpiar el panel antes de añadir nuevos componentes
-        panel.removeAll();
+    public void habilitarPantalla() {
+        JLabel lblVino = new JLabel("BOM VINO");
+        lblVino.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(Box.createVerticalGlue());
+        panel.add(lblVino);
 
-        // Añadir etiquetas referidas a Bom Vino
-        panel.add(new JLabel("BomVino"));
-        panel.add(new JLabel("Descripción de Bom Vino"));
-        // Revalidar y repintar el panel para reflejar los cambios
-        panel.revalidate();
-        panel.repaint();
+        JLabel lblBodegas= new JLabel("BODEGAS:");
+        panel.add(lblBodegas);
 
-        // Mostrar la lista de bodegas
-        mostrarListaBodegas(bodegas);
+        mostrarListaBodegas(gestor.getBodegasSist());
     }
 
     public void mostrarBodegas(List<String> nombresBodega) {
@@ -176,7 +163,6 @@ public class PantallaAdminActualizaciones {
         DefaultTableModel tabla = new DefaultTableModel(columnas, 0);
 
         for (Bodega bodega : bodegas) {
-
             String nombreBodega = bodega.getNombre();
             String desc = bodega.getDescripcion();
             LocalDate fecha = bodega.getFechaUltimaActualizacion();
@@ -185,13 +171,11 @@ public class PantallaAdminActualizaciones {
         }
 
         JTable bodegaTable = new JTable(tabla);
-
         JScrollPane scrollPane = new JScrollPane(bodegaTable);
 
-        panel.removeAll();
-        panel.add(scrollPane);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(Box.createVerticalGlue());
 
-        // Revalidar y repintar el panel para reflejar los cambios
         panel.revalidate();
         panel.repaint();
     }

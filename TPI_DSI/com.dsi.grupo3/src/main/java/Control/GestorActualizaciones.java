@@ -51,20 +51,21 @@ public class GestorActualizaciones {
     }
 
     public boolean opcionImportarActDeVinoDeBodega() {
-        buscarBodegasConActualizaciones();
-        pantalla.mostrarBodegas(bodegasConActualizaciones);
+        if(buscarBodegasConActualizaciones()){
+        pantalla.mostrarBodegas(bodegasConActualizaciones);}
         solicitarSeleccionBodegas();
         return (!bodegasConActualizaciones.isEmpty());
     }
 
-    public void buscarBodegasConActualizaciones() {
+    public Boolean buscarBodegasConActualizaciones() {
         //busca entre las bodegas existentes en el sistema
         for (Bodega b : bodegasSist) {
             if (b.hayActualizaciones(LocalDate.now())) {
                 bodegasConActualizaciones.add(b.getNombre());
+                return true;
             }
         }
-        if(!bodegasConActualizaciones.isEmpty());
+        return false;
     }
 
     public void solicitarSeleccionBodegas() {

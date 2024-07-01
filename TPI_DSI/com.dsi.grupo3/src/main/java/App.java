@@ -5,10 +5,9 @@ public class App {
 
     public static void main(String[] args) {
 
-        PantallaAdminActualizaciones pantallaAdminActualizaciones = new PantallaAdminActualizaciones();
         GestorActualizaciones control = new GestorActualizaciones();
+        PantallaAdminActualizaciones pantallaAdminActualizaciones = new PantallaAdminActualizaciones(control);
 
-        pantallaAdminActualizaciones.setGestor(control);
         control.setPantalla(pantallaAdminActualizaciones);
 
         pantallaAdminActualizaciones.opcionImportarActDeVinoDeBodega();
