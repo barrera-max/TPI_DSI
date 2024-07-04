@@ -56,12 +56,9 @@ public class Vino {
         return false;
     }
 
-    public boolean sosEsteVino(VinoDto vinoDto) {
-        if (vinoDto == null) {
-            return false;
-        }
-        return this.añada == vinoDto.getAñada() &&
-                this.bodega.getNombre().equals(vinoDto.getBodega());
+    public boolean sosEsteVino(int añada, String nombre) {
+        return this.añada == añada &&
+                this.nombre== nombre;
     }
 
     public int sosVinoActualizable(List<VinoDto> vinosActualizables) {

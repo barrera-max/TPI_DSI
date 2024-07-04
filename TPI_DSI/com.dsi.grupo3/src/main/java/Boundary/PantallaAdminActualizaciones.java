@@ -26,8 +26,7 @@ public class PantallaAdminActualizaciones {
 
     private JPanel panel;
 
-    public PantallaAdminActualizaciones(GestorActualizaciones gestor) {
-        this.gestor = gestor;
+    public PantallaAdminActualizaciones() {
         frame = new JFrame("PANTALLA ADMIN ACTUALIZACIONES");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(700, 400);
@@ -42,11 +41,8 @@ public class PantallaAdminActualizaciones {
 
     }
 
-    public static void setGestor(GestorActualizaciones gestor) {
-        PantallaAdminActualizaciones.gestor = gestor;
-    }
-
     public void opcionImportarActDeVinoDeBodega() {
+        gestor = new GestorActualizaciones(this);
         habilitarPantalla();
         JButton btnImportarACt = new JButton("Importar actualizaciones");
         btnImportarACt.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -69,7 +65,7 @@ public class PantallaAdminActualizaciones {
         panel.add(lblVino);
         panel.add(Box.createVerticalGlue());
 
-        mostrarListaBodegas(gestor.getBodegasSist());
+        mostrarListaBodegas();
     }
 
     public void mostrarBodegas(List<String> nombresBodega) {
@@ -102,16 +98,16 @@ public class PantallaAdminActualizaciones {
                 JOptionPane.PLAIN_MESSAGE);
 
         if (opcion == JOptionPane.OK_OPTION) {
-            String bodega = (String) comboBox.getSelectedItem();
-            tomarSeleccionBodega(bodega);
+            String bodegaSeleccion = (String) comboBox.getSelectedItem();
+            tomarSeleccionBodega(bodegaSeleccion);
         } else {
             JOptionPane.showMessageDialog(panel, "No se seleccionaron bodegas");
         }
     }
 
-    public void tomarSeleccionBodega(String bodega) {
+    public void tomarSeleccionBodega(String nombreBodega) {
 
-        gestor.tomarSeleccionBodega(bodega);
+        gestor.tomarSeleccionBodega(nombreBodega);
     }
 
     public void mostrarOpcionFinalizar() {
@@ -126,6 +122,7 @@ public class PantallaAdminActualizaciones {
     }
 
 
+    //metodo para comprobar si estaba importando bien los vinos desede el JSON
     public void mostrarListaVinos(List<VinoDto> vinosImportados, String mensaje) {
         StringBuilder sb = new StringBuilder();
         sb.append(":::" + mensaje + ":::\n\n");
@@ -136,28 +133,29 @@ public class PantallaAdminActualizaciones {
     }
 
 
-    public void mostrarActDeVinosActualizadosYcreados(List<Vino> vinos, String mensaje) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(":::" + mensaje + ":::\n\n");
-            for (Vino vino : vinos) {
-                sb.append(vino.toString()).append("\n");
-            }
+    public void mostrarActDeVinosActualizadosYcreados() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(":::" + "VINOS ACTUALIZADOS" + ":::\n\n");
+        for (Vino vino : gestor.getVinosSist()) {
+            sb.append(vino.toString()).append("\n");
+        }
 
-            JTextArea textArea = new JTextArea(sb.toString());
-            textArea.setEditable(false); // Para que el texto no sea editable
-            JScrollPane scrollPane = new JScrollPane(textArea);
-            scrollPane.setPreferredSize(new Dimension(900, 650)); // TamaÃ±o preferido del JScrollPane
+        JTextArea textArea = new JTextArea(sb.toString());
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(900, 650));
 
-            JOptionPane.showMessageDialog(panel, scrollPane, "VINOS", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(panel, scrollPane, "VINOS", JOptionPane.INFORMATION_MESSAGE);
 
-            gestor.buscarSeguidores();
+        gestor.buscarSeguidores();
 
     }
 
 
-    public void mostrarListaBodegas(List<Bodega> bodegas) {
+    public void mostrarListaBodegas() {
         JLabel lblBodegas = new JLabel("LISTADO DE BODEGAS");
-        lblBodegas.setFont(new Font("Arial", Font.ITALIC | Font.BOLD,12));
+        lblBodegas.setFont(new Font("Arial", Font.ITALIC | Font.BOLD, 12));
+
         lblBodegas.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         panel.add(Box.createVerticalStrut(50));
@@ -166,7 +164,7 @@ public class PantallaAdminActualizaciones {
         String[] columnas = {"Nombre", "Descripcion", "Fecha Ultima Actualizacion"};
         DefaultTableModel tabla = new DefaultTableModel(columnas, 0);
 
-        for (Bodega bodega : bodegas) {
+        for (Bodega bodega : gestor.getBodegasSist()) {            //revisar getters(estoy creando relaciones entre el boundary y clases de entidad)
             String nombreBodega = bodega.getNombre();
             String desc = bodega.getDescripcion();
             LocalDate fecha = bodega.getFechaUltimaActualizacion();
@@ -177,13 +175,9 @@ public class PantallaAdminActualizaciones {
         JTable bodegaTable = new JTable(tabla);
         JScrollPane scrollPane = new JScrollPane(bodegaTable);
 
-
         panel.add(scrollPane, BorderLayout.CENTER);
-
         panel.revalidate();
         panel.repaint();
     }
-
-
 }
 
