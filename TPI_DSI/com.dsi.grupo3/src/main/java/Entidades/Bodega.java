@@ -32,9 +32,9 @@ public class Bodega {
         return mesesPasados >= this.periodoActualizacion;
     }
 
-    public boolean tenesEsteVino(VinoDto vinodto, List<Vino> vinosSistema) {
+    public boolean tenesEsteVino(int añada, String nombre, List<Vino> vinosSistema) {
         for (Vino vino : vinosSistema) {
-            return vino.sosEsteVino(vinodto);
+            return vino.sosEsteVino(añada, nombre);
         }
         return false;
     }
@@ -50,6 +50,11 @@ public class Bodega {
             }
         }
     }
+
+    public boolean esTuNombre(String nombreBodega){
+        return nombre.equals(nombreBodega);
+    }
+
 
     @Override
     public String toString() {

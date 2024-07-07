@@ -8,6 +8,7 @@ import lombok.Data;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 @Data
 public class PantallaAdminActualizaciones {
 
-    private GestorActualizaciones gestor;
+    private static GestorActualizaciones gestor;
 
     private List<String> nombresBodega;
 
@@ -28,65 +29,47 @@ public class PantallaAdminActualizaciones {
     public PantallaAdminActualizaciones() {
         frame = new JFrame("PANTALLA ADMIN ACTUALIZACIONES");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(700, 700);
+        frame.setSize(700, 400);
         frame.setLocationRelativeTo(null);
 
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        frame.add(panel);
-
-        // Mostrar el frame
+        frame.add(panel, BorderLayout.CENTER);
         frame.setVisible(true);
+
+
     }
 
-    public boolean opcionImportarActDeVinoDeBodega(ArrayList<Bodega> bodegasDelSistema, GestorActualizaciones control) {
-
-        JButton importarActButton = new JButton("Importar Actualizaciones");
-
-        panel.removeAll();
-        panel.add(importarActButton);
-
-        // Crear el cuadro de diálogo con el panel que contiene el botón
-        JOptionPane optionPane = new JOptionPane(
-                panel, // Componente de entrada
-                JOptionPane.PLAIN_MESSAGE, // Tipo de mensaje (sin icono)
-                JOptionPane.DEFAULT_OPTION, // Tipo de opción (por defecto)
-                null, // Icono personalizado (null para ninguno)
-                new Object[]{}, // Opciones (ninguna adicional)
-                null // Opción predeterminada (null para ninguna)
-        );
-
-        // Crear un cuadro de diálogo modal personalizado
-        JDialog dialog = optionPane.createDialog("Importar Actualizaciones de Vino");
-
-        // Configurar acción para el botón Importar Actualizaciones
-        importarActButton.addActionListener(e -> {
-            habilitarPantalla(bodegasDelSistema);
-            dialog.dispose(); // Cerrar el cuadro de diálogo después de habilitar la pantalla
+    public void opcionImportarActDeVinoDeBodega() {
+        gestor = new GestorActualizaciones(this);
+        habilitarPantalla();
+        JButton btnImportarACt = new JButton("Importar actualizaciones");
+        btnImportarACt.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnImportarACt.addActionListener(actionEvent -> {
+            gestor.opcionImportarActDeVinoDeBodega();
         });
 
-        // Mostrar el cuadro de diálogo
-        dialog.setVisible(true);
-        return control.opcionImportarActDeVinoDeBodega(bodegasDelSistema, LocalDate.now());
+
+        panel.add(btnImportarACt, BorderLayout.CENTER);
+        panel.add(Box.createVerticalGlue());
+
+        frame.revalidate();
+        frame.repaint();
     }
 
-    public void habilitarPantalla(ArrayList<Bodega> bodegas) {
-        // Limpiar el panel antes de añadir nuevos componentes
-        panel.removeAll();
+    public void habilitarPantalla() {
+        JLabel lblVino = new JLabel("BOM VINO");
+        lblVino.setFont(new Font("Arial", Font.BOLD, 16));
+        lblVino.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.add(lblVino);
+        panel.add(Box.createVerticalGlue());
 
-        // Añadir etiquetas referidas a Bom Vino
-        panel.add(new JLabel("BomVino"));
-        panel.add(new JLabel("Descripción de Bom Vino"));
-        // Revalidar y repintar el panel para reflejar los cambios
-        panel.revalidate();
-        panel.repaint();
-
-        // Mostrar la lista de bodegas
-        mostrarListaBodegas(bodegas);
+        mostrarListaBodegas();
     }
 
     public void mostrarBodegas(List<String> nombresBodega) {
+        System.out.println("MOSTRANDO BODEGAS");
         DefaultListModel<String> listModel = new DefaultListModel<>();
         JList<String> bodegaJList = new JList<>(listModel);
         listModel.addElement("BODEGAS CON ACTUALIZACIONES:\n");
@@ -115,30 +98,31 @@ public class PantallaAdminActualizaciones {
                 JOptionPane.PLAIN_MESSAGE);
 
         if (opcion == JOptionPane.OK_OPTION) {
-            String bodega = (String) comboBox.getSelectedItem();
-            tomarSeleccionBodega(bodega);
+            String bodegaSeleccion = (String) comboBox.getSelectedItem();
+            tomarSeleccionBodega(bodegaSeleccion);
         } else {
             JOptionPane.showMessageDialog(panel, "No se seleccionaron bodegas");
         }
     }
 
-    public void tomarSeleccionBodega(String bodega) {
-        setBodegaSeleccionada(bodega);
+    public void tomarSeleccionBodega(String nombreBodega) {
+
+        gestor.tomarSeleccionBodega(nombreBodega);
     }
 
-    public void mostrarOpcionFinalizar(GestorActualizaciones control) {
+    public void mostrarOpcionFinalizar() {
         int opcion = JOptionPane.showConfirmDialog(panel, "¿Desea finalizar?", "Finalizar", JOptionPane.YES_NO_OPTION);
         if (opcion == JOptionPane.YES_OPTION) {
-            opcionFinalizar(control);
-
+            opcionFinalizar();
         }
     }
 
-    public void opcionFinalizar(GestorActualizaciones control) {
-        control.finDelCU();
+    public void opcionFinalizar() {
+        gestor.tomarOpcionFinalizar();
     }
 
 
+    //metodo para comprobar si estaba importando bien los vinos desede el JSON
     public void mostrarListaVinos(List<VinoDto> vinosImportados, String mensaje) {
         StringBuilder sb = new StringBuilder();
         sb.append(":::" + mensaje + ":::\n\n");
@@ -149,23 +133,38 @@ public class PantallaAdminActualizaciones {
     }
 
 
-    public void mostrarActDeVinosActualizadosYcreados(List<Vino> vinos, String mensaje) {
+    public void mostrarActDeVinosActualizadosYcreados() {
         StringBuilder sb = new StringBuilder();
-        sb.append(":::" + mensaje + ":::\n\n");
-        for (Vino vino : vinos) {
+        sb.append(":::" + "VINOS ACTUALIZADOS" + ":::\n\n");
+        for (Vino vino : gestor.getVinosSist()) {
             sb.append(vino.toString()).append("\n");
         }
-        JOptionPane.showMessageDialog(panel, sb.toString(), "VINOS", JOptionPane.INFORMATION_MESSAGE);
+
+        JTextArea textArea = new JTextArea(sb.toString());
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(900, 650));
+
+        JOptionPane.showMessageDialog(panel, scrollPane, "VINOS", JOptionPane.INFORMATION_MESSAGE);
+
+        gestor.buscarSeguidores();
+
     }
 
 
-    public void mostrarListaBodegas(List<Bodega> bodegas) {
+    public void mostrarListaBodegas() {
+        JLabel lblBodegas = new JLabel("LISTADO DE BODEGAS");
+        lblBodegas.setFont(new Font("Arial", Font.ITALIC | Font.BOLD, 12));
+
+        lblBodegas.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        panel.add(Box.createVerticalStrut(50));
+        panel.add(lblBodegas);
+
         String[] columnas = {"Nombre", "Descripcion", "Fecha Ultima Actualizacion"};
-        // Crear el modelo de la tabla
         DefaultTableModel tabla = new DefaultTableModel(columnas, 0);
 
-        for (Bodega bodega : bodegas) {
-
+        for (Bodega bodega : gestor.getBodegasSist()) {            //revisar getters(estoy creando relaciones entre el boundary y clases de entidad)
             String nombreBodega = bodega.getNombre();
             String desc = bodega.getDescripcion();
             LocalDate fecha = bodega.getFechaUltimaActualizacion();
@@ -173,21 +172,12 @@ public class PantallaAdminActualizaciones {
             tabla.addRow(rowData);
         }
 
-        // Crear la tabla con el modelo
         JTable bodegaTable = new JTable(tabla);
-
-        // Crear el JScrollPane para contener la tabla
         JScrollPane scrollPane = new JScrollPane(bodegaTable);
 
-        // Limpiar el panel antes de añadir el JScrollPane
-        panel.removeAll();
-        panel.add(scrollPane);
-
-        // Revalidar y repintar el panel para reflejar los cambios
+        panel.add(scrollPane, BorderLayout.CENTER);
         panel.revalidate();
         panel.repaint();
     }
-
-
 }
 

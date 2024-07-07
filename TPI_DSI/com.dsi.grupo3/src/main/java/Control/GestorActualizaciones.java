@@ -4,32 +4,38 @@ import Boundary.InterfazSistemaDeBodegas;
 import Boundary.PantallaAdminActualizaciones;
 import DTOs.VinoDto;
 import Entidades.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import Soporte.Init;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Data
 public class GestorActualizaciones {
 
-    private List<String> bodegas; //solo guardo el nombre de las bodegas
+    private ArrayList<String> bodegasConActualizaciones = new ArrayList<>(0);
+    @Getter
+    private ArrayList<Bodega> bodegasSist = new ArrayList<>();
+    private ArrayList<Vino> vinosSist = new ArrayList<>();
+    private ArrayList<Enofilo> enofilosSist = new ArrayList<>();
+    private ArrayList<Maridaje> maridajesSist = new ArrayList<>();
+    private ArrayList<Varietal> varietalSist = new ArrayList<>();
+
+
+    private PantallaAdminActualizaciones pantalla;
 
     private Bodega bodegaSeleccionada;
 
     private Vino vino;
+    @Setter
+    private ArrayList<VinoDto> vinosImportados = new ArrayList<>(0);
 
-    private List<VinoDto> vinosImportados;
+    private ArrayList<VinoDto> vinosActualizables = new ArrayList<>(0);
 
-    private List<VinoDto> vinosActualizables;
+    private ArrayList<VinoDto> vinosCreables = new ArrayList<>(0);
 
-    private List<VinoDto> vinosCreables;
-
-    private List<String> usuarios;
+    private ArrayList<String> usuarios = new ArrayList<>(0);
 
     private Varietal varietal;
 
@@ -38,35 +44,37 @@ public class GestorActualizaciones {
     private Maridaje maridaje;
 
 
-    public boolean opcionImportarActDeVinoDeBodega(ArrayList<Bodega> bodega, LocalDate fechaActual) {
-        // busca las bodegas del sistema con actualizaciones
-        buscarBodegasConActualizaciones(bodega, fechaActual);
-        /*if (!bodegas.isEmpty()) {*/
-        return (!bodegas.isEmpty());
-        /*}
-        return false;*/
+    public GestorActualizaciones(PantallaAdminActualizaciones pantalla) {
+        this.pantalla = pantalla;
+        Init.init(bodegasSist, vinosSist, enofilosSist, maridajesSist, varietalSist);
     }
 
+    public boolean opcionImportarActDeVinoDeBodega() {
+        if (buscarBodegasConActualizaciones()) {
+            pantalla.mostrarBodegas(bodegasConActualizaciones);
+            solicitarSeleccionBodegas();
+        }
+        return (!bodegasConActualizaciones.isEmpty());
+    }
 
-    public void buscarBodegasConActualizaciones(ArrayList<Bodega> bodegas, LocalDate fechaActual) {
+    public boolean buscarBodegasConActualizaciones() {
         //busca entre las bodegas existentes en el sistema
-        ArrayList<String> buscadas = new ArrayList<>();
-        for (Bodega b : bodegas) {
-            if (b.hayActualizaciones(fechaActual)) {
-                buscadas.add(b.getNombre());
-                setBodegas(buscadas);
+        for (Bodega b : bodegasSist) {
+            if (b.hayActualizaciones(LocalDate.now())) {
+                bodegasConActualizaciones.add(b.getNombre());
+                return true;
             }
         }
+        return false;
     }
 
-    public void solicitarSeleccionBodegas(PantallaAdminActualizaciones pantalla, List<Bodega> bodegasDelSist) {
-        pantalla.solicitarSeleccionBodega(bodegas);
-        tomarSeleccionBodega(pantalla.getBodegaSeleccionada(), bodegasDelSist);
+    public void solicitarSeleccionBodegas() {
+        pantalla.solicitarSeleccionBodega(bodegasConActualizaciones);
     }
 
-    public void tomarSeleccionBodega(String nombreBodega, List<Bodega> bodegasDelSist) { // nombreBodega es ingresado por el usuario para buscar entre las Bodegas existentes
-        for (Bodega bodega : bodegasDelSist) {
-            if (bodega.getNombre().equals(nombreBodega)) {
+    public void tomarSeleccionBodega(String nombreBodega) { // nombreBodega es ingresado por el usuario para buscar entre las Bodegas existentes
+        for (Bodega bodega : bodegasSist) {
+            if (bodega.esTuNombre(nombreBodega)) {
                 setBodegaSeleccionada(bodega);
             }
         }
@@ -75,49 +83,52 @@ public class GestorActualizaciones {
     }
 
     public void buscarActualizaciones() {
-        List<VinoDto> vinosAux;
-        vinosAux = InterfazSistemaDeBodegas.buscarActualizaciones(this.bodegaSeleccionada); //el segundo es el metodo de interfaz sist de bodegas
+        ArrayList<VinoDto> vinosAux;
+        vinosAux = InterfazSistemaDeBodegas.buscarActualizaciones(bodegaSeleccionada);
         setVinosImportados(vinosAux);
-    }
-
-    public void determinarVinosActualizar(List<Vino> vinosSistema) {
-        List<VinoDto> auxActualizables = new ArrayList<>();
-        List<VinoDto> auxNoActualizables = new ArrayList<>();
-        for (VinoDto vino : vinosImportados) {
-            if (bodegaSeleccionada.tenesEsteVino(vino, vinosSistema)) auxActualizables.add(vino);
-            else auxNoActualizables.add(vino);
+        if (!vinosImportados.isEmpty()) {
+            determinarVinosActualizar();
         }
-        setVinosActualizables(auxActualizables);
-        setVinosCreables(auxNoActualizables);
+
     }
 
-    public void actualizarDatosDeVino(List<Vino> vinosSistema, List<Maridaje> maridajeList, List<Varietal> varietalList) {
-        bodegaSeleccionada.actualizarDatosDeVino(vinosSistema, vinosActualizables);
+    public void determinarVinosActualizar() {
+        for (VinoDto vino : vinosImportados) {
+            if (bodegaSeleccionada.tenesEsteVino(vino.getAñada(), vino.getNombre(), vinosSist)) { //ver si a bodega le tengo que pasar los vinos del sist
+                vinosActualizables.add(vino);
+            } else vinosCreables.add(vino);
+        }
+        actualizarDatosDeVino();
+    }
+
+    public void actualizarDatosDeVino() {
+        bodegaSeleccionada.actualizarDatosDeVino(vinosSist, vinosActualizables);
 
         for (VinoDto vino : vinosCreables) {
-            buscarVarietal(varietalList, vino.getVarietal()); //el vino.getVarietal() retorna el nombre del tipo de uva
+            buscarVarietal(vino.getVarietal());
             System.out.println(varietal);
-            buscarMaridaje(vino.getMaridaje(), maridajeList);
+            buscarMaridaje(vino.getMaridaje());
             Vino nuevo = crearVino(vino);
-            vinosSistema.add(nuevo);
+            vinosSist.add(nuevo);
         }
 
         bodegaSeleccionada.setFechaUltimaActualizacion(LocalDate.now());
+        pantalla.mostrarActDeVinosActualizadosYcreados();
     }
 
     public void buscarTipoUva() {
 
     }
 
-    public void buscarVarietal(List<Varietal> varietalList, String tipoDeUva) {
-        for (Varietal var : varietalList) {
+    public void buscarVarietal(String tipoDeUva) {
+        for (Varietal var : varietalSist) {
             System.out.println("El varietal:" + var.toString() + "\n");
             if (var.buscarVarietal(tipoDeUva)) setVarietal(var);
         }
     }
 
-    public void buscarMaridaje(String nombreMaridaje, List<Maridaje> maridajeSistema) {
-        for (Maridaje m : maridajeSistema) {
+    public void buscarMaridaje(String nombreMaridaje) {
+        for (Maridaje m : maridajesSist) {
             if (m.sosMaridaje(nombreMaridaje)) setMaridaje(m);
         }
     }
@@ -134,18 +145,22 @@ public class GestorActualizaciones {
         return nuevo;
     }
 
-    public void buscarSeguidores(List<Enofilo> enofilosSistema, Bodega bodega) {
-        List<String> auxEnofilos = new ArrayList<>(0);
-        for (Enofilo enofilo : enofilosSistema) {
-            if (enofilo.seguisBodega(bodega)) auxEnofilos.add(enofilo.getUsuario().getNombre());
+    public void buscarSeguidores() {
+        ArrayList<String> auxEnofilos = new ArrayList<>(0);
+        for (Enofilo enofilo : enofilosSist) {
+            if (enofilo.seguisBodega(bodegaSeleccionada)) auxEnofilos.add(enofilo.getUsuario().getNombre());
         }
         setUsuarios(auxEnofilos);
+        pantalla.mostrarOpcionFinalizar();
+    }
+
+    public void tomarOpcionFinalizar() {
+        finDelCU();
     }
 
     public void finDelCU() {
         System.exit(0);
     }
-
 
 }
 
