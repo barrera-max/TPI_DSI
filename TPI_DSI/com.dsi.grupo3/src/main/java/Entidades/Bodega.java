@@ -32,26 +32,24 @@ public class Bodega {
         return mesesPasados >= this.periodoActualizacion;
     }
 
-    public boolean tenesEsteVino(int añada, String nombre, List<Vino> vinosSistema) {
+    public Boolean tenesEsteVino(int añada, String nombre, List<Vino> vinosSistema) {
         for (Vino vino : vinosSistema) {
-            return vino.sosEsteVino(añada, nombre);
+            System.out.println("VINO: " + vino.getNombre() + " VINARDO");
+            if(vino.sosEsteVino(añada, nombre))return true;
         }
         return false;
     }
 
-    public void actualizarDatosDeVino(List<Vino> vinosSistema, List<VinoDto> vinosActualizables) {
-        int index;
-        for (Vino vino : vinosSistema) {
-            index = vino.sosVinoActualizable(vinosActualizables);
-            if (index != -1) {
-                vino.setPrecioARS(vinosActualizables.get(index).getPrecioARS());
-                vino.setImagenEtiqueta(vinosActualizables.get(index).getImagenEtiqueta());
-                vino.setNotaDeCataBodega(vinosActualizables.get(index).getNotaDeCataBodega());
-            }
-        }
+    public void actualizarDatosDeVino(Vino vino,double precio, String imagenEtiqueta, String notaDeCata) {
+
+        vino.setPrecioARS(precio);
+        vino.setImagenEtiqueta(imagenEtiqueta);
+        vino.setNotaDeCataBodega(notaDeCata);
+
+
     }
 
-    public boolean esTuNombre(String nombreBodega){
+    public boolean esTuNombre(String nombreBodega) {
         return nombre.equals(nombreBodega);
     }
 

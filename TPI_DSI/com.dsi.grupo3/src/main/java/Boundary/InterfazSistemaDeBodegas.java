@@ -31,9 +31,7 @@ public class InterfazSistemaDeBodegas {
             }.getType();
             ArrayList<VinoDto> vinos = gson.fromJson(fileReader, listType);
 
-            return (ArrayList<VinoDto>) vinos.stream()
-                    .filter(vino -> vino.getBodega().equals(bodega.getNombre())) // Quitar porque un vino tiene solo una bodega
-                    .collect(Collectors.toList());
+            return  new ArrayList<>(vinos);
         } catch (IOException e) {
             e.printStackTrace();
             return null;

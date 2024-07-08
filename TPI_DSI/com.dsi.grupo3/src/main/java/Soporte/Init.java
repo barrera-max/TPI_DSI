@@ -28,7 +28,7 @@ public class Init {
                 "Desde 1985, esta bodega ha producido vinos de alta calidad usando técnicas tradicionales.",
                 "Bodega Artesanal",
                 3,
-                LocalDate.of(2024, 5, 3));
+                LocalDate.of(2024, 2, 3));
         Bodega bodega3 = new Bodega(123456,
                 "Bodega local famosa por su vino tinto artesanal.",
                 "Desde 1985, esta bodega ha producido vinos de alta calidad usando técnicas tradicionales.",
