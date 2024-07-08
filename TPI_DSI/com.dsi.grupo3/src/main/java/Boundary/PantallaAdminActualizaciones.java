@@ -38,7 +38,6 @@ public class PantallaAdminActualizaciones {
         frame.add(panel, BorderLayout.CENTER);
         frame.setVisible(true);
 
-
     }
 
     public void opcionImportarActDeVinoDeBodega() {
@@ -121,7 +120,6 @@ public class PantallaAdminActualizaciones {
         gestor.tomarOpcionFinalizar();
     }
 
-
     //metodo para comprobar si estaba importando bien los vinos desede el JSON
     public void mostrarListaVinos(List<VinoDto> vinosImportados, String mensaje) {
         StringBuilder sb = new StringBuilder();
@@ -132,15 +130,8 @@ public class PantallaAdminActualizaciones {
         JOptionPane.showMessageDialog(panel, sb.toString(), "PANTALLA ADMIN ACTUALIZACIONES", JOptionPane.INFORMATION_MESSAGE);
     }
 
-
-    public void mostrarActDeVinosActualizadosYcreados() { //construir el StringBuilder en el gestor y pasarlo como parametro a la pantalla
-        StringBuilder sb = new StringBuilder();
-        sb.append(":::" + "VINOS ACTUALIZADOS" + ":::\n\n");
-        for (Vino vino : gestor.getVinosSist()) {
-            sb.append(vino.toString()).append("\n");
-        }
-
-        JTextArea textArea = new JTextArea(sb.toString());
+    public void mostrarActDeVinosActualizadosYcreados(String vinosActualizados) {
+        JTextArea textArea = new JTextArea(vinosActualizados);
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setPreferredSize(new Dimension(900, 650));
@@ -150,7 +141,6 @@ public class PantallaAdminActualizaciones {
         gestor.buscarSeguidores();
 
     }
-
 
     public void mostrarListaBodegas() {
         JLabel lblBodegas = new JLabel("LISTADO DE BODEGAS");
@@ -164,6 +154,7 @@ public class PantallaAdminActualizaciones {
         String[] columnas = {"Nombre", "Descripcion", "Fecha Ultima Actualizacion"};
         DefaultTableModel tabla = new DefaultTableModel(columnas, 0);
 
+        //Desde el gestor mandar una lista<string> y la pantalla separa los campos con split('-')
         for (Bodega bodega : gestor.getBodegasSist()) {            //revisar getters(estoy creando relaciones entre el boundary y clases de entidad)
             String nombreBodega = bodega.getNombre();
             String desc = bodega.getDescripcion();

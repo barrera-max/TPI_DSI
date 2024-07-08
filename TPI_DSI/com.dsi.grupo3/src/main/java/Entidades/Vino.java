@@ -3,6 +3,7 @@ package Entidades;
 import DTOs.VinoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode
 public class Vino {
 
     private int añada;
@@ -56,9 +58,9 @@ public class Vino {
         return false;
     }
 
-    public boolean sosEsteVino(int añada, String nombre) {
+    public Boolean sosEsteVino(int añada, String nombre) {
         return this.añada == añada &&
-                this.nombre== nombre;
+                this.nombre.equals(nombre);
     }
 
     public Boolean sosVinoActualizable(int añada, String nombreBodega) {
