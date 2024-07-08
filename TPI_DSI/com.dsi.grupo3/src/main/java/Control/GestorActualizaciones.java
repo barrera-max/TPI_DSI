@@ -5,7 +5,10 @@ import Boundary.PantallaAdminActualizaciones;
 import DTOs.VinoDto;
 import Entidades.*;
 import Soporte.Init;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -49,27 +52,23 @@ public class GestorActualizaciones {
         Init.init(bodegasSist, vinosSist, enofilosSist, maridajesSist, varietalSist);
     }
 
-    public boolean opcionImportarActDeVinoDeBodega() {
+
+    public void opcionImportarActDeVinoDeBodega() {
         if (buscarBodegasConActualizaciones()) {
-            pantalla.mostrarBodegas(bodegasConActualizaciones);
-            solicitarSeleccionBodegas();
+            pantalla.mostrarBodega(bodegasConActualizaciones);
+            pantalla.solicitarSeleccionBodegas(bodegasConActualizaciones);
+        } else {
+            pantalla.mostrarOpcionFinalizar();
         }
-        return (!bodegasConActualizaciones.isEmpty());
     }
 
-    public boolean buscarBodegasConActualizaciones() {
-        //busca entre las bodegas existentes en el sistema
+    public Boolean buscarBodegasConActualizaciones() {
         for (Bodega b : bodegasSist) {
             if (b.hayActualizaciones(LocalDate.now())) {
                 bodegasConActualizaciones.add(b.getNombre());
-                return true;
             }
         }
-        return false;
-    }
-
-    public void solicitarSeleccionBodegas() {
-        pantalla.solicitarSeleccionBodega(bodegasConActualizaciones);
+        return (!bodegasConActualizaciones.isEmpty());
     }
 
     public void tomarSeleccionBodega(String nombreBodega) { // nombreBodega es ingresado por el usuario para buscar entre las Bodegas existentes
@@ -83,26 +82,37 @@ public class GestorActualizaciones {
     }
 
     public void buscarActualizaciones() {
-        ArrayList<VinoDto> vinosAux;
-        vinosAux = InterfazSistemaDeBodegas.buscarActualizaciones(bodegaSeleccionada);
+        ArrayList<VinoDto> vinosAux = InterfazSistemaDeBodegas.buscarActualizaciones(bodegaSeleccionada);
         setVinosImportados(vinosAux);
+
+        System.out.println("VINARDO IMPORTADO; " + vinosAux.stream().toList());
         if (!vinosImportados.isEmpty()) {
             determinarVinosActualizar();
         }
 
     }
 
-    public void determinarVinosActualizar() {
+    public void determinarVinosActualizar() { //problema al setear los actualizables y creables
         for (VinoDto vino : vinosImportados) {
             if (bodegaSeleccionada.tenesEsteVino(vino.getAñada(), vino.getNombre(), vinosSist)) { //ver si a bodega le tengo que pasar los vinos del sist
                 vinosActualizables.add(vino);
             } else vinosCreables.add(vino);
         }
+        System.out.println("VINOS CREABLES;" + vinosCreables.stream().toList());
+        System.out.println("VINOS ACTUALIZA: " + vinosActualizables.stream().toList());
         actualizarDatosDeVino();
     }
 
     public void actualizarDatosDeVino() {
-        bodegaSeleccionada.actualizarDatosDeVino(vinosSist, vinosActualizables);
+        int index = 0;
+        for(VinoDto vino: vinosActualizables){
+            System.out.println("indice " + index);
+            System.out.println(
+                    "SE va a actualizar el: " + vinosSist.get(index)
+            );
+            bodegaSeleccionada.actualizarDatosDeVino(vinosSist.get(index), vino.getPrecioARS(),vino.getImagenEtiqueta(), vino.getNotaDeCataBodega());
+            index++;
+        }
 
         for (VinoDto vino : vinosCreables) {
             buscarVarietal(vino.getVarietal());

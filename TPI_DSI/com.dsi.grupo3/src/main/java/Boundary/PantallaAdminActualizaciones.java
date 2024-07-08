@@ -65,10 +65,10 @@ public class PantallaAdminActualizaciones {
         panel.add(lblVino);
         panel.add(Box.createVerticalGlue());
 
-        mostrarListaBodegas();
+        mostrarListaBodegas(); //modificar: no debe recibir un objeto Bodega
     }
 
-    public void mostrarBodegas(List<String> nombresBodega) {
+    public void mostrarBodega(List<String> nombresBodega) {
         System.out.println("MOSTRANDO BODEGAS");
         DefaultListModel<String> listModel = new DefaultListModel<>();
         JList<String> bodegaJList = new JList<>(listModel);
@@ -84,7 +84,7 @@ public class PantallaAdminActualizaciones {
         panel.repaint();
     }
 
-    public void solicitarSeleccionBodega(List<String> nombresBodega) {
+    public void solicitarSeleccionBodegas(List<String> nombresBodega) {
         JComboBox<String> comboBox = new JComboBox<>(nombresBodega.toArray(new String[0]));
 
         panel.add(new JLabel("Seleccione una bodega:"));
@@ -133,7 +133,7 @@ public class PantallaAdminActualizaciones {
     }
 
 
-    public void mostrarActDeVinosActualizadosYcreados() {
+    public void mostrarActDeVinosActualizadosYcreados() { //construir el StringBuilder en el gestor y pasarlo como parametro a la pantalla
         StringBuilder sb = new StringBuilder();
         sb.append(":::" + "VINOS ACTUALIZADOS" + ":::\n\n");
         for (Vino vino : gestor.getVinosSist()) {

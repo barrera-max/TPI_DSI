@@ -61,19 +61,8 @@ public class Vino {
                 this.nombre== nombre;
     }
 
-    public int sosVinoActualizable(List<VinoDto> vinosActualizables) {
-        for (int i = 0; i < vinosActualizables.size(); i++) {
-            VinoDto vinoActualizable = vinosActualizables.get(i);
-            if (vinoActualizable.getAñada() == this.añada &&
-                    vinoActualizable.getBodega().equals(this.bodega.getNombre())) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-
-    public void esDeRegionVitivinicola() {
+    public Boolean sosVinoActualizable(int añada, String nombreBodega) {
+            return  this.añada == añada && this.bodega.getNombre().equals(nombreBodega);
     }
 
 
