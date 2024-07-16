@@ -5,7 +5,6 @@ import Boundary.PantallaAdminActualizaciones;
 import DTOs.VinoDto;
 import Entidades.*;
 import Soporte.Init;
-import com.google.errorprone.annotations.Var;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -72,7 +71,7 @@ public class GestorActualizaciones {
         return (!bodegasConActualizaciones.isEmpty());
     }
 
-    public void solicitarSeleccionBodegas(){
+    public void solicitarSeleccionBodegas() {
 
     }
 
@@ -105,21 +104,20 @@ public class GestorActualizaciones {
             index++;
             System.out.println(index);
         }
-        System.out.println("VINOS CREABLES;" + vinosCreables.stream().toList());
-        System.out.println("VINOS ACTUALIZA: " + vinosActualizables.stream().toList());
         actualizarDatosDeVino();
     }
 
     public void actualizarDatosDeVino() {
         int index = 0;
-        for(VinoDto vinoDto: vinosActualizables){
-            bodegaSeleccionada.actualizarDatosDeVino(vinosSist.get(index),vinoDto.getAñada(),vinoDto.getBodega(),/*para metodo sosVinoActualizable*/
-                    vinoDto.getPrecioARS(),vinoDto.getImagenEtiqueta(), vinoDto.getNotaDeCataBodega());
+        for (VinoDto vinoDto : vinosActualizables) {
+            bodegaSeleccionada.actualizarDatosDeVino(vinosSist.get(index), vinoDto.getAñada(), bodegaSeleccionada.getNombre(),
+                    vinoDto.getPrecioARS(), vinoDto.getImagenEtiqueta(), vinoDto.getNotaDeCataBodega());
             index++;
         }
 
         for (VinoDto vino : vinosCreables) {
-            buscarVarietal(vino.getVarietal());
+            buscarVarietal(vino.getVarietal().getDescripcion());
+            buscarTipoUva(vino.getVarietal().getTipoDeUva()); //podria agregar otro atributo en dto que sea el nombre del tipo de uva
             buscarMaridaje(vino.getMaridaje());
             Vino nuevo = crearVino(vino);
             vinosSist.add(nuevo);
@@ -131,23 +129,25 @@ public class GestorActualizaciones {
     }
 
     /*Metodo que sirve para construir el string necesario para que la pantalla cree la tabla y muestre los vinos actualizados*/
-    public String mostrarVinosActualizadosYcreados(){
+    public String mostrarVinosActualizadosYcreados() {
         StringBuilder sb = new StringBuilder(":::" + "VINOS ACTUALIZADOS" + ":::\n\n");
-        for(Vino vino: vinosSist){
+        for (Vino vino : vinosSist) {
             sb.append(vino.toString());
         }
         return sb.toString();
     }
 
-    public void buscarTipoUva() {
-
+    public void buscarTipoUva(String tipoUva) {
+        for (Varietal varietal : varietalSist) {
+            if (varietal.getTipoDeUva().sosVarietal(tipoUva))
+                setTipoUva(varietal.getTipoDeUva()); //ver el nombre de este metodo;
+        }
     }
 
     public void buscarVarietal(String descripcion) {
         for (Varietal var : varietalSist) {
-            if(var.buscarVarietal(descripcion)) setVarietal(var);
+            if (var.buscarVarietal(descripcion)) setVarietal(var);
         }
-        System.out.println("El varietal es:" + varietal.toString());
     }
 
     public void buscarMaridaje(String nombreMaridaje) {
@@ -158,14 +158,12 @@ public class GestorActualizaciones {
 
     public Vino crearVino(VinoDto vinoDto) {
 
-        Vino nuevo = new Vino(vinoDto.getAñada(), bodegaSeleccionada, vinoDto.getImagenEtiqueta(),
+        return new Vino(vinoDto.getAñada(), bodegaSeleccionada, vinoDto.getImagenEtiqueta(),
                 vinoDto.getNombre(),
                 vinoDto.getNotaDeCataBodega(),
                 vinoDto.getPrecioARS(),
-                varietal,
+                varietal,   //debo pasarle los datos para crear el varietal en vez de el varietal del gestor
                 maridaje);
-
-        return nuevo;
     }
 
     public void buscarSeguidores() {
@@ -185,8 +183,5 @@ public class GestorActualizaciones {
         System.exit(0);
     }
 
-    public void setVarietal(Varietal varietal) {
-        this.varietal = varietal;
-    }
 }
 

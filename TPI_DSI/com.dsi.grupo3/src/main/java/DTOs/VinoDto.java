@@ -11,8 +11,6 @@ public class VinoDto {
 
     private int añada;
 
-    private String bodega;
-
     private String imagenEtiqueta;
 
     private String nombre;
@@ -21,7 +19,7 @@ public class VinoDto {
 
     private double precioARS;
 
-    private String varietal;
+    private VarietalDto varietal;
 
     private String maridaje;
 
@@ -31,7 +29,6 @@ public class VinoDto {
         sb.append(nombre);
         sb.append(" Añada ").append(añada).append(' ');
         sb.append(", ");
-        sb.append(bodega);
         sb.append(" ,Imagen Etiqueta '").append(imagenEtiqueta);
         sb.append(" ,Nota de cata '").append(notaDeCataBodega);
         sb.append(" ,Precio(ARS):$").append(precioARS);

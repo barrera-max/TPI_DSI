@@ -6,7 +6,11 @@
     "nombre": "Gran Reserva",
     "notaDeCataBodega": "Un vino robusto con notas de frutas rojas y especias.",
     "precioARS": 1200.50,
-    "varietal": "Varietal 1.",
+    "varietal":  {
+      "descripcion": "Varietal 1",
+      "porcentajeComposicion": 85.0,
+      "tipoDeUva": "Malbec"
+    },
     "maridaje": "Maridaje 2"
   },
   {
@@ -16,7 +20,11 @@
     "nombre": "Selección Especial",
     "notaDeCataBodega": "Un vino elegante con aromas de flores y un toque de vainilla.",
     "precioARS": 2500.75,
-    "varietal": "Varietal 2.",
+    "varietal":  {
+      "descripcion": "Varietal 2",
+      "porcentajeComposicion": 25.0,
+      "tipoDeUva": "Malbec"
+    },
     "maridaje": "Maridaje 1"
   },
   {
@@ -26,7 +34,11 @@
     "nombre": "Reserva Familiar",
     "notaDeCataBodega": "Un vino suave con notas de frutos secos y especias.",
     "precioARS": 1800.00,
-    "varietal": "Varietal 1.",
+    "varietal":  {
+      "descripcion": "Varietal 1",
+      "porcentajeComposicion": 45.0,
+      "tipoDeUva": "Malbec"
+    },
     "maridaje":"Maridaje 2"
     }
 ]

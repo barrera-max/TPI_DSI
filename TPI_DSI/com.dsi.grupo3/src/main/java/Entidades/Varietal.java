@@ -15,7 +15,7 @@ public class Varietal {
 
     private TipoUva tipoDeUva;
 
-    public Varietal(String desc, double porcentajeComposicion){
+    public Varietal(String desc, double porcentajeComposicion) {
         this.descripcion = desc;
         this.porcentajeComposicion = porcentajeComposicion;
     }

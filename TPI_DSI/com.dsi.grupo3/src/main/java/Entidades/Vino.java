@@ -46,16 +46,25 @@ public class Vino {
                 Objects.equals(maridaje, vino.maridaje);
     }
 
+    public Vino(int añada, Bodega bodega, String imagenEtiqueta, String nombre, String notaDeCataBodega, double precioARS, Maridaje maridaje,
+            /*datos para crear varietal*/ String descripcion, double porcComposicion, TipoUva tipoUva) {
+        this.añada = añada;
+        this.bodega = bodega;
+        this.imagenEtiqueta = imagenEtiqueta;
+        this.nombre = nombre;
+        this.notaDeCataBodega = notaDeCataBodega;
+        this.precioARS = precioARS;
+        this.varietal = crearVarietal(descripcion, porcComposicion, tipoUva);
+        this.maridaje = maridaje;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(añada, bodega, imagenEtiqueta, nombre, notaDeCataBodega, precioARS, varietal, maridaje);
     }
 
     public Boolean esDeBodega(Bodega bodegaValidar) {
-        if (bodegaValidar.equals(this.bodega)) {
-            return true;
-        }
-        return false;
+        return bodegaValidar.equals(this.bodega);
     }
 
     public Boolean sosEsteVino(int añada, String nombre) {
@@ -64,11 +73,11 @@ public class Vino {
     }
 
     public Boolean sosVinoActualizable(int añada, String nombreBodega) {
-            return  this.añada == añada && this.bodega.getNombre().equals(nombreBodega);
+        return this.añada == añada && this.bodega.getNombre().equals(nombreBodega);
     }
 
-    public void crearVarietal(String descripcion, double porcComposicion, TipoUva tipoUva){
-        this.varietal = new Varietal(descripcion, porcComposicion, tipoUva);
+    public Varietal crearVarietal(String descripcion, double porcComposicion, TipoUva tipoUva) {
+        return new Varietal(descripcion, porcComposicion, tipoUva);
     }
 
     @Override
@@ -76,12 +85,15 @@ public class Vino {
         final StringBuilder sb = new StringBuilder("Vino ");
         sb.append(nombre);
         sb.append(" - Añada ").append(añada);
-        sb.append(", ");sb.append(bodega);
+        sb.append(", ");
+        sb.append(bodega);
         sb.append(" ,Imagen Etiqueta '").append(imagenEtiqueta);
         sb.append(" , Nota de cata '").append(notaDeCataBodega);
         sb.append(" , Precio(ARS):$").append(precioARS);
-        sb.append('\n');sb.append(varietal);
-        sb.append('\n');sb.append(maridaje);
+        sb.append('\n');
+        sb.append(varietal);
+        sb.append('\n');
+        sb.append(maridaje);
         sb.append('\n');
         return sb.toString();
     }

@@ -12,6 +12,7 @@ public class TipoUva {
     private String descripcion;
     private String nombre;
 
+
     public boolean sosVarietal(String tipoUva) {
         return this.getNombre().equals(tipoUva);
     }
@@ -23,4 +24,5 @@ public class TipoUva {
         sb.append(" Nombre='").append(nombre);
         return sb.toString();
     }
+
 }
