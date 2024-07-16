@@ -45,8 +45,8 @@ public class Init {
         bodegasSist.add(bodega1);
         bodegasSist.add(bodega2);
 
-        Varietal varietal = new Varietal("Varietal único con sabor distintivo.", 75.5f, tipoUva);
-        Varietal varietal2 = new Varietal("Varietal único con sabor distintivo.", 50.5f, tipoUva2);
+        Varietal varietal = new Varietal("Varietal 1.", 75.5f, tipoUva);
+        Varietal varietal2 = new Varietal("Varietal 2.", 50.5f, tipoUva2);
         Maridaje maridaje = new Maridaje("Perfecto con carnes rojas y quesos fuertes.", "Maridaje 1");
         Maridaje maridaje2 = new Maridaje("Ideal con pescados y mariscos frescos.", "Maridaje 2");
 

@@ -67,6 +67,9 @@ public class Vino {
             return  this.añada == añada && this.bodega.getNombre().equals(nombreBodega);
     }
 
+    public void crearVarietal(String descripcion, double porcComposicion, TipoUva tipoUva){
+        this.varietal = new Varietal(descripcion, porcComposicion, tipoUva);
+    }
 
     @Override
     public String toString() {

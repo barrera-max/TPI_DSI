@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class TipoUva {
+
     private String descripcion;
     private String nombre;
-
 
     public boolean sosVarietal(String tipoUva) {
         return this.getNombre().equals(tipoUva);

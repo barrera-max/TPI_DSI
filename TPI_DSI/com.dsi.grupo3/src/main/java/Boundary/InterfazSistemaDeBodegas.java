@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class InterfazSistemaDeBodegas {
 
-    public static ArrayList<VinoDto> buscarActualizaciones(Bodega bodega) {
+    public static ArrayList<VinoDto> buscarActualizaciones() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();

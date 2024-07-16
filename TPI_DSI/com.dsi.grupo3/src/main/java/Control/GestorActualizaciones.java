@@ -5,6 +5,7 @@ import Boundary.PantallaAdminActualizaciones;
 import DTOs.VinoDto;
 import Entidades.*;
 import Soporte.Init;
+import com.google.errorprone.annotations.Var;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -71,6 +72,10 @@ public class GestorActualizaciones {
         return (!bodegasConActualizaciones.isEmpty());
     }
 
+    public void solicitarSeleccionBodegas(){
+
+    }
+
     public void tomarSeleccionBodega(String nombreBodega) { // nombreBodega es ingresado por el usuario para buscar entre las Bodegas existentes
         for (Bodega bodega : bodegasSist) {
             if (bodega.esTuNombre(nombreBodega)) {
@@ -82,7 +87,7 @@ public class GestorActualizaciones {
     }
 
     public void buscarActualizaciones() { //se importan bien los vinos
-        ArrayList<VinoDto> vinosAux = InterfazSistemaDeBodegas.buscarActualizaciones(bodegaSeleccionada);
+        ArrayList<VinoDto> vinosAux = InterfazSistemaDeBodegas.buscarActualizaciones();
         setVinosImportados(vinosAux);
 
         if (!vinosImportados.isEmpty()) {
@@ -115,7 +120,6 @@ public class GestorActualizaciones {
 
         for (VinoDto vino : vinosCreables) {
             buscarVarietal(vino.getVarietal());
-            System.out.println(varietal);
             buscarMaridaje(vino.getMaridaje());
             Vino nuevo = crearVino(vino);
             vinosSist.add(nuevo);
@@ -139,11 +143,11 @@ public class GestorActualizaciones {
 
     }
 
-    public void buscarVarietal(String tipoDeUva) {
+    public void buscarVarietal(String descripcion) {
         for (Varietal var : varietalSist) {
-            System.out.println("El varietal:" + var.toString() + "\n");
-            if (var.buscarVarietal(tipoDeUva)) setVarietal(var);
+            if(var.buscarVarietal(descripcion)) setVarietal(var);
         }
+        System.out.println("El varietal es:" + varietal.toString());
     }
 
     public void buscarMaridaje(String nombreMaridaje) {
@@ -181,5 +185,8 @@ public class GestorActualizaciones {
         System.exit(0);
     }
 
+    public void setVarietal(Varietal varietal) {
+        this.varietal = varietal;
+    }
 }
 

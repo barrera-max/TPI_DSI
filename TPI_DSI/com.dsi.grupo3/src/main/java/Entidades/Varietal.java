@@ -15,9 +15,13 @@ public class Varietal {
 
     private TipoUva tipoDeUva;
 
+    public Varietal(String desc, double porcentajeComposicion){
+        this.descripcion = desc;
+        this.porcentajeComposicion = porcentajeComposicion;
+    }
 
-    public boolean buscarVarietal(String nombreUva) {
-        return tipoDeUva.sosVarietal(nombreUva);
+    public Boolean buscarVarietal(String descripcion) {
+        return this.descripcion.equals(descripcion);
     }
 
     @Override
