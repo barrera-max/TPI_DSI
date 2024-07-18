@@ -13,7 +13,7 @@ public class TipoUva {
     private String nombre;
 
 
-    public boolean sosVarietal(String tipoUva) {
+    public boolean sosTipoUva(String tipoUva) {
         return this.getNombre().equals(tipoUva);
     }
 

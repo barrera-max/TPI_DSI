@@ -46,8 +46,8 @@ public class Vino {
                 Objects.equals(maridaje, vino.maridaje);
     }
 
-    public Vino(int añada, Bodega bodega, String imagenEtiqueta, String nombre, String notaDeCataBodega, double precioARS, Maridaje maridaje,
-            /*datos para crear varietal*/ String descripcion, double porcComposicion, TipoUva tipoUva) {
+    public Vino(int añada, Bodega bodega, String imagenEtiqueta, String nombre, String notaDeCataBodega, double precioARS,
+            /*datos para crear varietal*/ String descripcion, double porcComposicion, TipoUva tipoUva,  Maridaje maridaje) {
         this.añada = añada;
         this.bodega = bodega;
         this.imagenEtiqueta = imagenEtiqueta;

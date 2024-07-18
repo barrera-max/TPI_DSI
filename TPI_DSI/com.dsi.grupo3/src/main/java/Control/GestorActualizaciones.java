@@ -24,6 +24,7 @@ public class GestorActualizaciones {
     private ArrayList<Enofilo> enofilosSist = new ArrayList<>();
     private ArrayList<Maridaje> maridajesSist = new ArrayList<>();
     private ArrayList<Varietal> varietalSist = new ArrayList<>();
+    private ArrayList<TipoUva> tipoUvaSist = new ArrayList<>();
 
 
     private PantallaAdminActualizaciones pantalla;
@@ -49,7 +50,7 @@ public class GestorActualizaciones {
 
     public GestorActualizaciones(PantallaAdminActualizaciones pantalla) {
         this.pantalla = pantalla;
-        Init.init(bodegasSist, vinosSist, enofilosSist, maridajesSist, varietalSist);
+        Init.init(bodegasSist, vinosSist, enofilosSist, maridajesSist, varietalSist, tipoUvaSist);
     }
 
 
@@ -69,10 +70,6 @@ public class GestorActualizaciones {
             }
         }
         return (!bodegasConActualizaciones.isEmpty());
-    }
-
-    public void solicitarSeleccionBodegas() {
-
     }
 
     public void tomarSeleccionBodega(String nombreBodega) { // nombreBodega es ingresado por el usuario para buscar entre las Bodegas existentes
@@ -118,7 +115,7 @@ public class GestorActualizaciones {
         for (VinoDto vino : vinosCreables) {
             buscarVarietal(vino.getVarietal().getDescripcion());
             buscarTipoUva(vino.getVarietal().getTipoDeUva()); //podria agregar otro atributo en dto que sea el nombre del tipo de uva
-            buscarMaridaje(vino.getMaridaje());
+            buscarMaridaje(vino.getMaridaje()); //ver los paramtros de estos metodos buscar
             Vino nuevo = crearVino(vino);
             vinosSist.add(nuevo);
         }
@@ -130,7 +127,7 @@ public class GestorActualizaciones {
 
     /*Metodo que sirve para construir el string necesario para que la pantalla cree la tabla y muestre los vinos actualizados*/
     public String mostrarVinosActualizadosYcreados() {
-        StringBuilder sb = new StringBuilder(":::" + "VINOS ACTUALIZADOS" + ":::\n\n");
+        StringBuilder sb = new StringBuilder(":::" + "VINOS ACTUALIZADOS" + ":::\n");
         for (Vino vino : vinosSist) {
             sb.append(vino.toString());
         }
@@ -138,15 +135,19 @@ public class GestorActualizaciones {
     }
 
     public void buscarTipoUva(String tipoUva) {
-        for (Varietal varietal : varietalSist) {
-            if (varietal.getTipoDeUva().sosVarietal(tipoUva))
-                setTipoUva(varietal.getTipoDeUva()); //ver el nombre de este metodo;
+        for (TipoUva uva : tipoUvaSist) {
+            if (uva.sosTipoUva(tipoUva)) {
+                setTipoUva(uva);
+            }
         }
     }
 
     public void buscarVarietal(String descripcion) {
         for (Varietal var : varietalSist) {
-            if (var.buscarVarietal(descripcion)) setVarietal(var);
+            if (var.buscarVarietal(descripcion)) {
+                setVarietal(var);
+                break;
+            } else setVarietal(null);
         }
     }
 
@@ -157,13 +158,23 @@ public class GestorActualizaciones {
     }
 
     public Vino crearVino(VinoDto vinoDto) {
+        System.out.println(varietal);
+        System.out.println("TIPO UVA" + tipoUva);
+        Vino vino;
+        if (varietal == null) {
+            vino = new Vino(vinoDto.getAñada(), bodegaSeleccionada, vinoDto.getImagenEtiqueta(), vinoDto.getNombre(), vinoDto.getNotaDeCataBodega(),
+                    vinoDto.getPrecioARS(), vinoDto.getVarietal().getDescripcion(), vinoDto.getVarietal().getPorcentajeComposicion(),
+                    tipoUva, maridaje);
+        } else {
+            vino = new Vino(vinoDto.getAñada(), bodegaSeleccionada, vinoDto.getImagenEtiqueta(),
+                    vinoDto.getNombre(),
+                    vinoDto.getNotaDeCataBodega(),
+                    vinoDto.getPrecioARS(),
+                    varietal,   //varietal existente
+                    maridaje);
+        }
+        return vino;
 
-        return new Vino(vinoDto.getAñada(), bodegaSeleccionada, vinoDto.getImagenEtiqueta(),
-                vinoDto.getNombre(),
-                vinoDto.getNotaDeCataBodega(),
-                vinoDto.getPrecioARS(),
-                varietal,   //debo pasarle los datos para crear el varietal en vez de el varietal del gestor
-                maridaje);
     }
 
     public void buscarSeguidores() {
@@ -182,6 +193,5 @@ public class GestorActualizaciones {
     public void finDelCU() {
         System.exit(0);
     }
-
 }
 

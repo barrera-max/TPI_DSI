@@ -16,4 +16,8 @@ public class VarietalDto {
     private double porcentajeComposicion;
 
     private String tipoDeUva;
+
+    public String getDescripcion() {
+        return descripcion;
+    }
 }
