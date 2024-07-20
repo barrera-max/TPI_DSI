@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class VinoDto {
 
-    private int añada;
+    private int aniada;
 
     private String imagenEtiqueta;
 
@@ -25,18 +25,16 @@ public class VinoDto {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Vino ");
-        sb.append(nombre);
-        sb.append(" Añada ").append(añada).append(' ');
-        sb.append(", ");
-        sb.append(" ,Imagen Etiqueta '").append(imagenEtiqueta);
-        sb.append(" ,Nota de cata '").append(notaDeCataBodega);
-        sb.append(" ,Precio(ARS):$").append(precioARS);
-        sb.append('\n');
-        sb.append(varietal);
-        sb.append('\n');
-        sb.append(maridaje);
-        sb.append('\n');
-        return sb.toString();
+        return "Vino " + nombre +
+                " Añada " + aniada + ' ' +
+                ", " +
+                " ,Imagen Etiqueta '" + imagenEtiqueta +
+                " ,Nota de cata '" + notaDeCataBodega +
+                " ,Precio(ARS):$" + precioARS +
+                '\n' +
+                varietal +
+                '\n' +
+                maridaje +
+                '\n';
     }
 }

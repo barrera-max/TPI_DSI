@@ -31,7 +31,7 @@ public class InterfazSistemaDeBodegas {
             }.getType();
             ArrayList<VinoDto> vinos = gson.fromJson(fileReader, listType);
 
-            return  new ArrayList<>(vinos);
+            return new ArrayList<>(vinos);
         } catch (IOException e) {
             e.printStackTrace();
             return null;

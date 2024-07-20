@@ -1,6 +1,6 @@
 [
   {
-    "añada": 2018,
+    "aniada": 2018,
     "bodega": "Bodega Internacional",
     "imagenEtiqueta": "https://example.com/images/vino1.jpg",
     "nombre": "Gran Reserva",
@@ -14,7 +14,7 @@
     "maridaje": "Maridaje 2"
   },
   {
-    "añada": 2020,
+    "aniada": 2020,
     "bodega": "Bodega Internacional",
     "imagenEtiqueta": "https://example.com/images/vino2.jpg",
     "nombre": "Selección Especial",
@@ -28,7 +28,7 @@
     "maridaje": "Maridaje 1"
   },
   {
-    "añada": 2019,
+    "aniada": 2019,
     "bodega":"Bodega Internacional",
     "imagenEtiqueta": "https://example.com/images/vino3.jpg",
     "nombre": "Reserva Familiar",

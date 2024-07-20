@@ -17,7 +17,4 @@ public class VarietalDto {
 
     private String tipoDeUva;
 
-    public String getDescripcion() {
-        return descripcion;
-    }
 }

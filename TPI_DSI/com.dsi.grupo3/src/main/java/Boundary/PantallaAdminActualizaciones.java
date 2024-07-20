@@ -1,16 +1,13 @@
 package Boundary;
 
 import Control.GestorActualizaciones;
-import DTOs.VinoDto;
 import Entidades.Bodega;
-import Entidades.Vino;
 import lombok.Data;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -68,7 +65,6 @@ public class PantallaAdminActualizaciones {
     }
 
     public void mostrarBodega(List<String> nombresBodega) {
-        System.out.println("MOSTRANDO BODEGAS");
         DefaultListModel<String> listModel = new DefaultListModel<>();
         JList<String> bodegaJList = new JList<>(listModel);
         listModel.addElement("BODEGAS CON ACTUALIZACIONES:\n");
@@ -105,7 +101,6 @@ public class PantallaAdminActualizaciones {
     }
 
     public void tomarSeleccionBodega(String nombreBodega) {
-
         gestor.tomarSeleccionBodega(nombreBodega);
     }
 
@@ -121,14 +116,14 @@ public class PantallaAdminActualizaciones {
     }
 
     //metodo para comprobar si estaba importando bien los vinos desede el JSON
-    public void mostrarListaVinos(List<VinoDto> vinosImportados, String mensaje) {
+    /*public void mostrarListaVinos(List<VinoDto> vinosImportados, String mensaje) {
         StringBuilder sb = new StringBuilder();
-        sb.append(":::" + mensaje + ":::\n\n");
+        sb.append(":::").append(mensaje).append(":::\n\n");
         for (VinoDto vino : vinosImportados) {
             sb.append(vino.toString()).append("\n");
         }
         JOptionPane.showMessageDialog(panel, sb.toString(), "PANTALLA ADMIN ACTUALIZACIONES", JOptionPane.INFORMATION_MESSAGE);
-    }
+    }*/
 
     public void mostrarActDeVinosActualizadosYcreados(String vinosActualizados) {
         JTextArea textArea = new JTextArea(vinosActualizados);

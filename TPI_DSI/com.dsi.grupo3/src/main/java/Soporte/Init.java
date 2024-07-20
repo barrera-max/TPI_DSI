@@ -61,8 +61,8 @@ public class Init {
         varietalSist.add(varietal2);
 
         Vino vino1 = new Vino(2018, bodega1, "favicon.ico", "Gran Reserva", "nota de cata", 1000, varietal, maridaje2);
-        Vino vino2 = new Vino(2, bodega2, "favicon.ico", "Bon Appétit", "nota de cata", 1000, varietal, maridaje);
-        Vino vino3 = new Vino(3, bodega3, "favicon.ico", "Dom Pérignon", "nota de cata", 1000, varietal, maridaje);
+        Vino vino2 = new Vino(2015, bodega2, "favicon.ico", "Bon Appétit", "nota de cata", 1000, varietal, maridaje);
+        Vino vino3 = new Vino(2013, bodega3, "favicon.ico", "Dom Pérignon", "nota de cata", 1000, varietal, maridaje);
 
         vinosDelSist.add(vino1);
         vinosDelSist.add(vino2);

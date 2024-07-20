@@ -15,27 +15,16 @@ public class Varietal {
 
     private TipoUva tipoDeUva;
 
-    public Varietal(String desc, double porcentajeComposicion) {
-        this.descripcion = desc;
-        this.porcentajeComposicion = porcentajeComposicion;
-        ;
-    }
 
     public Boolean buscarVarietal(String descripcion) {
         return this.descripcion.equals(descripcion);
     }
 
-    public TipoUva crearTipoUva(String nombre){
-        return new TipoUva("Descipcion genérica", nombre);
-    }
-
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Varietal ");
-        sb.append("Descripcion='").append(descripcion).append('\'');
-        sb.append("PorcentajeComposicion=").append(porcentajeComposicion);
-        sb.append(tipoDeUva);
-        sb.append('\'');
-        return sb.toString();
+        return "Varietal " + "Descripcion='" + descripcion + '\'' +
+                "PorcentajeComposicion=" + porcentajeComposicion +
+                tipoDeUva +
+                '\'';
     }
 }

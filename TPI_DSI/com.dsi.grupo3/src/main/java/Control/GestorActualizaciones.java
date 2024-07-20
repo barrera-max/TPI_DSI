@@ -31,7 +31,6 @@ public class GestorActualizaciones {
 
     private Bodega bodegaSeleccionada;
 
-    private Vino vino;
     @Setter
     private ArrayList<VinoDto> vinosImportados = new ArrayList<>(0);
 
@@ -82,24 +81,22 @@ public class GestorActualizaciones {
         buscarActualizaciones();
     }
 
-    public void buscarActualizaciones() { //se importan bien los vinos
-        ArrayList<VinoDto> vinosAux = InterfazSistemaDeBodegas.buscarActualizaciones();
-        setVinosImportados(vinosAux);
-
-        if (!vinosImportados.isEmpty()) {
+    public void buscarActualizaciones() {
+        try {  //InterfazBodegas retorna un array de dtos
+            setVinosImportados(InterfazSistemaDeBodegas.buscarActualizaciones());
             determinarVinosActualizar();
+        } catch (Exception e) { //NullPointerException?
+            System.out.println(e.getMessage());
         }
-
     }
 
     public void determinarVinosActualizar() {//problema al setear los actualizables y creables
         int index = 0;
         for (VinoDto vino : vinosImportados) {
-            if (bodegaSeleccionada.tenesEsteVino(vino.getAñada(), vino.getNombre(), vinosSist.get(index))) { //ver si a bodega le tengo que pasar los vinos del sist
+            if (bodegaSeleccionada.tenesEsteVino(vino.getAniada(), vino.getNombre(), vinosSist.get(index))) { //ver si a bodega le tengo que pasar los vinos del sist
                 vinosActualizables.add(vino);
             } else vinosCreables.add(vino);
             index++;
-            System.out.println(index);
         }
         actualizarDatosDeVino();
     }
@@ -107,15 +104,15 @@ public class GestorActualizaciones {
     public void actualizarDatosDeVino() {
         int index = 0;
         for (VinoDto vinoDto : vinosActualizables) {
-            bodegaSeleccionada.actualizarDatosDeVino(vinosSist.get(index), vinoDto.getAñada(), bodegaSeleccionada.getNombre(),
+            bodegaSeleccionada.actualizarDatosDeVino(vinosSist.get(index), vinoDto.getAniada(), bodegaSeleccionada.getNombre(),
                     vinoDto.getPrecioARS(), vinoDto.getImagenEtiqueta(), vinoDto.getNotaDeCataBodega());
             index++;
         }
 
         for (VinoDto vino : vinosCreables) {
             buscarVarietal(vino.getVarietal().getDescripcion());
-            buscarTipoUva(vino.getVarietal().getTipoDeUva()); //podria agregar otro atributo en dto que sea el nombre del tipo de uva
-            buscarMaridaje(vino.getMaridaje()); //ver los paramtros de estos metodos buscar
+            buscarTipoUva(vino.getVarietal().getTipoDeUva());
+            buscarMaridaje(vino.getMaridaje());
             Vino nuevo = crearVino(vino);
             vinosSist.add(nuevo);
         }
@@ -123,6 +120,8 @@ public class GestorActualizaciones {
         bodegaSeleccionada.setFechaUltimaActualizacion(LocalDate.now());
         String listadoDeVinosACtualizados = mostrarVinosActualizadosYcreados();
         pantalla.mostrarActDeVinosActualizadosYcreados(listadoDeVinosACtualizados);
+
+        buscarSeguidores();
     }
 
     /*Metodo que sirve para construir el string necesario para que la pantalla cree la tabla y muestre los vinos actualizados*/
@@ -138,6 +137,7 @@ public class GestorActualizaciones {
         for (TipoUva uva : tipoUvaSist) {
             if (uva.sosTipoUva(tipoUva)) {
                 setTipoUva(uva);
+                break;
             }
         }
     }
@@ -158,29 +158,26 @@ public class GestorActualizaciones {
     }
 
     public Vino crearVino(VinoDto vinoDto) {
-        System.out.println(varietal);
-        System.out.println("TIPO UVA" + tipoUva);
-        Vino vino;
-        if (varietal == null) {
-            vino = new Vino(vinoDto.getAñada(), bodegaSeleccionada, vinoDto.getImagenEtiqueta(), vinoDto.getNombre(), vinoDto.getNotaDeCataBodega(),
-                    vinoDto.getPrecioARS(), vinoDto.getVarietal().getDescripcion(), vinoDto.getVarietal().getPorcentajeComposicion(),
+        if (varietal == null) {  //constructor con creacion de varietal
+            return new Vino(vinoDto.getAniada(), bodegaSeleccionada, vinoDto.getImagenEtiqueta(),
+                    vinoDto.getNombre(), vinoDto.getNotaDeCataBodega(), vinoDto.getPrecioARS(),
+                    vinoDto.getVarietal().getDescripcion(), vinoDto.getVarietal().getPorcentajeComposicion(),
                     tipoUva, maridaje);
         } else {
-            vino = new Vino(vinoDto.getAñada(), bodegaSeleccionada, vinoDto.getImagenEtiqueta(),
+            return new Vino(vinoDto.getAniada(), bodegaSeleccionada, vinoDto.getImagenEtiqueta(),
                     vinoDto.getNombre(),
                     vinoDto.getNotaDeCataBodega(),
                     vinoDto.getPrecioARS(),
                     varietal,   //varietal existente
                     maridaje);
         }
-        return vino;
-
     }
 
     public void buscarSeguidores() {
         ArrayList<String> auxEnofilos = new ArrayList<>(0);
         for (Enofilo enofilo : enofilosSist) {
-            if (enofilo.seguisBodega(bodegaSeleccionada)) auxEnofilos.add(enofilo.getUsuario().getNombre());
+            if (enofilo.seguisBodega(bodegaSeleccionada)) auxEnofilos.
+                    add(enofilo.getUsuario().getNombre());
         }
         setUsuarios(auxEnofilos);
         pantalla.mostrarOpcionFinalizar();
