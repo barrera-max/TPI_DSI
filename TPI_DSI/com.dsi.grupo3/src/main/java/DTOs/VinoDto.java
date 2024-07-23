@@ -19,22 +19,11 @@ public class VinoDto {
 
     private double precioARS;
 
-    private VarietalDto varietal;
+    private String varietal;
+
+    private String tipoDeUva;
 
     private String maridaje;
 
-    @Override
-    public String toString() {
-        return "Vino " + nombre +
-                " Añada " + aniada + ' ' +
-                ", " +
-                " ,Imagen Etiqueta '" + imagenEtiqueta +
-                " ,Nota de cata '" + notaDeCataBodega +
-                " ,Precio(ARS):$" + precioARS +
-                '\n' +
-                varietal +
-                '\n' +
-                maridaje +
-                '\n';
-    }
+
 }

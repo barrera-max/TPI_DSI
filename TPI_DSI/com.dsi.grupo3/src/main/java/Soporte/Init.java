@@ -25,28 +25,30 @@ public class Init {
                 "Fundada en 1990, esta bodega ha sido un punto de referencia para los amantes del vino.",
                 "Bodega Internacional",
                 2,
-                LocalDate.of(2024, 3, 1));
+                LocalDate.of(2024, 4, 10));
         Bodega bodega2 = new Bodega(654321,
                 "Bodega local famosa por su vino tinto artesanal.",
                 "Desde 1985, esta bodega ha producido vinos de alta calidad usando técnicas tradicionales.",
-                "Bodega Artesanal",
+                "Bodega Maestro",
                 3,
-                LocalDate.of(2024, 2, 3));
+                LocalDate.of(2024, 5, 3));
         Bodega bodega3 = new Bodega(123456,
                 "Bodega local famosa por su vino tinto artesanal.",
                 "Desde 1985, esta bodega ha producido vinos de alta calidad usando técnicas tradicionales.",
                 "Bodega Artesanal",
                 2,
-                LocalDate.of(2024, 5, 3));
+                LocalDate.of(2024, 6, 10));
         Bodega bodega4 = new Bodega(123456,
                 "Bodega local famosa por su vino tinto artesanal.",
                 "Desde 1985, esta bodega ha producido vinos de alta calidad usando técnicas tradicionales.",
-                "Bodega Artesanal",
-                5,
-                LocalDate.of(2024, 5, 3));
+                "Bodega Malbec",
+                3,
+                LocalDate.of(2024, 7, 3));
 
         bodegasSist.add(bodega1);
         bodegasSist.add(bodega2);
+        bodegasSist.add(bodega3);
+        bodegasSist.add(bodega4);
 
         Varietal varietal = new Varietal("Varietal 1.", 75.5f, tipoUva);
         Varietal varietal2 = new Varietal("Varietal 2.", 50.5f, tipoUva2);

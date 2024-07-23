@@ -1,45 +1,33 @@
 [
   {
     "aniada": 2018,
-    "bodega": "Bodega Internacional",
-    "imagenEtiqueta": "https://example.com/images/vino1.jpg",
+    "imagenEtiqueta": "imagen actualizada",
     "nombre": "Gran Reserva",
-    "notaDeCataBodega": "Un vino robusto con notas de frutas rojas y especias.",
+    "notaDeCataBodega": "nota de cata actualizada",
     "precioARS": 1200.50,
-    "varietal":{
-      "descripcion": "Varietal 1.",
-      "porcentajeComposicion": 85.0,
-      "tipoDeUva": "Malbec"
-    },
+    "varietal": "Varietal 1.",
+    "tipoDeUva": "Tipo Uva 1",
     "maridaje": "Maridaje 2"
   },
   {
     "aniada": 2020,
-    "bodega": "Bodega Internacional",
-    "imagenEtiqueta": "https://example.com/images/vino2.jpg",
+    "imagenEtiqueta": "etiqueta nueva",
     "nombre": "Selección Especial",
-    "notaDeCataBodega": "Un vino elegante con aromas de flores y un toque de vainilla.",
+    "notaDeCataBodega": "nota de cata nueva",
     "precioARS": 2500.75,
-    "varietal":{
-      "descripcion": "Varietal 2.",
-      "porcentajeComposicion": 25.0,
-      "tipoDeUva": "Tipo Uva 2"
-    },
+    "varietal":"Varietal 2.",
+    "tipoDeUva": "Tipo Uva 2",
     "maridaje": "Maridaje 1"
   },
   {
     "aniada": 2019,
-    "bodega":"Bodega Internacional",
-    "imagenEtiqueta": "https://example.com/images/vino3.jpg",
+    "imagenEtiqueta": "etiqueta nueva",
     "nombre": "Reserva Familiar",
-    "notaDeCataBodega": "Un vino suave con notas de frutos secos y especias.",
+    "notaDeCataBodega": "nota de cata nueva",
     "precioARS": 1800.00,
-    "varietal":{
-      "descripcion": "Varietal 5.",
-      "porcentajeComposicion": 45.0,
-      "tipoDeUva": "Malbec"
-    },
-    "maridaje":"Maridaje 2"
-    }
+    "varietal": "Varietal 5.",
+    "tipoDeUva": "Malbec",
+    "maridaje": "Maridaje 2"
+  }
 ]
 

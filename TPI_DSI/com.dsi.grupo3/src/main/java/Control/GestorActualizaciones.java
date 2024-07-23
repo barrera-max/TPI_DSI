@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @Data
@@ -52,6 +53,16 @@ public class GestorActualizaciones {
         Init.init(bodegasSist, vinosSist, enofilosSist, maridajesSist, varietalSist, tipoUvaSist);
     }
 
+    public ArrayList<String> obtenerListaBodegas() {
+        ArrayList<String> listaBodegas = new ArrayList<>();
+        for (Bodega bodega : bodegasSist) {
+            String dato = bodega.getNombre() + "--" + bodega.getDescripcion() + "--" + bodega.getFechaUltimaActualizacion() + "--";
+            System.out.println(dato);
+            listaBodegas.add(dato);
+
+        }
+        return listaBodegas;
+    }
 
     public void opcionImportarActDeVinoDeBodega() {
         if (buscarBodegasConActualizaciones()) {
@@ -65,6 +76,7 @@ public class GestorActualizaciones {
     public Boolean buscarBodegasConActualizaciones() {
         for (Bodega b : bodegasSist) {
             if (b.hayActualizaciones(LocalDate.now())) {
+                System.out.println(b.hayActualizaciones(LocalDate.now()));
                 bodegasConActualizaciones.add(b.getNombre());
             }
         }
@@ -84,49 +96,39 @@ public class GestorActualizaciones {
     public void buscarActualizaciones() {
         try {  //InterfazBodegas retorna un array de dtos
             setVinosImportados(InterfazSistemaDeBodegas.buscarActualizaciones());
-            determinarVinosActualizar();
+            actualizarDatosDeVino();
+            String listadoDeVinosACtualizados = mostrarVinosActualizadosYcreados();
+            pantalla.mostrarActDeVinosActualizadosYcreados(listadoDeVinosACtualizados);
         } catch (Exception e) { //NullPointerException?
             System.out.println(e.getMessage());
         }
     }
 
-    public void determinarVinosActualizar() {//problema al setear los actualizables y creables
-        int index = 0;
-        for (VinoDto vino : vinosImportados) {
-            if (bodegaSeleccionada.tenesEsteVino(vino.getAniada(), vino.getNombre(), vinosSist.get(index))) { //ver si a bodega le tengo que pasar los vinos del sist
-                vinosActualizables.add(vino);
-            } else vinosCreables.add(vino);
-            index++;
-        }
-        actualizarDatosDeVino();
-    }
 
     public void actualizarDatosDeVino() {
         int index = 0;
-        for (VinoDto vinoDto : vinosActualizables) {
-            bodegaSeleccionada.actualizarDatosDeVino(vinosSist.get(index), vinoDto.getAniada(), bodegaSeleccionada.getNombre(),
-                    vinoDto.getPrecioARS(), vinoDto.getImagenEtiqueta(), vinoDto.getNotaDeCataBodega());
-            index++;
-        }
+        for (VinoDto vinoDto : vinosImportados) {
+            if (bodegaSeleccionada.actualizarDatosDeVino(vinosSist.get(index), vinoDto.getAniada(), bodegaSeleccionada.getNombre(),
+                    vinoDto.getPrecioARS(), vinoDto.getImagenEtiqueta(), vinoDto.getNotaDeCataBodega())) {
+                ;
 
-        for (VinoDto vino : vinosCreables) {
-            buscarVarietal(vino.getVarietal().getDescripcion());
-            buscarTipoUva(vino.getVarietal().getTipoDeUva());
-            buscarMaridaje(vino.getMaridaje());
-            Vino nuevo = crearVino(vino);
-            vinosSist.add(nuevo);
-        }
+                index++;
+            } else {
+                buscarVarietal(vinoDto.getVarietal());
+                buscarTipoUva(vinoDto.getTipoDeUva());
+                buscarMaridaje(vinoDto.getMaridaje());
+                Vino nuevo = crearVino(vinoDto);
+                vinosSist.add(nuevo);
 
+            }
+        }
         bodegaSeleccionada.setFechaUltimaActualizacion(LocalDate.now());
-        String listadoDeVinosACtualizados = mostrarVinosActualizadosYcreados();
-        pantalla.mostrarActDeVinosActualizadosYcreados(listadoDeVinosACtualizados);
 
-        buscarSeguidores();
     }
 
     /*Metodo que sirve para construir el string necesario para que la pantalla cree la tabla y muestre los vinos actualizados*/
     public String mostrarVinosActualizadosYcreados() {
-        StringBuilder sb = new StringBuilder(":::" + "VINOS ACTUALIZADOS" + ":::\n");
+        StringBuilder sb = new StringBuilder(":::" + "VINOS ACTUALIZADOS: " + bodegaSeleccionada.getNombre() + ":::\n");
         for (Vino vino : vinosSist) {
             sb.append(vino.toString());
         }
@@ -161,7 +163,7 @@ public class GestorActualizaciones {
         if (varietal == null) {  //constructor con creacion de varietal
             return new Vino(vinoDto.getAniada(), bodegaSeleccionada, vinoDto.getImagenEtiqueta(),
                     vinoDto.getNombre(), vinoDto.getNotaDeCataBodega(), vinoDto.getPrecioARS(),
-                    vinoDto.getVarietal().getDescripcion(), vinoDto.getVarietal().getPorcentajeComposicion(),
+                    vinoDto.getVarietal(),
                     tipoUva, maridaje);
         } else {
             return new Vino(vinoDto.getAniada(), bodegaSeleccionada, vinoDto.getImagenEtiqueta(),

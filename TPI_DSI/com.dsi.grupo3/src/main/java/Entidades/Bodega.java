@@ -21,22 +21,24 @@ public class Bodega {
     private LocalDate fechaUltimaActualizacion;
 
 
-    public Boolean hayActualizaciones(LocalDate fechaActual) {
+    public boolean hayActualizaciones(LocalDate fechaActual) {
+        return validarFechaUltimaActualizacion(fechaActual);
+    }
+
+
+    public Boolean validarFechaUltimaActualizacion(LocalDate fechaActual) {
         long mesesPasados = ChronoUnit.MONTHS.between(this.fechaUltimaActualizacion, fechaActual);
         return mesesPasados >= this.periodoActualizacion;
     }
 
-    public Boolean tenesEsteVino(int aniada, String nombre, Vino vinoSistema) {
-        return vinoSistema.sosEsteVino(aniada, nombre);
-    }
-
-
-    public void actualizarDatosDeVino(Vino vino, int aniada, String nombreBodega, double precio, String imagenEtiqueta, String notaDeCata) {
+    public Boolean actualizarDatosDeVino(Vino vino, int aniada, String nombreBodega, double precio, String imagenEtiqueta, String notaDeCata) {
         if (vino.sosVinoActualizable(aniada, nombreBodega)) {
-
             vino.setPrecioARS(precio);
             vino.setImagenEtiqueta(imagenEtiqueta);
             vino.setNotaDeCataBodega(notaDeCata);
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -44,13 +46,12 @@ public class Bodega {
         return nombre.equals(nombreBodega);
     }
 
-
     @Override
     public String toString() {
         return "\n\tBodega=" + nombre + '\'' +
                 " Coordenadas:" + coordenadasUbicacion +
                 ", Descripcion:'" + descripcion + '\'' +
-                ", \nHistoria:'" + historia + '\'' +
+                ", \nHistoria:" + historia + '\'' +
                 ", \nPeriodo actualizacion:" + periodoActualizacion +
                 ", Ultima actualizacion:" + fechaUltimaActualizacion +
                 '\n';

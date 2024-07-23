@@ -1,13 +1,11 @@
 package Boundary;
 
 import Control.GestorActualizaciones;
-import Entidades.Bodega;
 import lombok.Data;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -115,23 +113,13 @@ public class PantallaAdminActualizaciones {
         gestor.tomarOpcionFinalizar();
     }
 
-    //metodo para comprobar si estaba importando bien los vinos desede el JSON
-    /*public void mostrarListaVinos(List<VinoDto> vinosImportados, String mensaje) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(":::").append(mensaje).append(":::\n\n");
-        for (VinoDto vino : vinosImportados) {
-            sb.append(vino.toString()).append("\n");
-        }
-        JOptionPane.showMessageDialog(panel, sb.toString(), "PANTALLA ADMIN ACTUALIZACIONES", JOptionPane.INFORMATION_MESSAGE);
-    }*/
-
     public void mostrarActDeVinosActualizadosYcreados(String vinosActualizados) {
         JTextArea textArea = new JTextArea(vinosActualizados);
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setPreferredSize(new Dimension(900, 650));
 
-        JOptionPane.showMessageDialog(panel, scrollPane, "VINOS", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(panel, scrollPane, "VINOS BODEGA INTERNACIONAL", JOptionPane.INFORMATION_MESSAGE);
 
         gestor.buscarSeguidores();
 
@@ -149,11 +137,15 @@ public class PantallaAdminActualizaciones {
         String[] columnas = {"Nombre", "Descripcion", "Fecha Ultima Actualizacion"};
         DefaultTableModel tabla = new DefaultTableModel(columnas, 0);
 
+        List<String> listaBodegas = gestor.obtenerListaBodegas();
         //Desde el gestor mandar una lista<string> y la pantalla separa los campos con split('-')
-        for (Bodega bodega : gestor.getBodegasSist()) {            //revisar getters(estoy creando relaciones entre el boundary y clases de entidad)
-            String nombreBodega = bodega.getNombre();
-            String desc = bodega.getDescripcion();
-            LocalDate fecha = bodega.getFechaUltimaActualizacion();
+        for (String campo : listaBodegas) {
+
+            String[] datos = campo.split("--");
+
+            String nombreBodega = datos[0];
+            String desc = datos[1];
+            String fecha = datos[2];
             Object[] rowData = {nombreBodega, desc, fecha};
             tabla.addRow(rowData);
         }

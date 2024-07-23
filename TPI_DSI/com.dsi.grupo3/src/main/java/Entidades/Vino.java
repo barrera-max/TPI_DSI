@@ -37,14 +37,14 @@ public class Vino {
     }
 
     public Vino(int aniada, Bodega bodega, String imagenEtiqueta, String nombre, String notaDeCataBodega, double precioARS,
-            /*datos para crear varietal*/ String descripcion, double porcComposicion, TipoUva tipoUva, Maridaje maridaje) {
+            /*datos para crear varietal*/ String descripcion, TipoUva tipoUva, Maridaje maridaje) {
         this.aniada = aniada;
         this.bodega = bodega;
         this.imagenEtiqueta = imagenEtiqueta;
         this.nombre = nombre;
         this.notaDeCataBodega = notaDeCataBodega;
         this.precioARS = precioARS;
-        this.varietal = crearVarietal(descripcion, porcComposicion, tipoUva);
+        this.varietal = crearVarietal(descripcion, 0.0, tipoUva);
         this.maridaje = maridaje;
     }
 
