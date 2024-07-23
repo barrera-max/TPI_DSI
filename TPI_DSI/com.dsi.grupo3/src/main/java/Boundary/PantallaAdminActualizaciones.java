@@ -134,7 +134,7 @@ public class PantallaAdminActualizaciones {
         panel.add(Box.createVerticalStrut(50));
         panel.add(lblBodegas);
 
-        String[] columnas = {"Nombre", "Descripcion", "Fecha Ultima Actualizacion"};
+        String[] columnas = {"Nombre", "Descripcion", "Fecha Ultima Actualizacion", "Periodo Actualizacion"};
         DefaultTableModel tabla = new DefaultTableModel(columnas, 0);
 
         List<String> listaBodegas = gestor.obtenerListaBodegas();
@@ -146,7 +146,8 @@ public class PantallaAdminActualizaciones {
             String nombreBodega = datos[0];
             String desc = datos[1];
             String fecha = datos[2];
-            Object[] rowData = {nombreBodega, desc, fecha};
+            String periodo = datos[3] + " meses";
+            Object[] rowData = {nombreBodega, desc, fecha, periodo};
             tabla.addRow(rowData);
         }
 

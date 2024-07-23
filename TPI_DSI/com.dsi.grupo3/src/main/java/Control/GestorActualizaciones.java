@@ -56,7 +56,7 @@ public class GestorActualizaciones {
     public ArrayList<String> obtenerListaBodegas() {
         ArrayList<String> listaBodegas = new ArrayList<>();
         for (Bodega bodega : bodegasSist) {
-            String dato = bodega.getNombre() + "--" + bodega.getDescripcion() + "--" + bodega.getFechaUltimaActualizacion() + "--";
+            String dato = bodega.getNombre() + "--" + bodega.getDescripcion() + "--" + bodega.getFechaUltimaActualizacion() + "--" + bodega.getPeriodoActualizacion() + "--";
             System.out.println(dato);
             listaBodegas.add(dato);
 
