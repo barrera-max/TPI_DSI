@@ -1,14 +1,13 @@
 package Boundary;
 
 import Control.GestorActualizaciones;
-import lombok.Data;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-@Data
+
 public class PantallaAdminActualizaciones {
 
     private static GestorActualizaciones gestor;

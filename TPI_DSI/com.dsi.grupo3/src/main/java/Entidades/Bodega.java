@@ -21,7 +21,7 @@ public class Bodega {
     private LocalDate fechaUltimaActualizacion;
 
 
-    public boolean hayActualizaciones(LocalDate fechaActual) {
+    public Boolean hayActualizaciones(LocalDate fechaActual) {
         return validarFechaUltimaActualizacion(fechaActual);
     }
 
@@ -31,11 +31,12 @@ public class Bodega {
         return mesesPasados >= this.periodoActualizacion;
     }
 
-    public Boolean actualizarDatosDeVino(Vino vino, int aniada, String nombreBodega, double precio, String imagenEtiqueta, String notaDeCata) {
-        if (vino.sosVinoActualizable(aniada, nombreBodega)) {
-            vino.setPrecioARS(precio);
-            vino.setImagenEtiqueta(imagenEtiqueta);
-            vino.setNotaDeCataBodega(notaDeCata);
+    public Boolean actualizarDatosDeVino(Vino vino, int nuevAniada,  double nuevoPrecio,
+                                         String nuevaImagen, String nuevaNotaDeCata) {
+        if (vino.sosVinoActualizable(nuevAniada, this.nombre)) {
+            vino.setPrecioARS(nuevoPrecio);
+            vino.setImagenEtiqueta(nuevaImagen);
+            vino.setNotaDeCataBodega(nuevaNotaDeCata);
             return true;
         } else {
             return false;

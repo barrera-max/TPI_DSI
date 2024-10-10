@@ -1,5 +1,6 @@
 package Entidades;
 
+import DTOs.VinoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,13 +28,7 @@ public class Vino {
         if (o == null || getClass() != o.getClass()) return false;
         Vino vino = (Vino) o;
         return aniada == vino.aniada &&
-                Double.compare(vino.precioARS, precioARS) == 0 &&
-                Objects.equals(bodega, vino.bodega) &&
-                Objects.equals(imagenEtiqueta, vino.imagenEtiqueta) &&
-                Objects.equals(nombre, vino.nombre) &&
-                Objects.equals(notaDeCataBodega, vino.notaDeCataBodega) &&
-                Objects.equals(varietal, vino.varietal) &&
-                Objects.equals(maridaje, vino.maridaje);
+                Objects.equals(nombre, vino.nombre);
     }
 
     public Vino(int aniada, Bodega bodega, String imagenEtiqueta, String nombre, String notaDeCataBodega, double precioARS,
@@ -48,16 +43,11 @@ public class Vino {
         this.maridaje = maridaje;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(aniada, bodega, imagenEtiqueta, nombre, notaDeCataBodega, precioARS, varietal, maridaje);
-    }
-
     public Boolean sosEsteVino(int aniada, String nombre) {
         return this.aniada == aniada &&
                 this.nombre.equals(nombre);
     }
-
+    //corregir este metodo
     public Boolean sosVinoActualizable(int aniada, String nombreBodega) {
         return this.aniada == aniada && this.bodega.getNombre().equals(nombreBodega);
     }
@@ -65,6 +55,11 @@ public class Vino {
     public Varietal crearVarietal(String descripcion, double porcComposicion, TipoUva tipoUva) {
         return new Varietal(descripcion, porcComposicion, tipoUva);
     }
+
+    /*public VinoDto toDto(){
+
+    }*/
+
 
     @Override
     public String toString() {
