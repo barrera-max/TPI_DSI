@@ -18,10 +18,10 @@ public class Enofilo {
     private String imagenPerfil;
 
     public Boolean seguisBodega(Bodega bodega) {
-        for (Siguiendo siguiendo : seguido) {
-            if (siguiendo.sosDeBodega(bodega)) return true;
-        }
-        return false;
+        return seguido
+                .stream()
+                .anyMatch(siguiendo ->
+                        siguiendo.sosDeBodega(bodega));
     }
 
 

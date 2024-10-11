@@ -1,6 +1,5 @@
 package Entidades;
 
-import DTOs.VinoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,6 +46,7 @@ public class Vino {
         return this.aniada == aniada &&
                 this.nombre.equals(nombre);
     }
+
     //corregir este metodo
     public Boolean sosVinoActualizable(int aniada, String nombreBodega) {
         return this.aniada == aniada && this.bodega.getNombre().equals(nombreBodega);
@@ -56,24 +56,20 @@ public class Vino {
         return new Varietal(descripcion, porcComposicion, tipoUva);
     }
 
-    /*public VinoDto toDto(){
-
-    }*/
-
 
     @Override
     public String toString() {
         return "\nVino " + nombre +
                 " - Añada " + aniada +
-                ", " +
-                bodega +
+                ", Bodega" +
+                bodega.getNombre() +
                 " ,Imagen Etiqueta '" + imagenEtiqueta +
                 " , Nota de cata '" + notaDeCataBodega +
                 " , Precio(ARS):$" + precioARS +
                 '\n' +
-                '\t' +varietal +
+                '\t' + varietal +
                 '\n' +
-                 '\t'+ maridaje +
+                '\t' + maridaje +
                 '\n';
     }
 }

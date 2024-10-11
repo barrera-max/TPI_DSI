@@ -1,10 +1,9 @@
 package DTOs;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
+import lombok.*;
+@Getter
+@Setter
+@AllArgsConstructor
 public class VinoDto {
 
     private int aniada;
@@ -22,6 +21,5 @@ public class VinoDto {
     private String tipoDeUva;
 
     private String maridaje;
-
 
 }

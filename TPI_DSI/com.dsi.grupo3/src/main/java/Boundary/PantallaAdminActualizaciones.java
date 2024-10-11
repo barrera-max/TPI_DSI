@@ -12,10 +12,6 @@ public class PantallaAdminActualizaciones {
 
     private static GestorActualizaciones gestor;
 
-    private List<String> nombresBodega;
-
-    private String bodegaSeleccionada;
-
     private JFrame frame;
 
     private JPanel panel;
@@ -118,9 +114,10 @@ public class PantallaAdminActualizaciones {
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setPreferredSize(new Dimension(900, 650));
 
-        JOptionPane.showMessageDialog(panel, scrollPane, "VINOS BODEGA INTERNACIONAL", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(panel, scrollPane, "VINOS SISTEMA BOM VINO", JOptionPane.INFORMATION_MESSAGE);
 
         gestor.buscarSeguidores();
+        mostrarOpcionFinalizar();
 
     }
 

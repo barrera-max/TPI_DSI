@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.stream.Stream;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,9 +32,10 @@ public class Bodega {
         return mesesPasados >= this.periodoActualizacion;
     }
 
-    public Boolean actualizarDatosDeVino(Vino vino, int nuevAniada,  double nuevoPrecio,
+    public Boolean actualizarDatosDeVino(Vino vino, int nuevAniada, double nuevoPrecio,
                                          String nuevaImagen, String nuevaNotaDeCata) {
         if (vino.sosVinoActualizable(nuevAniada, this.nombre)) {
+
             vino.setPrecioARS(nuevoPrecio);
             vino.setImagenEtiqueta(nuevaImagen);
             vino.setNotaDeCataBodega(nuevaNotaDeCata);

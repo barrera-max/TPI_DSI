@@ -7,12 +7,10 @@ import Entidades.*;
 import Soporte.Init;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @AllArgsConstructor
 @Data
@@ -32,10 +30,9 @@ public class GestorActualizaciones {
 
     private Bodega bodegaSeleccionada;
 
-    @Setter
-    private ArrayList<VinoDto> vinosImportados = new ArrayList<>(0);
+    private ArrayList<VinoDto> vinosImportados;
 
-    private ArrayList<String> usuarios = new ArrayList<>(0);
+    private List<String> usuarios ;
 
     private Varietal varietal;
 
@@ -50,16 +47,12 @@ public class GestorActualizaciones {
     }
 
     public List<String> obtenerListaBodegas() {
-        List<String> listaBodegas = new ArrayList<>();
-
-        BODEGAS_SIST.stream()
+        return BODEGAS_SIST.stream()
                 .map(bodega -> bodega.getNombre()
                         + "--" + bodega.getDescripcion() + "--"
                         + bodega.getFechaUltimaActualizacion()
                         + "--" + bodega.getPeriodoActualizacion() + "--")
-                .forEach(listaBodegas::add);
-
-        return listaBodegas;
+                .collect(Collectors.toList());
     }
 
     public void opcionImportarActDeVinoDeBodega() {
@@ -102,10 +95,9 @@ public class GestorActualizaciones {
         }
     }
 
-    //modificar este metodo: no pasar dtos, no pasar el indice porque es mejor utilizar los metodos equals de la clase vino
+    //modificar este metodo: no pasar dtos, no pasar el indice, es mejor utilizar los metodos equals de la clase vino
     public void actualizarDatosDeVino() {
         int index = 0;
-
 
         for (VinoDto vinoDto : vinosImportados) {
             Map<String, Object> datosVino = mapToDto(vinoDto);
@@ -125,9 +117,8 @@ public class GestorActualizaciones {
                         (String) datosVino.get("notaDeCataBodega"),
                         (double) (datosVino.get("precioARS")),
                         (String) (datosVino.get("varietal"))
-                        );
+                );
                 VINOS_SIST.add(nuevo);
-
             }
         }
         bodegaSeleccionada.setFechaUltimaActualizacion(LocalDate.now());
@@ -136,7 +127,7 @@ public class GestorActualizaciones {
 
     /*Metodo que sirve para construir el string necesario para que la pantalla cree la tabla y muestre los vinos actualizados*/
     public String mostrarVinosActualizadosYcreados() {
-        StringBuilder sb = new StringBuilder(":::" + "VINOS ACTUALIZADOS: " + bodegaSeleccionada.getNombre() + ":::\n");
+        StringBuilder sb = new StringBuilder("SE ACTUALIZARON LOS VINOS DE: " + bodegaSeleccionada.getNombre() + "!!!\n");
 
         VINOS_SIST.forEach(vino -> sb.append(vino.toString()).append("\n"));
 
@@ -174,7 +165,7 @@ public class GestorActualizaciones {
     }
 
     //corregir este metodo, no pedir datos al dto
-    public Vino crearVino(int aniada, String imagenEtiqueta,String nombre, String notaDeCataBodega,
+    public Vino crearVino(int aniada, String imagenEtiqueta, String nombre, String notaDeCataBodega,
                           double precioARS, String varietalVino) {
 
         if (varietal == null) {  //constructor con creacion de varietal
@@ -192,14 +183,14 @@ public class GestorActualizaciones {
         }
     }
 
+    //ver este metodo: Chequear si es correcto este casting
     public void buscarSeguidores() {
-        ArrayList<String> auxEnofilos = new ArrayList<>(0);
-        for (Enofilo enofilo : ENOFILOS_SIST) {
-            if (enofilo.seguisBodega(bodegaSeleccionada)) auxEnofilos.
-                    add(enofilo.getUsuario().getNombre());
-        }
-        setUsuarios(auxEnofilos);
-        pantalla.mostrarOpcionFinalizar();
+        setUsuarios((ENOFILOS_SIST
+                .stream()
+                .filter(e -> e.seguisBodega(bodegaSeleccionada))
+                .map(e -> e.getUsuario().getNombre())
+                .toList()));
+        /*pantalla.mostrarOpcionFinalizar();*/
     }
 
     public void tomarOpcionFinalizar() {
@@ -214,6 +205,7 @@ public class GestorActualizaciones {
     public Map<String, Object> mapToDto(VinoDto vinoDto) {
         Map<String, Object> map = new HashMap<>();
         map.put("añada", vinoDto.getAniada());
+        map.put("nombre", vinoDto.getNombre());
         map.put("precioARS", vinoDto.getPrecioARS());
         map.put("imagenEtiqueta", vinoDto.getImagenEtiqueta());
         map.put("notaDeCataBodega", vinoDto.getNotaDeCataBodega());
