@@ -32,7 +32,7 @@ public class GestorActualizaciones {
 
     private ArrayList<VinoDto> vinosImportados;
 
-    private List<String> usuarios ;
+    private List<String> usuarios;
 
     private Varietal varietal;
 
@@ -56,26 +56,31 @@ public class GestorActualizaciones {
     }
 
     public void opcionImportarActDeVinoDeBodega() {
-
         buscarBodegasConActualizaciones();
-        if (!bodegasConActualizaciones.isEmpty()) {
-            pantalla.mostrarBodega(bodegasConActualizaciones);
-            pantalla.solicitarSeleccionBodegas(bodegasConActualizaciones);
-        } else {
-            pantalla.mostrarOpcionFinalizar();
-        }
     }
 
+    //en la secuencia no debe recibir parametros ya que lo hace con el atributo del gestor
     public void buscarBodegasConActualizaciones() {
 
         BODEGAS_SIST.stream()
                 .filter(bodega -> bodega.hayActualizaciones(LocalDate.now()))
                 .map(Bodega::getNombre)
                 .forEach(bodegasConActualizaciones::add);
+
+
+        if (!bodegasConActualizaciones.isEmpty()) {
+            pantalla.mostrarBodega(bodegasConActualizaciones);
+            pantalla.solicitarSeleccionBodegas(bodegasConActualizaciones);
+        } else {
+            //si no hay bodegas A1
+            pantalla.mostrarOpcionFinalizar();
+        }
     }
 
+    //si se modela A2 tiene que recibir un List<String>
     public void tomarSeleccionBodega(String nombreBodega) { // nombreBodega es ingresado por el usuario para buscar entre las Bodegas existentes
 
+        //genera un array de bodegas encontradas y las setea
         setBodegaSeleccionada(BODEGAS_SIST
                 .stream()
                 .filter(bodega -> bodega.esTuNombre(nombreBodega))
@@ -83,13 +88,19 @@ public class GestorActualizaciones {
                 .orElse(null));
 
         buscarActualizaciones();
+
+        buscarSeguidores();
+        pantalla.mostrarOpcionFinalizar();
     }
 
     public void buscarActualizaciones() {
         try {  //InterfazBodegas retorna un array de dtos
             setVinosImportados(InterfazSistemaDeBodegas.buscarActualizaciones());
+
             actualizarDatosDeVino();
             pantalla.mostrarActDeVinosActualizadosYcreados(mostrarVinosActualizadosYcreados());
+
+
         } catch (Exception e) { //NullPointerException?
             System.out.println(e.getMessage());
         }
@@ -178,7 +189,7 @@ public class GestorActualizaciones {
                     nombre,
                     notaDeCataBodega,
                     precioARS,
-                    varietal,   //varietal existente
+                    varietal,
                     maridaje);
         }
     }
@@ -190,7 +201,6 @@ public class GestorActualizaciones {
                 .filter(e -> e.seguisBodega(bodegaSeleccionada))
                 .map(e -> e.getUsuario().getNombre())
                 .toList()));
-        /*pantalla.mostrarOpcionFinalizar();*/
     }
 
     public void tomarOpcionFinalizar() {
@@ -213,6 +223,12 @@ public class GestorActualizaciones {
         return map;
     }
 
+    public static void main(String[] args) {
+        PantallaAdminActualizaciones pantallaAdminActualizaciones = new PantallaAdminActualizaciones();
+
+        //Inicio CU
+        pantallaAdminActualizaciones.opcionImportarActDeVinoDeBodega();
+    }
 
 }
 

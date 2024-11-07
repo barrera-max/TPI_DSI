@@ -18,22 +18,11 @@ import java.util.stream.Collectors;
 
 public interface InterfazSistemaDeBodegas {
 
+    // Instancia interna de la implementación
+    APISistemaDeBodega apiSistemaDeBodega = new APISistemaDeBodega();
+
+    // Método estático que delega a la instancia de la implementación
     static ArrayList<VinoDto> buscarActualizaciones() {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
-                .create();
-
-        try (InputStream inputStream = InterfazSistemaDeBodegas.class.getClassLoader().getResourceAsStream("vinosActualizables.json");
-             InputStreamReader fileReader = new InputStreamReader(inputStream)) {
-            // Leer el array de vinos directamente desde el JSON
-            Type listType = new TypeToken<ArrayList<VinoDto>>() {
-            }.getType();
-            ArrayList<VinoDto> vinos = gson.fromJson(fileReader, listType);
-            return vinos;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return apiSistemaDeBodega.buscarActualizaciones();
     }
 }

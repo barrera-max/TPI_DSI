@@ -33,7 +33,7 @@ public class PantallaAdminActualizaciones {
     public void opcionImportarActDeVinoDeBodega() {
         gestor = new GestorActualizaciones(this);
         habilitarPantalla();
-        JButton btnImportarACt = new JButton("Importar actualizaciones");
+        /*JButton btnImportarACt = new JButton("Importar actualizaciones");
         btnImportarACt.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnImportarACt.addActionListener(actionEvent -> {
             gestor.opcionImportarActDeVinoDeBodega();
@@ -41,20 +41,32 @@ public class PantallaAdminActualizaciones {
 
 
         panel.add(btnImportarACt, BorderLayout.CENTER);
-        panel.add(Box.createVerticalGlue());
 
         frame.revalidate();
-        frame.repaint();
+        frame.repaint();*/
     }
 
     public void habilitarPantalla() {
         JLabel lblVino = new JLabel("BOM VINO");
         lblVino.setFont(new Font("Arial", Font.BOLD, 16));
-        lblVino.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(lblVino);
         panel.add(Box.createVerticalGlue());
 
-        mostrarListaBodegas(); //modificar: no debe recibir un objeto Bodega
+
+        //separo metodo opcImportarvino
+        JButton btnImportarACt = new JButton("Importar actualizaciones");
+        btnImportarACt.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        //llamada al gestor
+        btnImportarACt.addActionListener(actionEvent -> {
+            gestor.opcionImportarActDeVinoDeBodega();
+        });
+
+
+        panel.add(btnImportarACt, BorderLayout.CENTER);
+        frame.revalidate();
+        frame.repaint();
+        mostrarListaBodegas();//metodo agregado, no esta en la secuencia
     }
 
     public void mostrarBodega(List<String> nombresBodega) {
@@ -87,12 +99,15 @@ public class PantallaAdminActualizaciones {
 
         if (opcion == JOptionPane.OK_OPTION) {
             String bodegaSeleccion = (String) comboBox.getSelectedItem();
+
             tomarSeleccionBodega(bodegaSeleccion);
+
         } else {
             JOptionPane.showMessageDialog(panel, "No se seleccionaron bodegas");
         }
     }
 
+    //Si se modela A2 tiene que poder recibir varias bodegas
     public void tomarSeleccionBodega(String nombreBodega) {
         gestor.tomarSeleccionBodega(nombreBodega);
     }
@@ -115,9 +130,6 @@ public class PantallaAdminActualizaciones {
         scrollPane.setPreferredSize(new Dimension(900, 650));
 
         JOptionPane.showMessageDialog(panel, scrollPane, "VINOS SISTEMA BOM VINO", JOptionPane.INFORMATION_MESSAGE);
-
-        gestor.buscarSeguidores();
-        mostrarOpcionFinalizar();
 
     }
 
