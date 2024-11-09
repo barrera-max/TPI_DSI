@@ -1,15 +1,25 @@
 package Soporte;
 
 import Entidades.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
 public class Init {
+
+
+
+    public static void bdInit(){
+
+    }
 
     public static void init(List<Bodega> bodegasSist, List<Vino> vinosDelSist, List<Enofilo> enofilosDelSistema, List<Maridaje> maridajesSist,
                             List<Varietal> varietalSist, List<TipoUva> tiposUva) {
+
+
         TipoUva tipoUva = new TipoUva("Descripción del tipo de uva.",
                 "Tipo Uva 1");
         TipoUva tipoUva2 = new TipoUva("Descripción del tipo de uva.",
@@ -57,7 +67,6 @@ public class Init {
 
         maridajesSist.add(maridaje);
         maridajesSist.add(maridaje2);
-
 
         varietalSist.add(varietal);
         varietalSist.add(varietal2);

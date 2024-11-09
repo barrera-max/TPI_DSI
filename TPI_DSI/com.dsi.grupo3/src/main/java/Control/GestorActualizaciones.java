@@ -1,5 +1,6 @@
 package Control;
 
+import Boundary.APISistemaDeBodega;
 import Boundary.InterfazSistemaDeBodegas;
 import Boundary.PantallaAdminActualizaciones;
 import DTOs.VinoDto;
@@ -40,10 +41,19 @@ public class GestorActualizaciones {
 
     private Maridaje maridaje;
 
+    private InterfazSistemaDeBodegas interfazSistemaDeBodegas;
 
     public GestorActualizaciones(PantallaAdminActualizaciones pantalla) {
         this.pantalla = pantalla;
+        this.interfazSistemaDeBodegas = null;
+
         Init.init(BODEGAS_SIST, VINOS_SIST, ENOFILOS_SIST, maridajesSist, varietalSist, tipoUvaSist);
+    }
+
+    public void setInterfazSistemaDeBodegas(InterfazSistemaDeBodegas interfaz) {
+        if (this.interfazSistemaDeBodegas == null) {
+            this.interfazSistemaDeBodegas = interfaz;
+        }
     }
 
     public List<String> obtenerListaBodegas() {
@@ -88,17 +98,14 @@ public class GestorActualizaciones {
                 .orElse(null));
 
         buscarActualizaciones();
-
+        actualizarDatosDeVino();
         buscarSeguidores();
         pantalla.mostrarOpcionFinalizar();
     }
 
     public void buscarActualizaciones() {
         try {  //InterfazBodegas retorna un array de dtos
-            setVinosImportados(InterfazSistemaDeBodegas.buscarActualizaciones());
-
-            actualizarDatosDeVino();
-            pantalla.mostrarActDeVinosActualizadosYcreados(mostrarVinosActualizadosYcreados());
+            setVinosImportados(new APISistemaDeBodega().buscarActualizaciones());
 
 
         } catch (Exception e) { //NullPointerException?
@@ -132,6 +139,7 @@ public class GestorActualizaciones {
                 VINOS_SIST.add(nuevo);
             }
         }
+        pantalla.mostrarActDeVinosActualizadosYcreados(mostrarVinosActualizadosYcreados());
         bodegaSeleccionada.setFechaUltimaActualizacion(LocalDate.now());
 
     }

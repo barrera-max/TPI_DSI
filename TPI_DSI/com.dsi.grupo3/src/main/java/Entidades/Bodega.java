@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Stream;
@@ -12,7 +14,11 @@ import java.util.stream.Stream;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Entity
 public class Bodega {
+
+    @Id
+    private long id;
 
     private int coordenadasUbicacion;
     private String descripcion;
@@ -21,6 +27,15 @@ public class Bodega {
     private int periodoActualizacion;
     private LocalDate fechaUltimaActualizacion;
 
+
+    public Bodega(int coordenadasUbicacion, String descripcion, String historia, String nombre, int periodoActualizacion, LocalDate fechaUltimaActualizacion) {
+        this.coordenadasUbicacion = coordenadasUbicacion;
+        this.descripcion = descripcion;
+        this.historia = historia;
+        this.nombre = nombre;
+        this.periodoActualizacion = periodoActualizacion;
+        this.fechaUltimaActualizacion = fechaUltimaActualizacion;
+    }
 
     public boolean hayActualizaciones(LocalDate fechaActual) {
         long mesesPasados = ChronoUnit.MONTHS.between(this.fechaUltimaActualizacion, fechaActual);

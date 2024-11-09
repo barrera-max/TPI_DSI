@@ -4,30 +4,48 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+
+@Entity
 public class Vino {
 
+    @Id
+    private long id;
+
     private int aniada;
+
+    @OneToOne
+    @JoinColumn(name = "id")
     private Bodega bodega;
     private String imagenEtiqueta;
     private String nombre;
     private String notaDeCataBodega;
     private double precioARS;
+
+    @ManyToOne
+    @JoinColumn(name = "id")
     private Varietal varietal;
+
+    @ManyToOne
+    @JoinColumn(name = "id")
     private Maridaje maridaje;
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Vino vino = (Vino) o;
-        return aniada == vino.aniada &&
-                Objects.equals(nombre, vino.nombre);
+    public Vino(int aniada, Bodega bodega, String imagenEtiqueta, String nombre, String notaDeCataBodega, double precioARS, Varietal varietal, Maridaje maridaje) {
+
+        this.aniada = aniada;
+        this.bodega = bodega;
+        this.imagenEtiqueta = imagenEtiqueta;
+        this.nombre = nombre;
+        this.notaDeCataBodega = notaDeCataBodega;
+        this.precioARS = precioARS;
+        this.varietal = varietal;
+        this.maridaje = maridaje;
     }
 
     public Vino(int aniada, Bodega bodega, String imagenEtiqueta, String nombre, String notaDeCataBodega, double precioARS,

@@ -4,14 +4,26 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Entity
 public class TipoUva {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long idTipoUva;
 
     private String descripcion;
     private String nombre;
 
+    public TipoUva(String descripcion, String nombre) {
+        this.descripcion = descripcion;
+        this.nombre = nombre;
+    }
 
     public boolean sosTipoUva(String tipoUva) {
         return this.getNombre().equals(tipoUva);

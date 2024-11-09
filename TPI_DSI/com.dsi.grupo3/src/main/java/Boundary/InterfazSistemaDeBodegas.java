@@ -12,17 +12,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public interface InterfazSistemaDeBodegas {
 
-    // Instancia interna de la implementación
-    APISistemaDeBodega apiSistemaDeBodega = new APISistemaDeBodega();
-
-    // Método estático que delega a la instancia de la implementación
-    static ArrayList<VinoDto> buscarActualizaciones() {
-        return apiSistemaDeBodega.buscarActualizaciones();
-    }
+    ArrayList<VinoDto> buscarActualizaciones();
 }
