@@ -1,17 +1,17 @@
 package Entidades;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "maridajes")
+@Table(name = "Maridaje")
 public class Maridaje {
 
     @Id

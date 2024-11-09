@@ -2,16 +2,16 @@ package Util;
 
 import Entidades.Maridaje;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import java.util.List;
 
 public class EntityManagerUtil {
 
 
     public static EntityManager getEntityManager() {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("JPA_PU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("myPU");
 
         EntityManager em = factory.createEntityManager();
         return em;
@@ -20,7 +20,6 @@ public class EntityManagerUtil {
 
     public static void main(String[] args) {
         EntityManager manager = EntityManagerUtil.getEntityManager();
-        System.out.println("EntityManager class ==>" + manager.getClass().getCanonicalName());
 
         System.out.println("OBTENIENDO MARIDAJES");
 
