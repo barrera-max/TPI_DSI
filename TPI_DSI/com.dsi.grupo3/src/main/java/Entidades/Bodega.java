@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Stream;
@@ -14,9 +15,12 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @Data
 @Entity
+@Table(name = "Bodega")
+@NamedQuery(name = "Bodega.findAll", query = "SELECT b FROM Bodega b" )
 public class Bodega {
 
     @Id
+    @Column(name = "bid")
     private long id;
 
     private int coordenadasUbicacion;

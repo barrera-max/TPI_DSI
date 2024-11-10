@@ -10,11 +10,13 @@ import jakarta.persistence.*;
 @NoArgsConstructor
 @Data
 @Entity
+@Table(name = "TipoUva")
+@NamedQuery(name= "TipoUva.findAll", query = "SELECT t FROM TipoUva t")
 public class TipoUva {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "tid")
     private Long idTipoUva;
 
     private String descripcion;

@@ -5,6 +5,11 @@
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <!--<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>-->
         <class>Entidades.Maridaje</class>
+        <class>Entidades.TipoUva</class>
+        <class>Entidades.Varietal</class>
+        <class>Entidades.Bodega</class>
+        <class>Entidades.Vino</class>
+
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Bom_Vino"/>

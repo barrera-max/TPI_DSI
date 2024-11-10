@@ -10,29 +10,32 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-
 @Entity
+@Table(name = "Vino")
+@NamedQuery(name = "Vino.findAll", query = "SELECT v FROM Vino v")
 public class Vino {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "vid")
     private long id;
 
     private int aniada;
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "bodegaId")
     private Bodega bodega;
     private String imagenEtiqueta;
     private String nombre;
     private String notaDeCataBodega;
     private double precioARS;
 
-    @ManyToOne
-    @JoinColumn(name = "id")
+    @OneToOne                           //por el momento estas relaciones seran uno a uno
+    @JoinColumn(name = "varietalId")    //VER SI ES NECESARIO QUE SEAN UNO A MUCHOS
     private Varietal varietal;
 
-    @ManyToOne
-    @JoinColumn(name = "id")
+    @OneToOne
+    @JoinColumn(name = "maridajeId")
     private Maridaje maridaje;
 
 
