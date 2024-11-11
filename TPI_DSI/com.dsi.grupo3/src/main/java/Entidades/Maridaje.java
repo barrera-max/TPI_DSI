@@ -12,12 +12,11 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "Maridaje")
-@NamedQuery(name = "Maridaje.findAll", query = "SELECT m FROM Maridaje m")
 public class Maridaje {
 
     @Id
     @Column(name = "mid")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String descripcion;

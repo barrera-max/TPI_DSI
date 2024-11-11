@@ -18,12 +18,15 @@ public class EntityManagerUtil {
     private static final EntityManager ENTITY_MANAGER = getEntityManager();
 
 
-    private static EntityManager getEntityManager() {
+    public static EntityManager getEntityManager() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
         EntityManager em = factory.createEntityManager();
         return em;
     }
+
+
+    //eliminar los metodos y dejar unicamente la conexion a la bd
 
     public List<Maridaje> getMaridajes() {
         try{

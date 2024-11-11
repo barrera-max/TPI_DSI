@@ -16,7 +16,7 @@ import java.util.Objects;
 public class Vino {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //probar con IDENTITY o AUTO pero generando la tabla sequence en la BD
     @Column(name = "vid")
     private long id;
 

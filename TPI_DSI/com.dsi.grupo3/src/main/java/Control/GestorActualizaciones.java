@@ -3,6 +3,8 @@ package Control;
 import Boundary.APISistemaDeBodega;
 import Boundary.InterfazSistemaDeBodegas;
 import Boundary.PantallaAdminActualizaciones;
+import DAOs.BodegaDAO;
+import DAOs.VinoDAO;
 import DTOs.VinoDto;
 import Entidades.*;
 import Soporte.Init;
@@ -19,8 +21,8 @@ public class GestorActualizaciones {
 
     private ArrayList<String> bodegasConActualizaciones = new ArrayList<>(0);
 
-    private static final ArrayList<Bodega> BODEGAS_SIST = new ArrayList<>();
-    private static final ArrayList<Vino> VINOS_SIST = new ArrayList<>();
+    private static List<Bodega> BODEGAS_SIST = new ArrayList<>();
+    private static List<Vino> VINOS_SIST = new ArrayList<>();
     private static final ArrayList<Enofilo> ENOFILOS_SIST = new ArrayList<>(); //ver si es necesario que sean constantes
     private ArrayList<Maridaje> maridajesSist = new ArrayList<>();
     private ArrayList<Varietal> varietalSist = new ArrayList<>();
@@ -47,7 +49,10 @@ public class GestorActualizaciones {
         this.pantalla = pantalla;
         this.interfazSistemaDeBodegas = null;
 
-        Init.init(BODEGAS_SIST, VINOS_SIST, ENOFILOS_SIST, maridajesSist, varietalSist, tipoUvaSist);
+
+        VINOS_SIST =  new VinoDAO().findAll();
+        BODEGAS_SIST =  new BodegaDAO().findAll();
+         //Init.init(BODEGAS_SIST, VINOS_SIST, ENOFILOS_SIST, maridajesSist, varietalSist, tipoUvaSist);
     }
 
     public void setInterfazSistemaDeBodegas(InterfazSistemaDeBodegas interfaz) {
