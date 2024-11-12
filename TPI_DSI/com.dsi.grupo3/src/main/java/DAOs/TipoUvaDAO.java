@@ -1,24 +1,24 @@
 package DAOs;
 
-import Entidades.Maridaje;
 import Entidades.TipoUva;
-import Util.EntityManagerUtil;
+import Util.Conexion;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
 
 public class TipoUvaDAO implements DAO<TipoUva, Long>{
 
-    private final EntityManager entityManager = EntityManagerUtil.getEntityManager();
+    private final EntityManager ENTITY_MANAGER = Conexion.getInstancia().getEntityManager();
 
     @Override
     public void create(TipoUva tipoUva) {
         try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(tipoUva);
-            entityManager.getTransaction().commit();
+
+            ENTITY_MANAGER.getTransaction().begin();
+            ENTITY_MANAGER.persist(tipoUva);
+            ENTITY_MANAGER.getTransaction().commit();
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            ENTITY_MANAGER.getTransaction().rollback();
             throw new RuntimeException("Error creating Tipo de Uva: " + e.getMessage(), e);
         }
     }
@@ -26,13 +26,13 @@ public class TipoUvaDAO implements DAO<TipoUva, Long>{
     @Override
     public TipoUva findById(Long id) {
         try {
-            entityManager.getTransaction().begin();
-            TipoUva tipoUva = entityManager.find(TipoUva.class, id);
-            entityManager.getTransaction().commit();
+            ENTITY_MANAGER.getTransaction().begin();
+            TipoUva tipoUva = ENTITY_MANAGER.find(TipoUva.class, id);
+            ENTITY_MANAGER.getTransaction().commit();
 
             return tipoUva;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            ENTITY_MANAGER.getTransaction().rollback();
             throw new RuntimeException("Error No Tipo de Uva ID: " + e.getMessage());
         }
     }

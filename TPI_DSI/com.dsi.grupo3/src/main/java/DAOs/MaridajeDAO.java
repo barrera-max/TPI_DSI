@@ -1,14 +1,14 @@
 package DAOs;
 
 import Entidades.Maridaje;
-import Util.EntityManagerUtil;
+import Util.Conexion;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
 
 public class MaridajeDAO implements DAO<Maridaje, Long> {
 
-    private final EntityManager entityManager = EntityManagerUtil.getEntityManager();
+    private final EntityManager entityManager = Conexion.getInstancia().getEntityManager();
 
     @Override
     public void create(Maridaje maridaje) {

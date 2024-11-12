@@ -1,20 +1,28 @@
 package DAOs;
 
 import Entidades.Vino;
-import Util.EntityManagerUtil;
+import Util.Conexion;
 import jakarta.persistence.EntityManager;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 public class VinoDAO implements DAO<Vino, Long>{
 
 
-    private final EntityManager em = EntityManagerUtil.getEntityManager();
+    private final EntityManager em = Conexion.getInstancia().getEntityManager();
 
     @Override
     public void create(Vino vino) {
-
+        try {
+            em.getTransaction().begin();
+            em.persist(vino);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) { // Verifica si la transacción está activa
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error creating Vino: " + e.getMessage(), e);
+        }
     }
 
     @Override

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
+
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -16,7 +17,8 @@ import java.util.Objects;
 public class Vino {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //probar con IDENTITY o AUTO pero generando la tabla sequence en la BD
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //probar con IDENTITY o AUTO pero generando la tabla sequence en la BD
     @Column(name = "vid")
     private long id;
 
@@ -30,7 +32,7 @@ public class Vino {
     private String notaDeCataBodega;
     private double precioARS;
 
-    @OneToOne                           //por el momento estas relaciones seran uno a uno
+    @OneToOne(cascade = CascadeType.PERSIST)                           //por el momento estas relaciones seran uno a uno
     @JoinColumn(name = "varietalId")    //VER SI ES NECESARIO QUE SEAN UNO A MUCHOS
     private Varietal varietal;
 

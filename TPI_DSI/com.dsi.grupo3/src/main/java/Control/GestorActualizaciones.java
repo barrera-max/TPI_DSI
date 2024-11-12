@@ -1,10 +1,10 @@
 package Control;
 
 import Boundary.APISistemaDeBodega;
+import Boundary.InterfazNotUsuario;
 import Boundary.InterfazSistemaDeBodegas;
 import Boundary.PantallaAdminActualizaciones;
-import DAOs.BodegaDAO;
-import DAOs.VinoDAO;
+import DAOs.*;
 import DTOs.VinoDto;
 import Entidades.*;
 import Soporte.Init;
@@ -15,25 +15,25 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import Observer.*;
+
+
 @AllArgsConstructor
 @Data
-public class GestorActualizaciones {
+public class GestorActualizaciones implements ISujeto {
 
     private ArrayList<String> bodegasConActualizaciones = new ArrayList<>(0);
 
     private static List<Bodega> BODEGAS_SIST = new ArrayList<>();
     private static List<Vino> VINOS_SIST = new ArrayList<>();
     private static final ArrayList<Enofilo> ENOFILOS_SIST = new ArrayList<>(); //ver si es necesario que sean constantes
-    private ArrayList<Maridaje> maridajesSist = new ArrayList<>();
     private ArrayList<Varietal> varietalSist = new ArrayList<>();
-    private ArrayList<TipoUva> tipoUvaSist = new ArrayList<>();
-
 
     private PantallaAdminActualizaciones pantalla;
 
     private Bodega bodegaSeleccionada;
 
-    private ArrayList<VinoDto> vinosImportados;
+    private List<VinoDto> vinosImportados;
 
     private List<String> usuarios;
 
@@ -45,21 +45,18 @@ public class GestorActualizaciones {
 
     private InterfazSistemaDeBodegas interfazSistemaDeBodegas;
 
+    private List<IObserverNotiActualizacion> observers = new ArrayList<>();
+
     public GestorActualizaciones(PantallaAdminActualizaciones pantalla) {
         this.pantalla = pantalla;
         this.interfazSistemaDeBodegas = null;
 
 
-        VINOS_SIST =  new VinoDAO().findAll();
-        BODEGAS_SIST =  new BodegaDAO().findAll();
-         //Init.init(BODEGAS_SIST, VINOS_SIST, ENOFILOS_SIST, maridajesSist, varietalSist, tipoUvaSist);
+        VINOS_SIST = new VinoDAO().findAll();
+        BODEGAS_SIST = new BodegaDAO().findAll();
+        //Init.init(BODEGAS_SIST, VINOS_SIST, ENOFILOS_SIST, maridajesSist, varietalSist, tipoUvaSist);
     }
 
-    public void setInterfazSistemaDeBodegas(InterfazSistemaDeBodegas interfaz) {
-        if (this.interfazSistemaDeBodegas == null) {
-            this.interfazSistemaDeBodegas = interfaz;
-        }
-    }
 
     public List<String> obtenerListaBodegas() {
         return BODEGAS_SIST.stream()
@@ -110,7 +107,10 @@ public class GestorActualizaciones {
 
     public void buscarActualizaciones() {
         try {  //InterfazBodegas retorna un array de dtos
-            setVinosImportados(new APISistemaDeBodega().buscarActualizaciones());
+
+            InterfazSistemaDeBodegas api = new APISistemaDeBodega();
+
+            setVinosImportados(api.buscarActualizaciones());
 
 
         } catch (Exception e) { //NullPointerException?
@@ -121,6 +121,8 @@ public class GestorActualizaciones {
     //modificar este metodo: no pasar dtos, no pasar el indice, es mejor utilizar los metodos equals de la clase vino
     public void actualizarDatosDeVino() {
         int index = 0;
+
+        VinoDAO vinos = new VinoDAO();
 
         for (VinoDto vinoDto : vinosImportados) {
             Map<String, Object> datosVino = mapToDto(vinoDto);
@@ -141,9 +143,14 @@ public class GestorActualizaciones {
                         (double) (datosVino.get("precioARS")),
                         (String) (datosVino.get("varietal"))
                 );
-                VINOS_SIST.add(nuevo);
+                vinos.create(nuevo);
+                /*VINOS_SIST.add(nuevo);*/
             }
         }
+
+        List<Vino> vinosSist = vinos.findAll();
+        vinosSist.forEach(System.out::println);
+
         pantalla.mostrarActDeVinosActualizadosYcreados(mostrarVinosActualizadosYcreados());
         bodegaSeleccionada.setFechaUltimaActualizacion(LocalDate.now());
 
@@ -153,14 +160,18 @@ public class GestorActualizaciones {
     public String mostrarVinosActualizadosYcreados() {
         StringBuilder sb = new StringBuilder("SE ACTUALIZARON LOS VINOS DE: " + bodegaSeleccionada.getNombre() + "!!!\n");
 
-        VINOS_SIST.forEach(vino -> sb.append(vino.toString()).append("\n"));
+        List<Vino> vinos = new VinoDAO().findAll();
+
+        vinos.forEach(vino -> sb.append(vino.toString()).append("\n"));
 
         return sb.toString();
     }
 
     public void buscarTipoUva(String tipoUva) {
 
-        setTipoUva(tipoUvaSist
+        List<TipoUva> uvas = new TipoUvaDAO().findAll();
+
+        setTipoUva(uvas
                 .stream()
                 .filter(uva -> uva.sosTipoUva(tipoUva))
                 .findFirst()
@@ -169,7 +180,6 @@ public class GestorActualizaciones {
     }
 
     public void buscarVarietal(String descripcion) {
-
         setVarietal(varietalSist
                 .stream()
                 .filter(var -> var.buscarVarietal(descripcion))
@@ -180,7 +190,9 @@ public class GestorActualizaciones {
 
     public void buscarMaridaje(String nombreMaridaje) {
 
-        setMaridaje(maridajesSist
+        List<Maridaje> maridajes = new MaridajeDAO().findAll();
+
+        setMaridaje(maridajes
                 .stream()
                 .filter(m -> m.sosMaridaje(nombreMaridaje))
                 .findFirst()
@@ -214,6 +226,9 @@ public class GestorActualizaciones {
                 .filter(e -> e.seguisBodega(bodegaSeleccionada))
                 .map(e -> e.getUsuario().getNombre())
                 .toList()));
+
+        suscribir(new InterfazNotUsuario());
+        notificar();
     }
 
     public void tomarOpcionFinalizar() {
@@ -238,10 +253,33 @@ public class GestorActualizaciones {
 
     public static void main(String[] args) {
         PantallaAdminActualizaciones pantallaAdminActualizaciones = new PantallaAdminActualizaciones();
-
         //Inicio CU
         pantallaAdminActualizaciones.opcionImportarActDeVinoDeBodega();
     }
 
+    @Override
+    public void suscribir(IObserverNotiActualizacion observer) {
+        if (observer == null) {
+            throw new NullPointerException("Observer no puede ser nulo");
+        } else {
+            if (!this.observers.contains(observer)) {
+                this.observers.add(observer);
+            }
+        }
+    }
+
+    @Override
+    public void desuscribir(IObserverNotiActualizacion observer) {
+        if (observer == null) {
+            throw new NullPointerException("Observer no puede ser nulo");
+        } else {
+            this.observers.remove(observer);
+        }
+    }
+
+    @Override
+    public void notificar() {
+        observadores.forEach(e -> e.actualizar(VINOS_SIST));
+    }
 }
 

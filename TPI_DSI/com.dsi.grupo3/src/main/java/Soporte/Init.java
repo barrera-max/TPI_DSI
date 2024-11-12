@@ -1,9 +1,8 @@
 package Soporte;
 
 import Entidades.*;
-import Util.EntityManagerUtil;
+import Util.Conexion;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,17 +11,17 @@ import java.util.List;
 
 public class Init {
 
-    private static final EntityManagerUtil ENTITY_MANAGER_UTIL = new EntityManagerUtil();
+    //private static final Conexion ENTITY_MANAGER_UTIL = new Conexion();
 
     public static void init(List<Bodega> bodegasSist, List<Vino> vinosDelSist, List<Enofilo> enofilosDelSistema, List<Maridaje> maridajesSist,
                             List<Varietal> varietalSist, List<TipoUva> tiposUva) {
 
-        maridajesSist.addAll(ENTITY_MANAGER_UTIL.getMaridajes());
+        /*maridajesSist.addAll(ENTITY_MANAGER_UTIL.getMaridajes());
         tiposUva.addAll(ENTITY_MANAGER_UTIL.getTiposUva());
         vinosDelSist.addAll(ENTITY_MANAGER_UTIL.getVinos());
         bodegasSist.addAll(ENTITY_MANAGER_UTIL.getBodegas());
         varietalSist.addAll(ENTITY_MANAGER_UTIL.getVarietales());
-
+*/
 
         List<Bodega> seguidoBodegas = new ArrayList<>();
         //seguidoBodegas.add(bodega1);

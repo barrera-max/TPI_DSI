@@ -1,14 +1,14 @@
 package DAOs;
 
 import Entidades.Bodega;
-import Util.EntityManagerUtil;
+import Util.Conexion;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
 
 public class BodegaDAO implements DAO<Bodega, Long>{
 
-    private final EntityManager em = EntityManagerUtil.getEntityManager();
+    private final EntityManager em = Conexion.getInstancia().getEntityManager();
 
     @Override
     public void create(Bodega bodega) {

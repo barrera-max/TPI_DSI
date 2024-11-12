@@ -10,12 +10,12 @@ import jakarta.persistence.*;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name= "Varietal")
-@NamedQuery(name= "Varietal.findAll",query = "SELECT va FROM Varietal va")
+@Table(name = "Varietal")
+@NamedQuery(name = "Varietal.findAll", query = "SELECT va FROM Varietal va")
 public class Varietal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vaid")
     private Long id;
 
@@ -24,7 +24,8 @@ public class Varietal {
     private double porcentajeComposicion;
 
     @OneToOne
-    @JoinColumn(name= "tipoUvaId") //el nombre de la join column debe ser el mismo de la tabla en la que estoy mapeando las columnas
+    @JoinColumn(name = "tipoUvaId")
+    //el nombre de la join column debe ser el mismo de la tabla en la que estoy mapeando las columnas
     private TipoUva tipoDeUva;
 
     public Varietal(String descripcion, double porcentajeComposicion, TipoUva tipoDeUva) {
