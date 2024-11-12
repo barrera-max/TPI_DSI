@@ -1,7 +1,6 @@
 package DAOs;
 
 import Entidades.Bodega;
-import Entidades.Vino;
 import Util.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
 
