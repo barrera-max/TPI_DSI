@@ -119,6 +119,11 @@ public class PantallaAdminActualizaciones {
         }
     }
 
+    public void mostrarMensaje(String mensaje) {
+        JOptionPane.showMessageDialog(frame, mensaje);
+    }
+
+
     public void opcionFinalizar() {
         gestor.tomarOpcionFinalizar();
     }

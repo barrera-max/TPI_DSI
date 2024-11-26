@@ -7,7 +7,6 @@ import Boundary.PantallaAdminActualizaciones;
 import DAOs.*;
 import DTOs.VinoDto;
 import Entidades.*;
-import Soporte.Init;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -24,8 +23,8 @@ public class GestorActualizaciones implements ISujeto {
 
     private ArrayList<String> bodegasConActualizaciones = new ArrayList<>(0);
 
-    private static List<Bodega> BODEGAS_SIST = new ArrayList<>();
-    private static List<Vino> VINOS_SIST = new ArrayList<>();
+    private static List<Bodega> bodegasSist = new ArrayList<>();
+    private static List<Vino> vinosSist = new ArrayList<>();
     private static final ArrayList<Enofilo> ENOFILOS_SIST = new ArrayList<>(); //ver si es necesario que sean constantes
     private ArrayList<Varietal> varietalSist = new ArrayList<>();
 
@@ -52,8 +51,8 @@ public class GestorActualizaciones implements ISujeto {
         this.interfazSistemaDeBodegas = null;
 
 
-        VINOS_SIST = new VinoDAO().findAll();
-        BODEGAS_SIST = new BodegaDAO().findAll();
+        vinosSist = new VinoDAO().findAll();
+        bodegasSist = new BodegaDAO().findAll();
         //Init.init(BODEGAS_SIST, VINOS_SIST, ENOFILOS_SIST, maridajesSist, varietalSist, tipoUvaSist);
     }
 
@@ -76,7 +75,7 @@ public class GestorActualizaciones implements ISujeto {
 
     //en la secuencia no debe recibir parametros ya que lo hace con el atributo del gestor
     public void buscarBodegasConActualizaciones() {
-        BODEGAS_SIST.stream()
+        bodegasSist.stream()
                 .filter(bodega -> bodega.hayActualizaciones(LocalDate.now()))
                 .map(Bodega::getNombre)
                 .forEach(bodegasConActualizaciones::add);
@@ -87,6 +86,7 @@ public class GestorActualizaciones implements ISujeto {
             pantalla.solicitarSeleccionBodegas(bodegasConActualizaciones);
         } else {
             //si no hay bodegas A1
+            pantalla.mostrarMensaje("No hay bodegas con actualizaciones");
             pantalla.mostrarOpcionFinalizar();
         }
     }
@@ -95,7 +95,7 @@ public class GestorActualizaciones implements ISujeto {
     public void tomarSeleccionBodega(String nombreBodega) { // nombreBodega es ingresado por el usuario para buscar entre las Bodegas existentes
 
         //genera un array de bodegas encontradas y las setea
-        setBodegaSeleccionada(BODEGAS_SIST
+        setBodegaSeleccionada(bodegasSist
                 .stream()
                 .filter(bodega -> bodega.esTuNombre(nombreBodega))
                 .findFirst()
@@ -116,6 +116,7 @@ public class GestorActualizaciones implements ISujeto {
 
 
         } catch (Exception e) { //NullPointerException?
+            pantalla.mostrarMensaje("Sistema Bodegas no responde");
             System.out.println(e.getMessage());
         }
     }
@@ -129,7 +130,7 @@ public class GestorActualizaciones implements ISujeto {
         for (VinoDto vinoDto : vinosImportados) {
             Map<String, Object> datosVino = mapToDto(vinoDto);
 
-            if (bodegaSeleccionada.actualizarDatosDeVino(VINOS_SIST.get(index), (int) (datosVino.get("añada")),
+            if (bodegaSeleccionada.actualizarDatosDeVino(vinosSist.get(index), (int) (datosVino.get("añada")),
                     (double) (datosVino.get("precioARS")), (String) datosVino.get("imagenEtiqueta"),
                     (String) datosVino.get("notaDeCataBodega"))) {
                 index++;
@@ -146,7 +147,7 @@ public class GestorActualizaciones implements ISujeto {
                         (String) (datosVino.get("varietal"))
                 );
                 vinos.create(nuevo);
-                /*VINOS_SIST.add(nuevo);*/
+                vinosSist.add(nuevo);
             }
         }
 
@@ -162,9 +163,8 @@ public class GestorActualizaciones implements ISujeto {
     public String mostrarVinosActualizadosYcreados() {
         StringBuilder sb = new StringBuilder("SE ACTUALIZARON LOS VINOS DE: " + bodegaSeleccionada.getNombre() + "!!!\n");
 
-        List<Vino> vinos = new VinoDAO().findAll();
 
-        vinos.forEach(vino -> sb.append(vino.toString()).append("\n"));
+        vinosSist.forEach(vino -> sb.append(vino.toString()).append("\n"));
 
         return sb.toString();
     }
@@ -229,14 +229,20 @@ public class GestorActualizaciones implements ISujeto {
 
         setUsuarios(enofilos
                 .stream()
-                .filter(e -> e.seguisBodega(bodegaSeleccionada))
+                .filter(e -> e.seguisBodega(bodegaSeleccionada.getNombre()))
                 .map(e -> e.getUsuario().getNombre())
                 .toList());
         if (usuarios != null) {
-            System.out.println(enofilos.get(0).getNombre() + ": sigue a la bodega" + bodegaSeleccionada.getNombre());
+            System.out.println(enofilos.get(0).getNombre() + ": sigue a la bodega" +  bodegaSeleccionada.getNombre());
         };
 
-        suscribir(new InterfazNotUsuario());
+        //Creacion del observador
+        IObserverNotiActualizacion observerNotiUsuario = new InterfazNotUsuario();
+
+        suscribir(observerNotiUsuario);
+        if(!observers.isEmpty()){
+            System.out.println("Se suscribieron");
+        }
         notificar();
     }
 
@@ -288,7 +294,13 @@ public class GestorActualizaciones implements ISujeto {
 
     @Override
     public void notificar() {
-        observadores.forEach(e -> e.actualizar(VINOS_SIST));
+        for (VinoDto vinosImportado : vinosImportados) {
+            observers.get(0).actualizar(vinosImportado.getNombre(),
+                    vinosImportado.getPrecioARS(),
+                    vinosImportado.getImagenEtiqueta(),
+                    vinosImportado.getNotaDeCataBodega());
+        }
+
     }
 }
 

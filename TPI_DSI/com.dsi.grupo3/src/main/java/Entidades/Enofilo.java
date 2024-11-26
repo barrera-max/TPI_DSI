@@ -34,9 +34,9 @@ public class Enofilo {
     private String imagenPerfil;
 
 
-    public Boolean seguisBodega(Bodega bodega) {
+    public Boolean seguisBodega(String bodega) {
         for(Siguiendo siguiendo : seguido) {
-            if(siguiendo.getBodega().getNombre().equals(bodega.getNombre())){
+            if(siguiendo.getBodega().getNombre().equals(bodega)){
                 return true;
             }
         };
