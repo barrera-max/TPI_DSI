@@ -9,17 +9,17 @@ import java.util.List;
 public class VinoDAO implements DAO<Vino, Long>{
 
 
-    private final EntityManager em = Conexion.getInstancia().getEntityManager();
+    private final EntityManager entityManager = Conexion.getInstancia().getEntityManager();
 
     @Override
     public void create(Vino vino) {
         try {
-            em.getTransaction().begin();
-            em.persist(vino);
-            em.getTransaction().commit();
+            entityManager.getTransaction().begin();
+            entityManager.persist(vino);
+            entityManager.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) { // Verifica si la transacción está activa
-                em.getTransaction().rollback();
+            if (entityManager.getTransaction().isActive()) { // Verifica si la transacción está activa
+                entityManager.getTransaction().rollback();
             }
             throw new RuntimeException("Error creating Vino: " + e.getMessage(), e);
         }
@@ -36,21 +36,35 @@ public class VinoDAO implements DAO<Vino, Long>{
     }
 
     @Override
-    public void delete(Long aLong) {
+    public void delete(Long id) {
+        try {
+            entityManager.getTransaction().begin();
 
+            Vino vino = entityManager.find(Vino.class, id);
+
+            if (vino != null) {
+                entityManager.remove(vino);
+            } else {
+                throw new RuntimeException("Error! No Vino ID: " + id);
+            }
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            throw new RuntimeException("Error deleting Vino: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public List<Vino> findAll() {
         try {
-            em.getTransaction().begin();
+            entityManager.getTransaction().begin();
 
-            List<Vino> vinos = em.createQuery("SELECT v FROM Vino v").getResultList();
+            List<Vino> vinos = entityManager.createQuery("SELECT v FROM Vino v").getResultList();
 
-            em.getTransaction().commit();
+            entityManager.getTransaction().commit();
             return vinos;
         } catch (Exception e) {
-            em.getTransaction().rollback();
+            entityManager.getTransaction().rollback();
             throw new RuntimeException("Error finding Vinos: " + e.getMessage(), e);
         }
 
@@ -60,6 +74,8 @@ public class VinoDAO implements DAO<Vino, Long>{
 
         VinoDAO dao = new VinoDAO();
 
+
+        //dao.delete(2L);
 
         List<Vino> vinos = dao.findAll();
 

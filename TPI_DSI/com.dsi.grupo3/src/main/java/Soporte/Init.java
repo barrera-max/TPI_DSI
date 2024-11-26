@@ -27,14 +27,14 @@ public class Init {
         //seguidoBodegas.add(bodega1);
         //creo las bodegas que sigue
 
-        Siguiendo seguido = new Siguiendo(seguidoBodegas, null, "24-04-04", "24-04-04");
-        ArrayList<Siguiendo> seguidos = new ArrayList<>();
-        seguidos.add(seguido);
+        //Siguiendo seguido = new Siguiendo(seguidoBodegas, null, "24-04-04", "24-04-04");
+        //ArrayList<Siguiendo> seguidos = new ArrayList<>();
+        //seguidos.add(seguido);
 
-        Usuario usuario = new Usuario("user@user", "admin123", false);
+        //Usuario usuario = new Usuario("user@user", "admin123", false);
 
-        Enofilo enofilo = new Enofilo(usuario, seguidos, "Maxi", "Martinez", "img.png");
-        enofilosDelSistema.add(enofilo);
+        //Enofilo enofilo = new Enofilo(usuario, seguidos, "Maxi", "Martinez", "img.png");
+        //enofilosDelSistema.add(enofilo);
     }
 
 

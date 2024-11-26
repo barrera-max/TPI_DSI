@@ -14,6 +14,4 @@ public interface DAO<T, ID>{
 
     List<T> findAll();
 
-
-
 }

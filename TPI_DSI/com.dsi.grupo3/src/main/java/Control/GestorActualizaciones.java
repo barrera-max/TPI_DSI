@@ -57,9 +57,12 @@ public class GestorActualizaciones implements ISujeto {
         //Init.init(BODEGAS_SIST, VINOS_SIST, ENOFILOS_SIST, maridajesSist, varietalSist, tipoUvaSist);
     }
 
-
     public List<String> obtenerListaBodegas() {
-        return BODEGAS_SIST.stream()
+        DAO bodegaDAO = new BodegaDAO();
+
+        List<Bodega> bodegasSist = bodegaDAO.findAll();
+
+        return bodegasSist.stream()
                 .map(bodega -> bodega.getNombre()
                         + "--" + bodega.getDescripcion() + "--"
                         + bodega.getFechaUltimaActualizacion()
@@ -73,7 +76,6 @@ public class GestorActualizaciones implements ISujeto {
 
     //en la secuencia no debe recibir parametros ya que lo hace con el atributo del gestor
     public void buscarBodegasConActualizaciones() {
-
         BODEGAS_SIST.stream()
                 .filter(bodega -> bodega.hayActualizaciones(LocalDate.now()))
                 .map(Bodega::getNombre)
@@ -221,11 +223,18 @@ public class GestorActualizaciones implements ISujeto {
 
     //ver este metodo: Chequear si es correcto este casting
     public void buscarSeguidores() {
-        setUsuarios((ENOFILOS_SIST
+        DAO enofiloDAO = new EnofiloDAO();
+
+        List<Enofilo> enofilos = enofiloDAO.findAll();
+
+        setUsuarios(enofilos
                 .stream()
                 .filter(e -> e.seguisBodega(bodegaSeleccionada))
                 .map(e -> e.getUsuario().getNombre())
-                .toList()));
+                .toList());
+        if (usuarios != null) {
+            System.out.println(enofilos.get(0).getNombre() + ": sigue a la bodega" + bodegaSeleccionada.getNombre());
+        };
 
         suscribir(new InterfazNotUsuario());
         notificar();

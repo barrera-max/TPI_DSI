@@ -11,7 +11,6 @@ public class Conexion {
     private static EntityManager entityManager;
     private static Conexion instancia;
 
-    // Constructor privado para evitar instancias externas
     private Conexion() {
         if (entityManager == null) {
             entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -19,7 +18,6 @@ public class Conexion {
         }
     }
 
-    // Método estático y sincronizado para obtener la única instancia
     public static synchronized Conexion getInstancia() {
         if (instancia == null) {
             instancia = new Conexion();
@@ -27,7 +25,6 @@ public class Conexion {
         return instancia;
     }
 
-    // Método para obtener el EntityManager
     public EntityManager getEntityManager() {
         return entityManager;
     }

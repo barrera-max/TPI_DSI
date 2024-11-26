@@ -23,7 +23,7 @@ public class Varietal {
 
     private double porcentajeComposicion;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "tipoUvaId")
     //el nombre de la join column debe ser el mismo de la tabla en la que estoy mapeando las columnas
     private TipoUva tipoDeUva;
