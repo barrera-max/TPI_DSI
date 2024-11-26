@@ -110,13 +110,14 @@ public class GestorActualizaciones implements ISujeto {
     public void buscarActualizaciones() {
         try {  //InterfazBodegas retorna un array de dtos
 
-            InterfazSistemaDeBodegas api = new APISistemaDeBodega();
+            //InterfazSistemaDeBodegas api = new APISistemaDeBodega();
 
-            setVinosImportados(api.buscarActualizaciones());
+            setVinosImportados(new APISistemaDeBodega().buscarActualizaciones());
 
 
         } catch (Exception e) { //NullPointerException?
             pantalla.mostrarMensaje("Sistema Bodegas no responde");
+            pantalla.mostrarOpcionFinalizar();
             System.out.println(e.getMessage());
         }
     }
